@@ -17,6 +17,7 @@ class FeedCell: UICollectionViewCell , UICollectionViewDelegateFlowLayout , UICo
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureCollectionView()
+
     }
     
     required init?(coder: NSCoder) {
@@ -77,13 +78,16 @@ class NewsCell: UICollectionViewCell {
     func setupViews() {
         addSubview(newsImageView)
         newsImageView.translatesAutoresizingMaskIntoConstraints = false
+        newsImageView.layer.cornerRadius = 10
+        newsImageView.clipsToBounds = true
         newsImageView.image = UIImage(named: "austin")
-        
+
+
         NSLayoutConstraint.activate([
-            newsImageView.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 5),
-            newsImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            newsImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor , constant: -5),
-            newsImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor , constant: -5)
+            newsImageView.topAnchor.constraint(equalTo: contentView.topAnchor ),
+            newsImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            newsImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            newsImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
         
     }
@@ -94,14 +98,17 @@ class NewsCell2 : FeedCell {
     
     fileprivate let newsDetailCellId = "newsDetailCellId"
     
+
+    
     override func configureCollectionView() {
+
         super.configureCollectionView()
         collectionView.register(NewsDetailCell.self, forCellWithReuseIdentifier: newsDetailCellId)
         
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: newsDetailCellId, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: newsDetailCellId, for: indexPath) as! NewsDetailCell
         
         return cell
     }
@@ -118,12 +125,56 @@ class NewsCell2 : FeedCell {
     
     
     fileprivate class NewsDetailCell : NewsCell {
+
+        fileprivate let headerLabel = UILabel(frame: .zero)
+        fileprivate let timeLabel = UILabel(frame: .zero)
         
         fileprivate override func setupViews() {
-            super.setupViews()
-            newsImageView.image = nil
-            backgroundColor = .systemRed
+            addSubview(headerLabel)
+            addSubview(newsImageView)
+            addSubview(timeLabel)
+            
+            newsImageView.image = UIImage(named: "clem")
+            newsImageView.translatesAutoresizingMaskIntoConstraints = false
+            newsImageView.layer.cornerRadius = 10
+            newsImageView.clipsToBounds = true
+            
+            headerLabel.text = "Ilker Kaleli iddiali diziyle geri dondu!asdadasdadas"
+            headerLabel.textColor = .black
+            headerLabel.translatesAutoresizingMaskIntoConstraints = false
+            headerLabel.font = .systemFont(ofSize: 23, weight: .medium)
+
+            timeLabel.translatesAutoresizingMaskIntoConstraints = false
+            timeLabel.text = "5 Minutes Ago"
+            timeLabel.textColor = .lightGray
+            timeLabel.font = .systemFont(ofSize: 12, weight: .regular)
+            
+            let labelStackView = UIStackView()
+            addSubview(labelStackView)
+            labelStackView.translatesAutoresizingMaskIntoConstraints = false
+            labelStackView.addArrangedSubview(headerLabel)
+            labelStackView.addArrangedSubview(timeLabel)
+            labelStackView.distribution = .fillEqually
+            labelStackView.spacing = 15
+            labelStackView.axis = .vertical
+
+            NSLayoutConstraint.activate([
+                newsImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+                newsImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                newsImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor ),
+                newsImageView.heightAnchor.constraint(equalToConstant: 240),
+                
+                labelStackView.topAnchor.constraint(equalTo: newsImageView.bottomAnchor, constant: 10),
+                labelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                labelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                labelStackView.heightAnchor.constraint(equalToConstant: 55)
+
+            ])
+            
+            
         }
+        
+        
         
         
     }

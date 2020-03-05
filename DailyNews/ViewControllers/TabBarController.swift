@@ -21,6 +21,7 @@ class TabBarController: UITabBarController {
         let feedVC = FeedViewController()
         feedVC.title = "News"
         feedVC.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 0)
+
         
         let sourcesVC = SourcesViewController()
         sourcesVC.title = "Sources"

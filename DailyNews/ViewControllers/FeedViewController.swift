@@ -26,25 +26,28 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
         let layout = UICollectionViewFlowLayout()
         
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = .systemGray4
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(FeedCell.self, forCellWithReuseIdentifier: feedCellId)
         collectionView.register(NewsCell2.self, forCellWithReuseIdentifier: newsCellId)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
+//        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
         view.addSubview(collectionView)
 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        let cell : FeedCell
+        
         if indexPath.item == 0 {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: feedCellId, for: indexPath) as! FeedCell
+        cell = collectionView.dequeueReusableCell(withReuseIdentifier: feedCellId, for: indexPath) as! FeedCell
+        }
+        else {
+        cell = collectionView.dequeueReusableCell(withReuseIdentifier: newsCellId, for: indexPath) as! NewsCell2
+        }
         
-            return cell }
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: newsCellId, for: indexPath) as! NewsCell2
-        
-            return cell
+        return cell
         
     }
     
@@ -53,8 +56,15 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return .init(width: view.frame.width, height: view.frame.width/2)
+        if indexPath.item == 0 {
+            return .init(width: view.frame.width, height: view.frame.width/2) }
+        
+        return .init(width: view.frame.width, height: 320)
     }
     
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
     
 }
