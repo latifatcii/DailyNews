@@ -10,7 +10,7 @@ import UIKit
 
 class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout , UICollectionViewDataSource {
 
-    
+    let layout = UICollectionViewFlowLayout()
     var collectionView : UICollectionView!
     let feedCellId = "feedCellId"
     let newsCellId = "newsCellId"
@@ -23,10 +23,9 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
     
     
     func configureCollectionView() {
-        let layout = UICollectionViewFlowLayout()
-        
+
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemGray4
+        collectionView.backgroundColor = .systemGray6
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(FeedCell.self, forCellWithReuseIdentifier: feedCellId)
@@ -56,15 +55,20 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if indexPath.item == 0 {
-            return .init(width: view.frame.width, height: view.frame.width/2) }
         
-        return .init(width: view.frame.width, height: 320)
+        
+        
+        
+        if indexPath.item == 0 {
+            return .init(width: view.frame.width, height: view.frame.width/1.8) }
+
+
+        return .init(width: view.frame.width, height: view.frame.width / 1.2)
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
+        return 10
     }
     
 }

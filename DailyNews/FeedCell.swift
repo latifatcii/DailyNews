@@ -29,6 +29,7 @@ class FeedCell: UICollectionViewCell , UICollectionViewDelegateFlowLayout , UICo
         layout.scrollDirection = .horizontal
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.showsHorizontalScrollIndicator = false
         addSubview(collectionView)
         collectionView.backgroundColor = .white
         collectionView.register(NewsCell.self, forCellWithReuseIdentifier: newsCellId)
@@ -54,8 +55,11 @@ class FeedCell: UICollectionViewCell , UICollectionViewDelegateFlowLayout , UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         return .init(width: contentView.frame.width, height: contentView.frame.height)
     }
+    
+
     
     
     
@@ -65,6 +69,9 @@ class FeedCell: UICollectionViewCell , UICollectionViewDelegateFlowLayout , UICo
 class NewsCell: UICollectionViewCell {
     
     let newsImageView = UIImageView(frame: .zero)
+    let headerLabel = UILabel(frame: .zero)
+    let timeLabel = UILabel(frame: .zero)
+    let scrollIndicator = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -76,18 +83,33 @@ class NewsCell: UICollectionViewCell {
     }
     
     func setupViews() {
+        
+        addSubview(scrollIndicator)
         addSubview(newsImageView)
+        
+        scrollIndicator.translatesAutoresizingMaskIntoConstraints = false
+        scrollIndicator.backgroundColor = .black
+        scrollIndicator.clipsToBounds = true
+        scrollIndicator.layer.cornerRadius = 6
+        
+        
         newsImageView.translatesAutoresizingMaskIntoConstraints = false
         newsImageView.layer.cornerRadius = 10
         newsImageView.clipsToBounds = true
         newsImageView.image = UIImage(named: "austin")
-
-
+        
+        
+ 
         NSLayoutConstraint.activate([
             newsImageView.topAnchor.constraint(equalTo: contentView.topAnchor ),
             newsImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             newsImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            newsImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            newsImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor , constant: -20),
+            
+            scrollIndicator.topAnchor.constraint(equalTo: newsImageView.bottomAnchor, constant: 3),
+            scrollIndicator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor , constant: 10),
+            scrollIndicator.widthAnchor.constraint(equalToConstant: 10),
+            scrollIndicator.heightAnchor.constraint(equalToConstant: 10)
         ])
         
     }
@@ -99,10 +121,13 @@ class NewsCell2 : FeedCell {
     fileprivate let newsDetailCellId = "newsDetailCellId"
     
 
-    
     override func configureCollectionView() {
 
+//        let Clayout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+//        Clayout.itemSize = UICollectionViewFlowLayout.automaticSize
+//        Clayout.estimatedItemSize = CGSize(width: 175, height: 150)
         super.configureCollectionView()
+        
         collectionView.register(NewsDetailCell.self, forCellWithReuseIdentifier: newsDetailCellId)
         
     }
@@ -114,35 +139,37 @@ class NewsCell2 : FeedCell {
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
         return .init(width: contentView.frame.width, height: contentView.frame.height)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
     }
-    
-    
-    
-    
-    fileprivate class NewsDetailCell : NewsCell {
 
-        fileprivate let headerLabel = UILabel(frame: .zero)
-        fileprivate let timeLabel = UILabel(frame: .zero)
+    
+
+    
+}
+
+    class NewsDetailCell : NewsCell {
+
         
-        fileprivate override func setupViews() {
+        override func setupViews() {
+            
             addSubview(headerLabel)
             addSubview(newsImageView)
             addSubview(timeLabel)
-            
             newsImageView.image = UIImage(named: "clem")
             newsImageView.translatesAutoresizingMaskIntoConstraints = false
-            newsImageView.layer.cornerRadius = 10
             newsImageView.clipsToBounds = true
             
-            headerLabel.text = "Ilker Kaleli iddiali diziyle geri dondu!asdadasdadas"
-            headerLabel.textColor = .black
+            headerLabel.text = "Ilker Kaleli iddiali diziyle geri dondu ! Ilker Kaleli iddiali diziyle geri dondu"
+            headerLabel.textColor = .darkGray
             headerLabel.translatesAutoresizingMaskIntoConstraints = false
-            headerLabel.font = .systemFont(ofSize: 23, weight: .medium)
+            headerLabel.font = .systemFont(ofSize: 22, weight: .semibold)
+            headerLabel.numberOfLines = 0
+        
 
             timeLabel.translatesAutoresizingMaskIntoConstraints = false
             timeLabel.text = "5 Minutes Ago"
@@ -154,8 +181,6 @@ class NewsCell2 : FeedCell {
             labelStackView.translatesAutoresizingMaskIntoConstraints = false
             labelStackView.addArrangedSubview(headerLabel)
             labelStackView.addArrangedSubview(timeLabel)
-            labelStackView.distribution = .fillEqually
-            labelStackView.spacing = 15
             labelStackView.axis = .vertical
 
             NSLayoutConstraint.activate([
@@ -164,19 +189,18 @@ class NewsCell2 : FeedCell {
                 newsImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor ),
                 newsImageView.heightAnchor.constraint(equalToConstant: 240),
                 
-                labelStackView.topAnchor.constraint(equalTo: newsImageView.bottomAnchor, constant: 10),
-                labelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                labelStackView.topAnchor.constraint(equalTo: newsImageView.bottomAnchor, constant: -10),
+                labelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
                 labelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                labelStackView.heightAnchor.constraint(equalToConstant: 55)
+                labelStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2)
 
             ])
             
             
         }
+
         
         
         
         
     }
-    
-}
