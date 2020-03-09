@@ -14,6 +14,7 @@ class FeedCell : UICollectionViewCell {
     let newsImageView = UIImageView(frame: .zero)
     let headerLabel = UILabel(frame: .zero)
     let timeLabel = UILabel(frame: .zero)
+    let sourceLabel = UILabel(frame: .zero)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,9 +27,11 @@ class FeedCell : UICollectionViewCell {
     }
     
     func setupViews() {
+        
         addSubview(headerLabel)
         addSubview(newsImageView)
         addSubview(timeLabel)
+        
         newsImageView.image = UIImage(named: "clem")
         newsImageView.translatesAutoresizingMaskIntoConstraints = false
         newsImageView.clipsToBounds = true
@@ -47,11 +50,21 @@ class FeedCell : UICollectionViewCell {
         timeLabel.adjustsFontSizeToFitWidth = true
         timeLabel.font = .systemFont(ofSize: 12)
         
+        sourceLabel.translatesAutoresizingMaskIntoConstraints = false
+        sourceLabel.textColor = .systemGray
+        sourceLabel.adjustsFontSizeToFitWidth = true
+        sourceLabel.font = .systemFont(ofSize: 13)
+        sourceLabel.text = "Hurriyet.com.tr"
+        
+        
+        let horizontalStackView = UIStackView(arrangedSubviews: [timeLabel,sourceLabel])
+        horizontalStackView.distribution = .equalSpacing
+        
         let labelStackView = UIStackView()
         addSubview(labelStackView)
         labelStackView.translatesAutoresizingMaskIntoConstraints = false
         labelStackView.addArrangedSubview(headerLabel)
-        labelStackView.addArrangedSubview(timeLabel)
+        labelStackView.addArrangedSubview(horizontalStackView)
         labelStackView.axis = .vertical
         
         NSLayoutConstraint.activate([

@@ -16,6 +16,8 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
     var collectionView : UICollectionView!
     let feedCellId = "feedCellId"
     let headerCellId = "headerCellId"
+    var page = 2
+    var hasMoreNews = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,30 +32,40 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
     func fetchNews() {
         
 
+        let dispatchGroup = DispatchGroup()
+        var headerGroup : THNews?
+        var group : THNews?
+        
+        dispatchGroup.enter()
         FetchTopHeadline.shared.fetchData(THRequest(country: "tr", category: .unknown, q: nil, pageSize: 10, page: 2)) { (result) in
+            dispatchGroup.leave()
             switch result {
-                
             case .success(let news):
-                self.news = news
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+                if news.articles.count < 10 {
+                    self.hasMoreNews = false
                 }
-                print(news.articles.count)
+                group = news
             case .failure(let err):
                 print(err.localizedDescription)
             }
         }
         
+        dispatchGroup.enter()
         FetchTopHeadline.shared.fetchData(THRequest(country: "tr", category: .unknown, q: nil, pageSize: 5, page: 1)) { (result) in
+            dispatchGroup.leave()
             switch result {
             case .success(let news):
-                self.headerNews = news
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
+                headerGroup = news
             case .failure(let err):
                 print(err.localizedDescription)
             }
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            self.headerNews = headerGroup
+            self.news = group
+            self.collectionView.reloadData()
+            
         }
     }
     
@@ -90,9 +102,9 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
         if let article = news?.articles[indexPath.item] {
             
             let time = article.publishedAt.convertToDisplayFormat()
-            
             cell.headerLabel.text = article.title
             cell.timeLabel.text = time
+            cell.sourceLabel.text = article.source.name
             cell.newsImageView.downloadImage(from: article.urlToImage ?? "")
         }
         return cell
@@ -110,6 +122,17 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
+        
+        if offsetY > contentHeight - height {
+            print("yes")
+            
+        }
     }
     
     
