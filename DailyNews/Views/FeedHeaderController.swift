@@ -12,7 +12,7 @@ class FeedHeaderController: BaseListController , UICollectionViewDelegateFlowLay
     
 
     let cellId = "cellId"
-    var news : THNews?
+    var news : [THArticle] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,12 +32,12 @@ class FeedHeaderController: BaseListController , UICollectionViewDelegateFlowLay
 
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return news?.articles.count ?? 0
+        return news.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FeedHeaderCell
-        cell.newsImageView.downloadImage(from: news?.articles[indexPath.item].urlToImage ?? "")
+        cell.newsImageView.downloadImage(from: news[indexPath.item].urlToImage ?? "")
         return cell
     }
     
