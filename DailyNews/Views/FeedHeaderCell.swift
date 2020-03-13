@@ -22,7 +22,7 @@ class FeedHeaderCell: UICollectionViewCell {
         addSubview(newsImageView)
         
         scrollIndicator.translatesAutoresizingMaskIntoConstraints = false
-        scrollIndicator.backgroundColor = .black
+        scrollIndicator.backgroundColor = .white
         scrollIndicator.clipsToBounds = true
         scrollIndicator.layer.cornerRadius = 6
         

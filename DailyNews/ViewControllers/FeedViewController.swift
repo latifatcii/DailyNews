@@ -10,34 +10,64 @@ import UIKit
 
 class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout , UICollectionViewDataSource {
     
+
     let layout = UICollectionViewFlowLayout()
     var news : [THArticle] = []
     var headerNews : [THArticle] = []
     var collectionView : UICollectionView!
+    var menuView = MenuViewController()
     let feedCellId = "feedCellId"
     let headerCellId = "headerCellId"
     var page = 2
     var hasMoreNews = true
+    var header = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
+        configureMenuView()
+        menuView.view.backgroundColor = .blue
         fetchNews(page: page)
+    }
+    
+    
+
+    func configureCollectionView() {
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        collectionView.backgroundColor = .systemGray6
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(FeedCell.self, forCellWithReuseIdentifier: feedCellId)
+        collectionView.register(FeedPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerCellId)
+        view.addSubview(collectionView)
         
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 44).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    }
+    
+    func configureMenuView() {
+        view.addSubview(menuView.view)
         
+        menuView.view.translatesAutoresizingMaskIntoConstraints = false
         
-        
+        NSLayoutConstraint.activate([
+            menuView.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            menuView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            menuView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            menuView.view.heightAnchor.constraint(equalToConstant: 44)
+        ])
     }
     
     func fetchNews(page : Int) {
-        
-        
         let dispatchGroup = DispatchGroup()
         var headerGroup : [THArticle] = []
         var group : [THArticle] = []
         
         dispatchGroup.enter()
-        FetchTopHeadline.shared.fetchData(THRequest(country: "tr", category: .unknown, q: nil, pageSize: 10, page: page)) { (result) in
+        FetchTopHeadline.shared.fetchData(THRequest(country: "us", category: .general, q: nil, pageSize: 10, page: page)) { (result) in
             dispatchGroup.leave()
             switch result {
             case .success(let news):
@@ -51,7 +81,7 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
         }
         
         dispatchGroup.enter()
-        FetchTopHeadline.shared.fetchData(THRequest(country: "tr", category: .unknown, q: nil, pageSize: 5, page: 1)) { (result) in
+        FetchTopHeadline.shared.fetchData(THRequest(country: "us", category: .general, q: nil, pageSize: 5, page: 1)) { (result) in
             dispatchGroup.leave()
             switch result {
             case .success(let news):
@@ -62,26 +92,14 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
         }
         
         dispatchGroup.notify(queue: .main) {
+            
             self.headerNews.append(contentsOf: headerGroup)
             self.news.append(contentsOf: group)
             self.collectionView.reloadData()
             
         }
     }
-    
-    
-    
-    func configureCollectionView() {
-        
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemGray6
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(FeedCell.self, forCellWithReuseIdentifier: feedCellId)
-        collectionView.register(FeedPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerCellId)
-        view.addSubview(collectionView)
-        
-    }
+
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerCellId, for: indexPath) as! FeedPageHeader

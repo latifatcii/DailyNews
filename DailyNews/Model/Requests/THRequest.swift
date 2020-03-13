@@ -19,6 +19,5 @@ enum THCategories : String , Codable{
     case science = "science"
     case sports = "sports"
     case technology = "technology"
-    case unknown = ""
     
 }

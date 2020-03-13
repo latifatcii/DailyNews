@@ -11,8 +11,9 @@ class FetchTopHeadline {
         guard let page = from.page else { return }
         guard let country = from.country else { return }
         guard let pageSize = from.pageSize else { return }
+        guard let category = from.category else { return }
         
-        let endpoint = EndPointType().TopHeadline + "?apiKey=ff5f1bcd02d643f38454768fbc539040&country=\(country)&pageSize=\(pageSize)&page=\(page)"
+        let endpoint = EndPointType().TopHeadline + "?apiKey=ff5f1bcd02d643f38454768fbc539040&country=\(country)&pageSize=\(pageSize)&page=\(page)&category=\(category)"
         
         guard let url = URL(string: endpoint) else {
             return }

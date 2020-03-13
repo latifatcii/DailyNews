@@ -20,6 +20,8 @@
 		7F42DD092412E5990002D2DE /* THNewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F42DD062412E5990002D2DE /* THNewsModel.swift */; };
 		7F42DD112412E5E40002D2DE /* FetchTHNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F42DD0E2412E5E40002D2DE /* FetchTHNews.swift */; };
 		7F42DD132412E5E40002D2DE /* EndPointType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F42DD102412E5E40002D2DE /* EndPointType.swift */; };
+		7F4400E8241BE0E200C0C644 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4400E7241BE0E200C0C644 /* MenuViewController.swift */; };
+		7F4400EA241BE2C400C0C644 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4400E9241BE2C400C0C644 /* MenuCell.swift */; };
 		7F55F49124143AEB0027ADAC /* FeedHeaderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F55F49024143AEB0027ADAC /* FeedHeaderController.swift */; };
 		7F55F49324143B7C0027ADAC /* FeedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F55F49224143B7C0027ADAC /* FeedHeaderCell.swift */; };
 		7F55F49524143BC40027ADAC /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F55F49424143BC40027ADAC /* FeedCell.swift */; };
@@ -48,6 +50,8 @@
 		7F42DD062412E5990002D2DE /* THNewsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = THNewsModel.swift; sourceTree = "<group>"; };
 		7F42DD0E2412E5E40002D2DE /* FetchTHNews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchTHNews.swift; sourceTree = "<group>"; };
 		7F42DD102412E5E40002D2DE /* EndPointType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndPointType.swift; sourceTree = "<group>"; };
+		7F4400E7241BE0E200C0C644 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		7F4400E9241BE2C400C0C644 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		7F55F49024143AEB0027ADAC /* FeedHeaderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderController.swift; sourceTree = "<group>"; };
 		7F55F49224143B7C0027ADAC /* FeedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderCell.swift; sourceTree = "<group>"; };
 		7F55F49424143BC40027ADAC /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
@@ -108,6 +112,7 @@
 				7F1F6CE0240EF7F300B23C4B /* TabBarController.swift */,
 				7F1F6CF1240EF90900B23C4B /* FeedViewController.swift */,
 				7F1F6CF3240EF93A00B23C4B /* SourcesViewController.swift */,
+				7F4400E7241BE0E200C0C644 /* MenuViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -166,6 +171,7 @@
 				7F55F49224143B7C0027ADAC /* FeedHeaderCell.swift */,
 				7F55F49424143BC40027ADAC /* FeedCell.swift */,
 				7F55F49624143E4F0027ADAC /* FeedPageHeader.swift */,
+				7F4400E9241BE2C400C0C644 /* MenuCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -259,6 +265,7 @@
 				7F42DD132412E5E40002D2DE /* EndPointType.swift in Sources */,
 				7F1F6CDD240EF7F300B23C4B /* AppDelegate.swift in Sources */,
 				7F55F49524143BC40027ADAC /* FeedCell.swift in Sources */,
+				7F4400EA241BE2C400C0C644 /* MenuCell.swift in Sources */,
 				7F42DD032412E5720002D2DE /* THRequest.swift in Sources */,
 				7F42DD112412E5E40002D2DE /* FetchTHNews.swift in Sources */,
 				7F42DD082412E5990002D2DE /* THArticleModel.swift in Sources */,
@@ -267,6 +274,7 @@
 				7F55F4A424144E050027ADAC /* Date+Ext.swift in Sources */,
 				7F55F4A324144E050027ADAC /* String + Ext.swift in Sources */,
 				7F55F4A0241440A60027ADAC /* VerticalStackView.swift in Sources */,
+				7F4400E8241BE0E200C0C644 /* MenuViewController.swift in Sources */,
 				7F1F6CF2240EF90900B23C4B /* FeedViewController.swift in Sources */,
 				7F1F6CDF240EF7F300B23C4B /* SceneDelegate.swift in Sources */,
 				7F55F49F241440A60027ADAC /* UIView+Layout.swift in Sources */,
