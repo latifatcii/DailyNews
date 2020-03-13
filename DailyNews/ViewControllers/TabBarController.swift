@@ -9,7 +9,7 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -18,7 +18,7 @@ class TabBarController: UITabBarController {
     }
     
     func configureTabBar() {
-        let feedVC = FeedViewController()
+        let feedVC = NewsViewController()
         feedVC.title = "News"
         feedVC.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 0)
 

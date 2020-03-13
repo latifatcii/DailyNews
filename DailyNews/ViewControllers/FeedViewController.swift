@@ -25,8 +25,7 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
-        configureMenuView()
-        menuView.view.backgroundColor = .blue
+//        configureMenuView()
         fetchNews(page: page)
     }
     
@@ -42,7 +41,7 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
         view.addSubview(collectionView)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 44).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -125,6 +124,7 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
         cell.timeLabel.text = time
         cell.sourceLabel.text = article.source.name
         cell.newsImageView.downloadImage(from: article.urlToImage ?? "")
+        
         
         return cell
         
