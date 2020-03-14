@@ -20,5 +20,6 @@ class MenuCell : UICollectionViewCell {
         addSubview(label)
         label.fillSuperview()
         label.textAlignment = .center
+        label.adjustsFontSizeToFitWidth = true
     }
 }

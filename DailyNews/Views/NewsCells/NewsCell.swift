@@ -9,7 +9,7 @@
 import UIKit
 
 
-class FeedCell : UICollectionViewCell {
+class NewsCell : UICollectionViewCell {
     
     let newsImageView = UIImageView(frame: .zero)
     let headerLabel = UILabel(frame: .zero)

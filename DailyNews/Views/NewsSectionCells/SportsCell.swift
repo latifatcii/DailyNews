@@ -8,9 +8,9 @@
 
 import UIKit
 
-class NewsCell: UICollectionViewCell {
+class SportsCell: UICollectionViewCell {
     
-    let feed = FeedViewController()
+    let feed = SportsSectionController()
     
     
     override init(frame: CGRect) {

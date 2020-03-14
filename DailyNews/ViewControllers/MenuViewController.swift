@@ -4,7 +4,7 @@ import UIKit
 class MenuViewController : BaseListController , UICollectionViewDelegateFlowLayout {
     
     let cellId = "cellId"
-    let menuItems = ["Featured","General","Sports","Technology","Science","Health"]
+    let menuItems = ["Featured","Business","Sports","Technology","Science","Entertainment","Health"]
 
     
     override func viewDidLoad() {

@@ -1,6 +1,6 @@
 import UIKit
 
-class FeedHeaderCell: UICollectionViewCell {
+class NewsHeaderCell: UICollectionViewCell {
     
     let newsImageView = UIImageView(frame: .zero)
     let headerLabel = UILabel(frame: .zero)

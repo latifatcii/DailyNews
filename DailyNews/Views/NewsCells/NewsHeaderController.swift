@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedHeaderController: BaseListController , UICollectionViewDelegateFlowLayout {
+class NewsHeaderController: BaseListController , UICollectionViewDelegateFlowLayout {
     
 
     let cellId = "cellId"
@@ -18,7 +18,7 @@ class FeedHeaderController: BaseListController , UICollectionViewDelegateFlowLay
         super.viewDidLoad()
         collectionView.backgroundColor = .white
         
-        collectionView.register(FeedHeaderCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(NewsHeaderCell.self, forCellWithReuseIdentifier: cellId)
         
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
@@ -36,7 +36,7 @@ class FeedHeaderController: BaseListController , UICollectionViewDelegateFlowLay
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FeedHeaderCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! NewsHeaderCell
         cell.newsImageView.downloadImage(from: news[indexPath.item].urlToImage ?? "")
         return cell
     }

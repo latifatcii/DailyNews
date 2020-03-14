@@ -8,14 +8,14 @@
 
 import UIKit
 
-class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout , UICollectionViewDataSource {
+class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlowLayout , UICollectionViewDataSource {
     
 
     let layout = UICollectionViewFlowLayout()
     var news : [THArticle] = []
     var headerNews : [THArticle] = []
     var collectionView : UICollectionView!
-    var menuView = MenuViewController()
+//    var menuView = MenuViewController()
     let feedCellId = "feedCellId"
     let headerCellId = "headerCellId"
     var page = 2
@@ -36,8 +36,8 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
         collectionView.backgroundColor = .systemGray6
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(FeedCell.self, forCellWithReuseIdentifier: feedCellId)
-        collectionView.register(FeedPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerCellId)
+        collectionView.register(NewsCell.self, forCellWithReuseIdentifier: feedCellId)
+        collectionView.register(NewsPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerCellId)
         view.addSubview(collectionView)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -47,18 +47,18 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
     
-    func configureMenuView() {
-        view.addSubview(menuView.view)
-        
-        menuView.view.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            menuView.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            menuView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            menuView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            menuView.view.heightAnchor.constraint(equalToConstant: 44)
-        ])
-    }
+//    func configureMenuView() {
+//        view.addSubview(menuView.view)
+//        
+//        menuView.view.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        NSLayoutConstraint.activate([
+//            menuView.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+//            menuView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            menuView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            menuView.view.heightAnchor.constraint(equalToConstant: 44)
+//        ])
+//    }
     
     func fetchNews(page : Int) {
         let dispatchGroup = DispatchGroup()
@@ -101,7 +101,7 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
 
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerCellId, for: indexPath) as! FeedPageHeader
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerCellId, for: indexPath) as! NewsPageHeader
         header.feedHeaderController.news.append(contentsOf: self.headerNews)
         header.feedHeaderController.collectionView.reloadData()
         return header
@@ -115,7 +115,7 @@ class FeedViewController : UIViewController , UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: feedCellId, for: indexPath) as! FeedCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: feedCellId, for: indexPath) as! NewsCell
         
         let article = news[indexPath.item]
         

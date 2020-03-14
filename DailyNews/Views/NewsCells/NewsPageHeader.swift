@@ -8,9 +8,9 @@
 
 import UIKit
 
-class FeedPageHeader: UICollectionReusableView {
+class NewsPageHeader: UICollectionReusableView {
     
-    let feedHeaderController = FeedHeaderController()
+    let feedHeaderController = NewsHeaderController()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
