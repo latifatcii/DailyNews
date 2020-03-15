@@ -30,6 +30,17 @@ class NewsBaseController: BaseListController , UICollectionViewDelegateFlowLayou
         
     }
     
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let x = scrollView.contentOffset.x
+        let offset = x/4
+        menuView.menuBar.transform = CGAffineTransform(translationX: offset, y: 0)
+        
+//        let x1 = menuView.collectionView.contentOffset.x
+//
+//        print(x1)
+//        menuView.collectionView.transform = CGAffineTransform(translationX: -310/7, y: 0)
+    }
+    
     fileprivate func configureCollectionView() {
         registerCells()
         

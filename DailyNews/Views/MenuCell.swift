@@ -5,10 +5,17 @@ class MenuCell : UICollectionViewCell {
     
     let label = UILabel(text: "Magazin", font: .boldSystemFont(ofSize: 16))
     
+
+    override var isSelected: Bool {
+        didSet {
+            label.textColor = isSelected ? .black : .lightGray
+        }
+    }
+    
     
     override init(frame: CGRect) {
         super.init(frame : frame)
-        backgroundColor = .systemBackground
+        backgroundColor = .blue
         setupView()
     }
     
@@ -21,5 +28,7 @@ class MenuCell : UICollectionViewCell {
         label.fillSuperview()
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
+        label.textColor = .lightGray
+
     }
 }
