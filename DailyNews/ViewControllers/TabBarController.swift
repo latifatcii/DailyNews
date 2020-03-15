@@ -18,7 +18,7 @@ class TabBarController: UITabBarController {
     }
     
     func configureTabBar() {
-        let feedVC = NewsBaseController()
+        let feedVC = PagingController()
         feedVC.title = "News"
         feedVC.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 0)
 
