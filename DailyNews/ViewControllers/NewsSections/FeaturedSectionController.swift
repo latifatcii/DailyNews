@@ -15,7 +15,6 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
     var news : [THArticle] = []
     var headerNews : [THArticle] = []
     var collectionView : UICollectionView!
-//    var menuView = MenuViewController()
     let feedCellId = "feedCellId"
     let headerCellId = "headerCellId"
     var page = 2
@@ -25,7 +24,6 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
-//        configureMenuView()
         fetchNews(page: page)
     }
     
@@ -41,24 +39,14 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
         view.addSubview(collectionView)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
         collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
     
-//    func configureMenuView() {
-//        view.addSubview(menuView.view)
-//        
-//        menuView.view.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        NSLayoutConstraint.activate([
-//            menuView.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-//            menuView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            menuView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            menuView.view.heightAnchor.constraint(equalToConstant: 44)
-//        ])
-//    }
+
     
     func fetchNews(page : Int) {
         let dispatchGroup = DispatchGroup()

@@ -10,7 +10,7 @@ import UIKit
 
 class HealthCell: UICollectionViewCell {
     
-    let feed = HealtSectionController()
+    let feed = HealthSectionController()
     
     
     override init(frame: CGRect) {

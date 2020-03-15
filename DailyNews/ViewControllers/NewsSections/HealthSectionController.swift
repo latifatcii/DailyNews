@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HealtSectionController : UIViewController , UICollectionViewDelegateFlowLayout , UICollectionViewDataSource {
+class HealthSectionController : UIViewController , UICollectionViewDelegateFlowLayout , UICollectionViewDataSource {
     
 
     let layout = UICollectionViewFlowLayout()

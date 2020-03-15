@@ -10,10 +10,10 @@ import UIKit
 import Parchment
 
 class PagingController : UIViewController , PagingViewControllerDataSource  {
-
-
     
-    let cities: [PagingItem] = [
+    
+    
+    private let cities: [PagingItem] = [
         PagingIndexItem(index: 0, title: "Featured"),
         PagingIndexItem(index: 1, title: "Business"),
         PagingIndexItem(index: 2, title: "Sports"),
@@ -21,9 +21,39 @@ class PagingController : UIViewController , PagingViewControllerDataSource  {
         PagingIndexItem(index: 4, title: "Science"),
         PagingIndexItem(index: 5, title: "Entertainment"),
         PagingIndexItem(index: 6, title: "Health")
-
+        
     ]
     
+    private let sections = [FeaturedSectionController(),BusinessSectionController(),SportsSectionController(),TechnologySectionController(),ScienceSectionController(),EntertainmentSectionController(),HealthSectionController()]
+    
+    private let pagingViewController = PagingViewController()
+
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configurePagingViewController()
+        
+    }
+    
+    
+    fileprivate func configurePagingViewController() {
+        pagingViewController.dataSource = self
+        pagingViewController.menuItemSize = .fixed(width: view.frame.width/4, height: 44)
+        
+        addChild(pagingViewController)
+        view.addSubview(pagingViewController.view)
+        pagingViewController.didMove(toParent: self)
+        pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            pagingViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pagingViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            pagingViewController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            pagingViewController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            
+            
+        ])
+    }
     
     
     func numberOfViewControllers(in pagingViewController: PagingViewController) -> Int {
@@ -31,8 +61,8 @@ class PagingController : UIViewController , PagingViewControllerDataSource  {
     }
     
     func pagingViewController(_: PagingViewController, viewControllerAt index: Int) -> UIViewController {
-        let childView = [FeaturedSectionController(),HealtSectionController(),SportsSectionController(),BusinessSectionController(),TechnologySectionController(),ScienceSectionController(),EntertainmentSectionController()]
-        return childView[index]
+        
+        return sections[index]
         
     }
     
@@ -43,30 +73,7 @@ class PagingController : UIViewController , PagingViewControllerDataSource  {
     
     
     
+
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
 
-
-        
-        let pagingViewController = PagingViewController()
-        
-        pagingViewController.dataSource = self
-        pagingViewController.menuItemSize = .fixed(width: view.frame.width/4, height: 44)
-        
-        addChild(pagingViewController)
-        view.addSubview(pagingViewController.view)
-        pagingViewController.didMove(toParent: self)
-        pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-          pagingViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-          pagingViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-          pagingViewController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-          pagingViewController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-
-            
-        ])
-        
-    }
 }

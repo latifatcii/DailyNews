@@ -23,12 +23,18 @@ class NewsHeaderController: BaseListController , UICollectionViewDelegateFlowLay
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
         }
+        collectionView.isPagingEnabled = true
+        
+        collectionView.showsHorizontalScrollIndicator = false
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return .init(width: view.frame.width, height: view.frame.width / 2)
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
 
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -38,6 +44,7 @@ class NewsHeaderController: BaseListController , UICollectionViewDelegateFlowLay
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! NewsHeaderCell
         cell.newsImageView.downloadImage(from: news[indexPath.item].urlToImage ?? "")
+        cell.scrollIndicator.currentPage = indexPath.item
         return cell
     }
     
