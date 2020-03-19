@@ -30,7 +30,6 @@ class TabBarController: UITabBarController {
         let feedNavigationController = UINavigationController(rootViewController: feedVC)
         let sourcesNavigationController = UINavigationController(rootViewController: sourcesVC)
         
-//        feedNavigationController.navigationBar.prefersLargeTitles = true
         sourcesNavigationController.navigationBar.prefersLargeTitles = true
         
         viewControllers = [feedNavigationController , sourcesNavigationController]

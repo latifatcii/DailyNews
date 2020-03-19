@@ -6,6 +6,7 @@ target 'DailyNews' do
   use_frameworks!
   
     pod 'Parchment'
+    pod 'SDWebImage'
 
   # Pods for DailyNews
 

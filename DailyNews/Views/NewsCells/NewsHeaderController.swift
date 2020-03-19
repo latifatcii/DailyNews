@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class NewsHeaderController: BaseListController , UICollectionViewDelegateFlowLayout {
     
@@ -35,6 +36,14 @@ class NewsHeaderController: BaseListController , UICollectionViewDelegateFlowLay
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let newsDetailsVC = NewsDetailsViewController()
+        newsDetailsVC.url = URL(string: news[indexPath.item].url)
+        newsDetailsVC.modalPresentationStyle = .fullScreen
+        present(newsDetailsVC , animated: true)
+    }
 
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -43,7 +52,8 @@ class NewsHeaderController: BaseListController , UICollectionViewDelegateFlowLay
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! NewsHeaderCell
-        cell.newsImageView.downloadImage(from: news[indexPath.item].urlToImage ?? "")
+        cell.newsImageView.sd_setImage(with: URL(string :news[indexPath.item].urlToImage ?? "" ))
+  
         cell.scrollIndicator.currentPage = indexPath.item
         return cell
     }

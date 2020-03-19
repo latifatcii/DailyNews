@@ -56,6 +56,7 @@ class PagingController : UIViewController , PagingViewControllerDataSource  {
     }
     
     
+    
     func numberOfViewControllers(in pagingViewController: PagingViewController) -> Int {
         return cities.count
     }

@@ -1,16 +1,22 @@
 PODS:
   - Parchment (2.1.0)
+  - SDWebImage (5.6.1):
+    - SDWebImage/Core (= 5.6.1)
+  - SDWebImage/Core (5.6.1)
 
 DEPENDENCIES:
   - Parchment
+  - SDWebImage
 
 SPEC REPOS:
   trunk:
     - Parchment
+    - SDWebImage
 
 SPEC CHECKSUMS:
   Parchment: 92bc8263f04b0e8579802e1c88e10dbd3d6c1c29
+  SDWebImage: 7edb9c3ea661e77a66661f7f044de8c1b55d1120
 
-PODFILE CHECKSUM: 4b4e2e3f503d0ee074d2d146056e63e00a480d79
+PODFILE CHECKSUM: ecb767f9f38707b99c90c2d2b42854d2b7d1826c
 
 COCOAPODS: 1.8.4

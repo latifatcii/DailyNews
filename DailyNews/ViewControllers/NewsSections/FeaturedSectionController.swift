@@ -21,9 +21,18 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
     var hasMoreNews = true
     var header = true
     
+    let activityIndicatorView: UIActivityIndicatorView = {
+        let aiv = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+        aiv.color = .black
+        aiv.hidesWhenStopped = true
+        return aiv
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.fillSuperview()
         fetchNews(page: page)
     }
     
@@ -52,8 +61,9 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
         let dispatchGroup = DispatchGroup()
         var headerGroup : [THArticle] = []
         var group : [THArticle] = []
-        
+        activityIndicatorView.startAnimating()
         dispatchGroup.enter()
+
         FetchTopHeadline.shared.fetchData(THRequest(country: "us", category: .general, q: nil, pageSize: 10, page: page)) { (result) in
             dispatchGroup.leave()
             switch result {
@@ -79,12 +89,16 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
         }
         
         dispatchGroup.notify(queue: .main) {
-            
+            self.activityIndicatorView.stopAnimating()
             self.headerNews.append(contentsOf: headerGroup)
             self.news.append(contentsOf: group)
             self.collectionView.reloadData()
             
+
         }
+        
+
+
     }
 
     
@@ -94,6 +108,8 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
         header.feedHeaderController.collectionView.reloadData()
         return header
     }
+    
+    
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -111,8 +127,7 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
         cell.headerLabel.text = article.title
         cell.timeLabel.text = time
         cell.sourceLabel.text = article.source.name
-        cell.newsImageView.downloadImage(from: article.urlToImage ?? "")
-        
+        cell.newsImageView.sd_setImage(with: URL(string: article.urlToImage ?? ""))
         
         return cell
         
@@ -131,6 +146,17 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
         return 10
     }
     
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let newsDetailsVC = NewsDetailsViewController()
+        newsDetailsVC.url = URL(string: news[indexPath.item].url)
+        newsDetailsVC.modalPresentationStyle = .fullScreen
+        present(newsDetailsVC , animated: true)
+        
+        
+    }
+    
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
@@ -145,6 +171,7 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
             
         }
     }
+
     
     
 }
