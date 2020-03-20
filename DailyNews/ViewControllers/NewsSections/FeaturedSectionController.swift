@@ -19,7 +19,6 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
     let headerCellId = "headerCellId"
     var page = 2
     var hasMoreNews = true
-    var header = true
     
     let activityIndicatorView: UIActivityIndicatorView = {
         let aiv = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
@@ -35,8 +34,7 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
         activityIndicatorView.fillSuperview()
         fetchNews(page: page)
     }
-    
-    
+
 
     func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
@@ -82,7 +80,7 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
             dispatchGroup.leave()
             switch result {
             case .success(let news):
-                headerGroup.append(contentsOf: news.articles)
+                headerGroup = news.articles
             case .failure(let err):
                 print(err.localizedDescription)
             }
@@ -90,7 +88,7 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
         
         dispatchGroup.notify(queue: .main) {
             self.activityIndicatorView.stopAnimating()
-            self.headerNews.append(contentsOf: headerGroup)
+            self.headerNews = headerGroup
             self.news.append(contentsOf: group)
             self.collectionView.reloadData()
             
@@ -104,7 +102,7 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerCellId, for: indexPath) as! NewsPageHeader
-        header.feedHeaderController.news.append(contentsOf: self.headerNews)
+        header.feedHeaderController.news = self.headerNews
         header.feedHeaderController.collectionView.reloadData()
         return header
     }
@@ -166,8 +164,8 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
             guard hasMoreNews else {
                 return
             }
-            page += 1
-            fetchNews(page : page)
+                page += 1
+                fetchNews(page : page)
             
         }
     }

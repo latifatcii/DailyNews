@@ -29,6 +29,10 @@ class NewsHeaderController: BaseListController , UICollectionViewDelegateFlowLay
         collectionView.showsHorizontalScrollIndicator = false
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return .init(width: view.frame.width, height: view.frame.width / 2)
     }

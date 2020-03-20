@@ -2,6 +2,13 @@
 import Foundation
 import WebKit
 
+/*
+    after dismiss this vc there are errors in consol
+    after dismiss , headers disappears
+ 
+ 
+ */
+
 class NewsDetailsViewController : UIViewController , WKUIDelegate {
     
     var webView : WKWebView = {
