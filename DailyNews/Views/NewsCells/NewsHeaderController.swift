@@ -18,20 +18,15 @@ class NewsHeaderController: BaseListController , UICollectionViewDelegateFlowLay
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.backgroundColor = .white
-        
         collectionView.register(NewsHeaderCell.self, forCellWithReuseIdentifier: cellId)
         
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
         }
         collectionView.isPagingEnabled = true
-        
         collectionView.showsHorizontalScrollIndicator = false
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return .init(width: view.frame.width, height: view.frame.width / 2)
@@ -45,7 +40,7 @@ class NewsHeaderController: BaseListController , UICollectionViewDelegateFlowLay
         
         let newsDetailsVC = NewsDetailsViewController()
         newsDetailsVC.url = URL(string: news[indexPath.item].url)
-        newsDetailsVC.modalPresentationStyle = .fullScreen
+        newsDetailsVC.modalPresentationStyle = .overFullScreen
         present(newsDetailsVC , animated: true)
     }
 
@@ -57,7 +52,6 @@ class NewsHeaderController: BaseListController , UICollectionViewDelegateFlowLay
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! NewsHeaderCell
         cell.newsImageView.sd_setImage(with: URL(string :news[indexPath.item].urlToImage ?? "" ))
-  
         cell.scrollIndicator.currentPage = indexPath.item
         return cell
     }

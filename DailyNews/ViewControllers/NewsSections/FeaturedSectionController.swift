@@ -94,9 +94,6 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
             
 
         }
-        
-
-
     }
 
     
@@ -143,15 +140,12 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
-    
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let newsDetailsVC = NewsDetailsViewController()
         newsDetailsVC.url = URL(string: news[indexPath.item].url)
-        newsDetailsVC.modalPresentationStyle = .fullScreen
+        newsDetailsVC.modalPresentationStyle = .overFullScreen
         present(newsDetailsVC , animated: true)
-        
         
     }
     

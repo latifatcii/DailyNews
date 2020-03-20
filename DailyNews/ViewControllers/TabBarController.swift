@@ -20,12 +20,12 @@ class TabBarController: UITabBarController {
     func configureTabBar() {
         let feedVC = PagingController()
         feedVC.title = "News"
-        feedVC.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 0)
+        feedVC.tabBarItem = UITabBarItem(title: "News", image: UIImage(systemName: "house"), tag: 0)
 
         
         let sourcesVC = SourcesViewController()
         sourcesVC.title = "Sources"
-        sourcesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
+        sourcesVC.tabBarItem = UITabBarItem(title: "Sources", image: UIImage(systemName: "star"), tag: 1)
         
         let feedNavigationController = UINavigationController(rootViewController: feedVC)
         let sourcesNavigationController = UINavigationController(rootViewController: sourcesVC)

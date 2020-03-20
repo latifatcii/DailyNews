@@ -9,7 +9,7 @@
 import UIKit
 
 class EntertainmentSectionController : FeaturedSectionController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicatorView.startAnimating()
@@ -20,9 +20,9 @@ class EntertainmentSectionController : FeaturedSectionController {
         var headerGroup : [THArticle] = []
         var group : [THArticle] = []
         activityIndicatorView.startAnimating()
-
+        
         dispatchGroup.enter()
-
+        
         FetchTopHeadline.shared.fetchData(THRequest(country: "us", category: .entertainment, q: nil, pageSize: 10, page: page)) { (result) in
             dispatchGroup.leave()
             switch result {
@@ -41,7 +41,7 @@ class EntertainmentSectionController : FeaturedSectionController {
             dispatchGroup.leave()
             switch result {
             case .success(let news):
-                headerGroup.append(contentsOf: news.articles)
+                headerGroup = news.articles
             case .failure(let err):
                 print(err.localizedDescription)
             }
@@ -49,11 +49,10 @@ class EntertainmentSectionController : FeaturedSectionController {
         
         dispatchGroup.notify(queue: .main) {
             self.activityIndicatorView.stopAnimating()
-
-            self.headerNews.append(contentsOf: headerGroup)
+            self.headerNews = headerGroup
             self.news.append(contentsOf: group)
             self.collectionView.reloadData()
-
+            
         }
     }
 }

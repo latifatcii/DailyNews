@@ -2,12 +2,6 @@
 import Foundation
 import WebKit
 
-/*
-    after dismiss this vc there are errors in consol
-    after dismiss , headers disappears
- 
- 
- */
 
 class NewsDetailsViewController : UIViewController , WKUIDelegate {
     
@@ -43,17 +37,17 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate {
         
         NSLayoutConstraint.activate([
             webView.topAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 40),
+                .constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             webView.leadingAnchor
                 .constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             webView.bottomAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -45),
+                .constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -35),
             webView.trailingAnchor
                 .constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             
         ])
         
-        bottomView.anchor(top: webView.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, size: .init(width: 0, height: 45))
+        bottomView.anchor(top: webView.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, size: .init(width: 0, height: 35))
         
         let myRequest = URLRequest(url: url)
         webView.load(myRequest)
@@ -62,7 +56,6 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate {
     }
     
     private func configureBottomView() {
-
         let closeButton = UIButton(frame: .zero)
         bottomView.addSubview(closeButton)
         closeButton.anchor(top: bottomView.topAnchor, leading: bottomView.leadingAnchor, bottom: bottomView.bottomAnchor, trailing: nil, size: .init(width: 60, height: 0))
@@ -70,11 +63,6 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate {
         closeButton.backgroundColor = .white
         closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
         closeButton.imageView?.tintColor = .darkGray
-        
-        
-        
-        
-        
         
     }
     

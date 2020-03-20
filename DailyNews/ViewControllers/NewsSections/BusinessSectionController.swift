@@ -38,7 +38,7 @@ class BusinessSectionController :  FeaturedSectionController {
             dispatchGroup.leave()
             switch result {
             case .success(let news):
-                headerGroup.append(contentsOf: news.articles)
+                headerGroup = news.articles
             case .failure(let err):
                 print(err.localizedDescription)
             }
@@ -46,7 +46,7 @@ class BusinessSectionController :  FeaturedSectionController {
         
         dispatchGroup.notify(queue: .main) {
             self.activityIndicatorView.stopAnimating()
-            self.headerNews.append(contentsOf: headerGroup)
+            self.headerNews = headerGroup
             self.news.append(contentsOf: group)
             self.collectionView.reloadData()
 
