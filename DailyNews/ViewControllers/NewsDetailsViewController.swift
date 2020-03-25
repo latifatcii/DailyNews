@@ -3,7 +3,7 @@ import Foundation
 import WebKit
 
 
-class NewsDetailsViewController : UIViewController , WKUIDelegate {
+class NewsDetailsViewController : UIViewController , WKUIDelegate , WKNavigationDelegate {
     
     var webView : WKWebView = {
         let webConfiguration = WKWebViewConfiguration()
@@ -23,6 +23,7 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        webView.navigationDelegate = self
         webView.uiDelegate = self
         setupUI()
         configureBottomView()
@@ -53,7 +54,11 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate {
         webView.load(myRequest)
         
         
+        
+        
     }
+    
+    
     
     private func configureBottomView() {
         let closeButton = UIButton(frame: .zero)
@@ -64,11 +69,26 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate {
         closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
         closeButton.imageView?.tintColor = .darkGray
         
+        let refreshButton = UIButton(frame: .zero)
+        bottomView.addSubview(refreshButton)
+        refreshButton.anchor(top: bottomView.topAnchor, leading: nil, bottom: bottomView.bottomAnchor, trailing: bottomView.trailingAnchor, size: .init(width: 60, height: 0))
+        
+        refreshButton.addTarget(self, action: #selector(refreshWebView), for: .touchUpInside)
+        refreshButton.backgroundColor = .white
+        refreshButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+        closeButton.imageView?.tintColor = .darkGray
+        
     }
     
     
     @objc func closeWebWiew() {
+        webView.removeFromSuperview()
         dismiss(animated: true)
+        
+    }
+    
+    @objc func refreshWebView() {
+        webView.reload()
     }
     
 }
