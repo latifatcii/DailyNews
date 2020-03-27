@@ -23,7 +23,7 @@ class TabBarController: UITabBarController {
         feedVC.tabBarItem = UITabBarItem(title: "News", image: UIImage(systemName: "house"), tag: 0)
 
         
-        let sourcesVC = SourcesViewController()
+        let sourcesVC = SearchNewsController()
         sourcesVC.title = "Sources"
         sourcesVC.tabBarItem = UITabBarItem(title: "Sources", image: UIImage(systemName: "star"), tag: 1)
         
