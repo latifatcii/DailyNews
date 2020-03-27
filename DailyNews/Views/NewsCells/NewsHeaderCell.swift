@@ -4,7 +4,6 @@ class NewsHeaderCell: UICollectionViewCell {
     
     let newsImageView = UIImageView(frame: .zero)
     let headerLabel = UILabel(frame: .zero)
-    let timeLabel = UILabel(frame: .zero)
     lazy var scrollIndicator = UIPageControl()
     
     override init(frame: CGRect) {
@@ -17,7 +16,6 @@ class NewsHeaderCell: UICollectionViewCell {
     }
     
     func setupViews() {
-        
         addSubview(scrollIndicator)
         addSubview(newsImageView)
         
@@ -32,7 +30,18 @@ class NewsHeaderCell: UICollectionViewCell {
         newsImageView.clipsToBounds = true
         newsImageView.image = UIImage(named: "austin")
         
+        newsImageView.addSubview(headerLabel)
         
+        headerLabel.anchor(top: nil, leading: newsImageView.leadingAnchor, bottom: newsImageView.bottomAnchor, trailing: newsImageView.trailingAnchor, size: .init(width: 0, height: 100))
+        
+        headerLabel.textColor = .white
+        headerLabel.font = .systemFont(ofSize: 30)
+        headerLabel.numberOfLines = 0
+        headerLabel.adjustsFontSizeToFitWidth = true
+        headerLabel.textAlignment = .center
+
+
+
         
         NSLayoutConstraint.activate([
             newsImageView.topAnchor.constraint(equalTo: topAnchor ),

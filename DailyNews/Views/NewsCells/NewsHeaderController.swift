@@ -29,7 +29,7 @@ class NewsHeaderController: BaseListController , UICollectionViewDelegateFlowLay
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return .init(width: view.frame.width, height: view.frame.width / 2)
+        return .init(width: view.frame.width, height: view.frame.width / 1.5)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -53,6 +53,7 @@ class NewsHeaderController: BaseListController , UICollectionViewDelegateFlowLay
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! NewsHeaderCell
         cell.newsImageView.sd_setImage(with: URL(string :news[indexPath.item].urlToImage ?? "" ))
         cell.scrollIndicator.currentPage = indexPath.item
+        cell.headerLabel.text = news[indexPath.item].title
         return cell
     }
     

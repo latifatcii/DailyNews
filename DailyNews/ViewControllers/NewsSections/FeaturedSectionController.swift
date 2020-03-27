@@ -35,7 +35,6 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
         fetchNews(page: page)
     }
 
-
     func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemGray6
@@ -108,7 +107,7 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return .init(width: view.frame.width, height: view.frame.width / 2)
+        return .init(width: view.frame.width, height: view.frame.width / 1.5)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

@@ -19,6 +19,13 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate , WKNavigation
         return bv
     }()
     
+    var topView : UIView = {
+        let tv = UIView(frame: .zero)
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.backgroundColor = .white
+        return tv
+    }()
+    
     var url : URL!
     
     override func viewDidLoad() {
@@ -27,6 +34,7 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate , WKNavigation
         webView.uiDelegate = self
         setupUI()
         configureBottomView()
+        configureTopView()
         
     }
     
@@ -35,10 +43,11 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate , WKNavigation
         view.backgroundColor = .white
         view.addSubview(webView)
         view.addSubview(bottomView)
+        view.addSubview(topView)
         
         NSLayoutConstraint.activate([
             webView.topAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                .constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 35),
             webView.leadingAnchor
                 .constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             webView.bottomAnchor
@@ -50,6 +59,7 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate , WKNavigation
         
         bottomView.anchor(top: webView.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, size: .init(width: 0, height: 35))
         
+        topView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor,size: .init(width: 0, height: 35))
         let myRequest = URLRequest(url: url)
         webView.load(myRequest)
         
@@ -76,15 +86,48 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate , WKNavigation
         refreshButton.addTarget(self, action: #selector(refreshWebView), for: .touchUpInside)
         refreshButton.backgroundColor = .white
         refreshButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
-        closeButton.imageView?.tintColor = .darkGray
+        refreshButton.imageView?.tintColor = .darkGray
         
     }
     
+    private func configureTopView() {
+        let backButton = UIButton(frame: .zero)
+        topView.addSubview(backButton)
+        
+        backButton.anchor(top: topView.topAnchor, leading: topView.leadingAnchor, bottom: topView.bottomAnchor, trailing: nil, size: .init(width: 60, height: 0))
+        backButton.addTarget(self, action: #selector(goBackWebView), for: .touchUpInside)
+        backButton.backgroundColor = .white
+
+        backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        backButton.imageView?.tintColor = .darkGray
+        
+        let forwardButton = UIButton(frame: .zero)
+        topView.addSubview(forwardButton)
+        
+        forwardButton.anchor(top: topView.topAnchor, leading: nil, bottom: topView.bottomAnchor, trailing: topView.trailingAnchor, size: .init(width: 60, height: 0))
+        forwardButton.addTarget(self, action: #selector(goForwardWebView), for: .touchUpInside)
+        forwardButton.backgroundColor = .white
+        forwardButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        forwardButton.imageView?.tintColor = .darkGray
+    }
+    
+    @objc func goForwardWebView() {
+        if webView.canGoForward {
+            webView.goForward()
+        }
+    }
+    
+    @objc func goBackWebView() {
+        if webView.canGoBack {
+            webView.goBack()
+        }
+    }
+    
+    
     
     @objc func closeWebWiew() {
-        webView.removeFromSuperview()
+        webView.stopLoading()
         dismiss(animated: true)
-        
     }
     
     @objc func refreshWebView() {
