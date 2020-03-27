@@ -12,7 +12,7 @@ class SearchNewsController : UIViewController {
     
     let cellId = "cellId"
     var collectionView : UICollectionView!
-    var news : [THArticle] = []
+    var news : [EArticle] = []
     
     let activityIndicatorView: UIActivityIndicatorView = {
         let aiv = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
@@ -29,14 +29,13 @@ class SearchNewsController : UIViewController {
         activityIndicatorView.fillSuperview()
         configureSearchController()
         configureCollectionView()
-        searchNews()
     }
     
     func configureSearchController() {
         let searchController = UISearchController()
         searchController.obscuresBackgroundDuringPresentation = false
-//        searchController.searchResultsUpdater = self
-//        searchController.searchBar.delegate = self
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "Search for a news"
         navigationItem.searchController = searchController
     }
@@ -57,12 +56,12 @@ class SearchNewsController : UIViewController {
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
     
-    func searchNews() {
+    func searchNews(q : String) {
         activityIndicatorView.startAnimating()
-        FetchTopHeadline.shared.fetchData(THRequest(country: "us", category: .general, q: nil, pageSize: 10, page: 1)) { (result) in
+        FetchNews.shared.fetchDataForSearchController(ERequest(q: q, qInTitle: nil, domains: nil, excludeDomains: nil, from: nil, to: nil, language: "en", sortBy: nil, pageSize: 50, page: nil)) { (result) in
             switch result {
             case .success(let news):
-                self.news.append(contentsOf: news.articles)
+                self.news = news.articles
                 DispatchQueue.main.async {
                  self.activityIndicatorView.stopAnimating()
                     self.collectionView.reloadData()
@@ -78,19 +77,40 @@ class SearchNewsController : UIViewController {
 
 extension SearchNewsController : UICollectionViewDelegateFlowLayout , UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(news.count)
+
         return news.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SearchCell
         let article = news[indexPath.item]
-        
         let time = article.publishedAt.convertToDisplayFormat()
         cell.headerLabel.text = article.title
         cell.timeLabel.text = time
         cell.sourceLabel.text = article.source.name
         cell.newsImageView.sd_setImage(with: URL(string: article.urlToImage ?? ""))
+
         return cell
+    }
+    
+    
+    
+}
+
+extension SearchNewsController : UISearchResultsUpdating , UISearchBarDelegate {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let filter = searchController.searchBar.text , !filter.isEmpty else { return }
+        
+        searchNews(q: filter)
+        print("news count search controller \(news.count)")
+        
+        collectionView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        news.removeAll()
+        collectionView.reloadData()
     }
     
     

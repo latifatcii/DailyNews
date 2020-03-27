@@ -1,8 +1,8 @@
 import UIKit
 
 
-class FetchTopHeadline {
-    static let shared = FetchTopHeadline()
+class FetchNews {
+    static let shared = FetchNews()
     let cache = NSCache<NSString, UIImage>()
 
     
@@ -39,6 +39,54 @@ class FetchTopHeadline {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let news = try decoder.decode(THNews.self, from: data)
+                completion(.success(news))
+                
+            } catch {
+
+                print(error.localizedDescription)
+            }
+            
+        }
+        task.resume()
+        
+        
+        
+        
+    }
+    
+    func fetchDataForSearchController(_ from: ERequest, completion: @escaping (Result<ENews,Error>) -> Void) {
+        
+//        guard let page = from.page else { return }
+        guard let pageSize = from.pageSize else { return }
+        guard let language = from.language else { return }
+        guard let q = from.q else { return }
+        
+        let endpoint = EndPointType().Everything + "?apiKey=8e58842e74f2453bb5e6e3845b386a81&language=\(language)&pageSize=\(pageSize)&q=\(q)"
+        
+        guard let url = URL(string: endpoint) else {
+            return }
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            if let _ = error {
+                print("hata1")
+            }
+            
+            guard let response = response as? HTTPURLResponse , response.statusCode == 200 else {
+                print("invalid response")
+                return
+            }
+            
+            guard let data = data else {
+                print("invalid data")
+                return
+            }
+            
+            do {
+                
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let news = try decoder.decode(ENews.self, from: data)
                 completion(.success(news))
                 
             } catch {

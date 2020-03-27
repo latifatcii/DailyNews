@@ -61,7 +61,7 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
         activityIndicatorView.startAnimating()
         dispatchGroup.enter()
 
-        FetchTopHeadline.shared.fetchData(THRequest(country: "us", category: .general, q: nil, pageSize: 10, page: page)) { (result) in
+        FetchNews.shared.fetchData(THRequest(country: "us", category: .general, q: nil, pageSize: 10, page: page)) { (result) in
             dispatchGroup.leave()
             switch result {
             case .success(let news):
@@ -75,7 +75,7 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
         }
         
         dispatchGroup.enter()
-        FetchTopHeadline.shared.fetchData(THRequest(country: "us", category: .general, q: nil, pageSize: 5, page: 1)) { (result) in
+        FetchNews.shared.fetchData(THRequest(country: "us", category: .general, q: nil, pageSize: 5, page: 1)) { (result) in
             dispatchGroup.leave()
             switch result {
             case .success(let news):

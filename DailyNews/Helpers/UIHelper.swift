@@ -19,8 +19,8 @@ struct UIHelper {
     }
     static func createTwoColumnFlowLayout(in view : UIView) -> UICollectionViewFlowLayout {
         let width = view.bounds.width
-        let padding : CGFloat = 6
-        let minimumItemSpacing : CGFloat = 8
+        let padding : CGFloat = 15
+        let minimumItemSpacing : CGFloat = 12
         let availableWidth = width - (padding * 2) - (minimumItemSpacing * 2)
         let itemWidth = availableWidth / 2
         

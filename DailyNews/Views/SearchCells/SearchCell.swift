@@ -42,17 +42,16 @@ class SearchCell : UICollectionViewCell {
         headerLabel.adjustsFontSizeToFitWidth = true
         headerLabel.numberOfLines = 0
         
-        
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
         timeLabel.text = "5 Minutes Ago"
         timeLabel.textColor = .lightGray
         timeLabel.adjustsFontSizeToFitWidth = true
-        timeLabel.font = .systemFont(ofSize: 5)
+        timeLabel.font = .systemFont(ofSize: 8)
         
         sourceLabel.translatesAutoresizingMaskIntoConstraints = false
         sourceLabel.textColor = .systemGray
         sourceLabel.adjustsFontSizeToFitWidth = true
-        sourceLabel.font = .systemFont(ofSize: 6)
+        sourceLabel.font = .systemFont(ofSize: 8)
         sourceLabel.text = "Hurriyet.com.tr"
         
         
@@ -70,7 +69,7 @@ class SearchCell : UICollectionViewCell {
             newsImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             newsImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             newsImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor ),
-            newsImageView.heightAnchor.constraint(equalToConstant: 100),
+            newsImageView.heightAnchor.constraint(equalToConstant: 130),
             
             labelStackView.topAnchor.constraint(equalTo: newsImageView.bottomAnchor),
             labelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
