@@ -10,7 +10,6 @@ import UIKit
 
 class SearchNewsController : UIViewController {
     
-    var refresher = UIRefreshControl()
     var timer : Timer?
     let cellId = "cellId"
     var collectionView : UICollectionView!
@@ -34,11 +33,6 @@ class SearchNewsController : UIViewController {
         configureCollectionView()
         view.addSubview(activityIndicatorView)
         activityIndicatorView.fillSuperview()
-        collectionView.addSubview(refresher)
-        refresher.addTarget(self, action: #selector(refreshNews), for: .valueChanged)
-
-
-        
     }
     
     
@@ -54,21 +48,14 @@ class SearchNewsController : UIViewController {
     private func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createTwoColumnFlowLayout(in: view))
         collectionView.register(SearchCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .systemBackground
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(collectionView)
         
         collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor)
     }
-    
-    @objc private func refreshNews() {
-        news.removeAll()
-        page = 1
-        searchNews(q: searchedText, page: page)
-        self.refresher.endRefreshing()
 
-    }
     
     func searchNews(q : String , page : Int) {
         activityIndicatorView.startAnimating()

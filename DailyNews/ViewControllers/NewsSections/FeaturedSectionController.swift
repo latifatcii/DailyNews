@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlowLayout , UICollectionViewDataSource {
+class FeaturedSectionController : UIViewController{
     
 
     let layout = UICollectionViewFlowLayout()
@@ -37,23 +37,16 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
 
     func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
-        
+        collectionView.backgroundColor = .systemGray5
         collectionView.delegate = self
         collectionView.dataSource = self
+        
         collectionView.register(NewsCell.self, forCellWithReuseIdentifier: feedCellId)
         collectionView.register(NewsPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerCellId)
+        
         view.addSubview(collectionView)
-        
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor)
     }
-    
-
     
     func fetchNews(page : Int) {
         let dispatchGroup = DispatchGroup()
@@ -91,21 +84,15 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
             self.headerNews = headerGroup
             self.news.append(contentsOf: group)
             self.collectionView.reloadData()
-            
-
         }
     }
 
-    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerCellId, for: indexPath) as! NewsPageHeader
         header.feedHeaderController.news = self.headerNews
         header.feedHeaderController.collectionView.reloadData()
         return header
     }
-    
-    
-    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return .init(width: view.frame.width, height: view.frame.width / 1.5)
@@ -114,39 +101,13 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: feedCellId, for: indexPath) as! NewsCell
         let article = news[indexPath.item]
-        
-        let time = article.publishedAt.convertToDisplayFormat()
-        cell.headerLabel.text = article.title
-        cell.timeLabel.text = time
-        cell.sourceLabel.text = article.source.name
-        cell.newsImageView.sd_setImage(with: URL(string: article.urlToImage ?? "https://dummyimage.com/400x300/1eff00/000000&text=No+Image"))
-        
+        cell.news = article
         return cell
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return news.count
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        return .init(width: view.frame.width, height: view.frame.width / 1.2)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let newsDetailsVC = NewsDetailsViewController()
-        newsDetailsVC.url = URL(string: news[indexPath.item].url)
-        newsDetailsVC.modalPresentationStyle = .overFullScreen
-        present(newsDetailsVC , animated: true)
-        
-    }
-    
-
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offsetY = scrollView.contentOffset.y
@@ -159,10 +120,27 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
             }
                 page += 1
                 fetchNews(page : page)
-            
         }
     }
+    
+}
 
+extension FeaturedSectionController : UICollectionViewDelegateFlowLayout , UICollectionViewDataSource {
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        return .init(width: view.frame.width, height: view.frame.width / 1.2)
+    }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let newsDetailsVC = NewsDetailsViewController()
+        newsDetailsVC.url = URL(string: news[indexPath.item].url)
+        newsDetailsVC.modalPresentationStyle = .overFullScreen
+        present(newsDetailsVC , animated: true)
+        
+    }
 }

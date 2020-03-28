@@ -19,7 +19,7 @@ class SearchCell : UICollectionViewCell {
     var news : EArticle? {
         didSet {
             if let news = news {
-                let time = news.publishedAt.convertToDisplayFormat()
+                let time = news.publishedAt.getTimeAgo()
                 headerLabel.text = news.title
                 timeLabel.text = time
                 sourceLabel.text = news.source.name
@@ -31,7 +31,7 @@ class SearchCell : UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .clear
+        backgroundColor = .systemBackground
         setupViews()
     }
     
@@ -40,16 +40,13 @@ class SearchCell : UICollectionViewCell {
     }
     
     func setupViews() {
-        
         addSubview(headerLabel)
         addSubview(newsImageView)
         addSubview(timeLabel)
         
-//        newsImageView.image = UIImage(named: "clem")
-        newsImageView.translatesAutoresizingMaskIntoConstraints = false
         newsImageView.clipsToBounds = true
+        newsImageView.layer.cornerRadius = 10
         
-        headerLabel.text = "Ilker Kaleli iddiali diziyle geri dondu ! Ilker Kaleli iddiali diziyle geri dondu"
         headerLabel.textColor = .darkGray
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         headerLabel.font = .systemFont(ofSize: 18)
@@ -57,7 +54,6 @@ class SearchCell : UICollectionViewCell {
         headerLabel.numberOfLines = 0
         
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
-        timeLabel.text = "5 Minutes Ago"
         timeLabel.textColor = .lightGray
         timeLabel.adjustsFontSizeToFitWidth = true
         timeLabel.font = .systemFont(ofSize: 12)
@@ -66,32 +62,18 @@ class SearchCell : UICollectionViewCell {
         sourceLabel.textColor = .systemGray
         sourceLabel.adjustsFontSizeToFitWidth = true
         sourceLabel.font = .systemFont(ofSize: 12)
-        sourceLabel.text = "Hurriyet.com.tr"
-        
         
         let horizontalStackView = UIStackView(arrangedSubviews: [timeLabel,sourceLabel])
         horizontalStackView.distribution = .equalSpacing
         
         let labelStackView = UIStackView()
         addSubview(labelStackView)
-        labelStackView.translatesAutoresizingMaskIntoConstraints = false
         labelStackView.addArrangedSubview(headerLabel)
         labelStackView.addArrangedSubview(horizontalStackView)
         labelStackView.axis = .vertical
         
-        NSLayoutConstraint.activate([
-            newsImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            newsImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            newsImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor ),
-            newsImageView.heightAnchor.constraint(equalToConstant: 130),
-            
-            labelStackView.topAnchor.constraint(equalTo: newsImageView.bottomAnchor),
-            labelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            labelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            labelStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-            
-        ])
+        newsImageView.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, size: .init(width: 0, height: 130))
+        
+        labelStackView.anchor(top: newsImageView.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 5, bottom: 0, right: 0))
     }
-    
-
 }
