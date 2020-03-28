@@ -51,7 +51,7 @@ class NewsHeaderController: BaseListController , UICollectionViewDelegateFlowLay
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! NewsHeaderCell
-        cell.newsImageView.sd_setImage(with: URL(string :news[indexPath.item].urlToImage ?? "" ))
+        cell.newsImageView.sd_setImage(with: URL(string :news[indexPath.item].urlToImage ?? "https://dummyimage.com/400x300/1eff00/000000&text=No+Image"))
         cell.scrollIndicator.currentPage = indexPath.item
         cell.headerLabel.text = news[indexPath.item].title
         return cell

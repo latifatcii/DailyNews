@@ -28,7 +28,7 @@ class NewsHeaderCell: UICollectionViewCell {
         newsImageView.translatesAutoresizingMaskIntoConstraints = false
         newsImageView.layer.cornerRadius = 10
         newsImageView.clipsToBounds = true
-        newsImageView.image = UIImage(named: "austin")
+//        newsImageView.image = UIImage(named: "austin")
         
         newsImageView.addSubview(headerLabel)
         

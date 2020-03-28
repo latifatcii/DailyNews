@@ -31,8 +31,7 @@ class NewsCell : UICollectionViewCell {
         addSubview(headerLabel)
         addSubview(newsImageView)
         addSubview(timeLabel)
-        
-        newsImageView.image = UIImage(named: "clem")
+//        newsImageView.image = UIImage(named: "clem")
         newsImageView.translatesAutoresizingMaskIntoConstraints = false
         newsImageView.clipsToBounds = true
         

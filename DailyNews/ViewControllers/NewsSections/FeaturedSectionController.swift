@@ -37,7 +37,8 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
 
     func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemGray6
+        collectionView.backgroundColor = .systemBackground
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(NewsCell.self, forCellWithReuseIdentifier: feedCellId)
@@ -111,17 +112,14 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: feedCellId, for: indexPath) as! NewsCell
-        
         let article = news[indexPath.item]
         
         let time = article.publishedAt.convertToDisplayFormat()
         cell.headerLabel.text = article.title
         cell.timeLabel.text = time
         cell.sourceLabel.text = article.source.name
-        cell.newsImageView.sd_setImage(with: URL(string: article.urlToImage ?? ""))
+        cell.newsImageView.sd_setImage(with: URL(string: article.urlToImage ?? "https://dummyimage.com/400x300/1eff00/000000&text=No+Image"))
         
         return cell
         
@@ -137,7 +135,7 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 20
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -147,6 +145,8 @@ class FeaturedSectionController : UIViewController , UICollectionViewDelegateFlo
         present(newsDetailsVC , animated: true)
         
     }
+    
+
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offsetY = scrollView.contentOffset.y

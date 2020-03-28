@@ -45,14 +45,14 @@ class SearchCell : UICollectionViewCell {
         addSubview(newsImageView)
         addSubview(timeLabel)
         
-        newsImageView.image = UIImage(named: "clem")
+//        newsImageView.image = UIImage(named: "clem")
         newsImageView.translatesAutoresizingMaskIntoConstraints = false
         newsImageView.clipsToBounds = true
         
         headerLabel.text = "Ilker Kaleli iddiali diziyle geri dondu ! Ilker Kaleli iddiali diziyle geri dondu"
         headerLabel.textColor = .darkGray
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerLabel.font = .systemFont(ofSize: 12)
+        headerLabel.font = .systemFont(ofSize: 18)
         headerLabel.adjustsFontSizeToFitWidth = true
         headerLabel.numberOfLines = 0
         
@@ -60,12 +60,12 @@ class SearchCell : UICollectionViewCell {
         timeLabel.text = "5 Minutes Ago"
         timeLabel.textColor = .lightGray
         timeLabel.adjustsFontSizeToFitWidth = true
-        timeLabel.font = .systemFont(ofSize: 8)
+        timeLabel.font = .systemFont(ofSize: 12)
         
         sourceLabel.translatesAutoresizingMaskIntoConstraints = false
         sourceLabel.textColor = .systemGray
         sourceLabel.adjustsFontSizeToFitWidth = true
-        sourceLabel.font = .systemFont(ofSize: 8)
+        sourceLabel.font = .systemFont(ofSize: 12)
         sourceLabel.text = "Hurriyet.com.tr"
         
         

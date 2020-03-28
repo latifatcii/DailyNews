@@ -92,6 +92,28 @@ class SearchNewsController : UIViewController {
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let newsDetailsVC = NewsDetailsViewController()
+        newsDetailsVC.url = URL(string: news[indexPath.item].url)
+        newsDetailsVC.modalPresentationStyle = .overFullScreen
+        present(newsDetailsVC , animated: true)
+        
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
+        
+        if offsetY > contentHeight - height {
+            guard hasMoreNews else {
+                return
+            }
+            page += 1
+            searchNews(q: searchedText, page: page)
+            
+        }
+    }
 }
 
 extension SearchNewsController : UICollectionViewDelegateFlowLayout , UICollectionViewDataSource {
@@ -125,20 +147,7 @@ extension SearchNewsController :  UISearchBarDelegate {
         collectionView.reloadData()
 
     }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let offsetY = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
-        let height = scrollView.frame.size.height
-        
-        if offsetY > contentHeight - height {
-            guard hasMoreNews else {
-                return
-            }
-            page += 1
-            searchNews(q: searchedText, page: page)
-            
-        }
-    }
 
 }
+
+

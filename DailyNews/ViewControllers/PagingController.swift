@@ -11,8 +11,6 @@ import Parchment
 
 class PagingController : UIViewController , PagingViewControllerDataSource  {
     
-    
-    
     private let cities: [PagingItem] = [
         PagingIndexItem(index: 0, title: "Featured"),
         PagingIndexItem(index: 1, title: "Business"),
@@ -23,7 +21,6 @@ class PagingController : UIViewController , PagingViewControllerDataSource  {
         PagingIndexItem(index: 6, title: "Health")
         
     ]
-    
     private let sections = [FeaturedSectionController(),BusinessSectionController(),SportsSectionController(),TechnologySectionController(),ScienceSectionController(),EntertainmentSectionController(),HealthSectionController()]
     
     private let pagingViewController = PagingViewController()
@@ -39,7 +36,7 @@ class PagingController : UIViewController , PagingViewControllerDataSource  {
     fileprivate func configurePagingViewController() {
         pagingViewController.dataSource = self
         pagingViewController.menuItemSize = .fixed(width: view.frame.width/4, height: 44)
-        
+        pagingViewController.menuBackgroundColor = .systemGray3
         addChild(pagingViewController)
         view.addSubview(pagingViewController.view)
         pagingViewController.didMove(toParent: self)
@@ -70,6 +67,8 @@ class PagingController : UIViewController , PagingViewControllerDataSource  {
     func pagingViewController(_: PagingViewController, pagingItemAt index: Int) -> PagingItem {
         return cities[index]
     }
+    
+    
     
     
     
