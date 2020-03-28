@@ -56,12 +56,12 @@ class FetchNews {
     
     func fetchDataForSearchController(_ from: ERequest, completion: @escaping (Result<ENews,Error>) -> Void) {
         
-//        guard let page = from.page else { return }
+        guard let page = from.page else { return }
         guard let pageSize = from.pageSize else { return }
         guard let language = from.language else { return }
         guard let q = from.q else { return }
         
-        let endpoint = EndPointType().Everything + "?apiKey=8e58842e74f2453bb5e6e3845b386a81&language=\(language)&pageSize=\(pageSize)&q=\(q)"
+        let endpoint = EndPointType().Everything + "?apiKey=8e58842e74f2453bb5e6e3845b386a81&language=\(language)&pageSize=\(pageSize)&q=\(q)&page=\(page)"
         
         guard let url = URL(string: endpoint) else {
             return }
