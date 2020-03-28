@@ -10,6 +10,7 @@ import UIKit
 
 class SearchNewsController : UIViewController {
     
+    var refresher = UIRefreshControl()
     var timer : Timer?
     let cellId = "cellId"
     var collectionView : UICollectionView!
@@ -17,7 +18,7 @@ class SearchNewsController : UIViewController {
     var page = 1
     var hasMoreNews = true
     var searchedText : String = ""
-
+    
     
     let activityIndicatorView: UIActivityIndicatorView = {
         let aiv = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
@@ -33,13 +34,13 @@ class SearchNewsController : UIViewController {
         configureCollectionView()
         view.addSubview(activityIndicatorView)
         activityIndicatorView.fillSuperview()
+        collectionView.addSubview(refresher)
+        refresher.addTarget(self, action: #selector(refreshNews), for: .valueChanged)
 
+
+        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        configureSearchController()
-    }
     
     func configureSearchController() {
         let searchController = UISearchController()
@@ -58,22 +59,26 @@ class SearchNewsController : UIViewController {
         collectionView.dataSource = self
         view.addSubview(collectionView)
         
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor)
+    }
+    
+    @objc private func refreshNews() {
+        news.removeAll()
+        page = 1
+        searchNews(q: searchedText, page: page)
+        self.refresher.endRefreshing()
+
     }
     
     func searchNews(q : String , page : Int) {
-        FetchNews.shared.fetchDataForSearchController(ERequest(q: q, qInTitle: nil, domains: nil, excludeDomains: nil, from: nil, to: nil, language: "en", sortBy: nil, pageSize: 50, page: page)) { (result) in
+        activityIndicatorView.startAnimating()
+        FetchNews.shared.fetchDataForSearchController(ERequest(q: q, qInTitle: nil, domains: nil, excludeDomains: nil, from: nil, to: nil, language: "en", sortBy: nil, pageSize: 10, page: page)) { (result) in
             DispatchQueue.main.async {
                 self.activityIndicatorView.stopAnimating()
             }
             switch result {
             case .success(let news):
-                if news.articles.count < 50 {
+                if news.articles.count < 10 {
                     self.hasMoreNews = false
                 }
                 self.news.append(contentsOf: news.articles)
@@ -96,31 +101,20 @@ extension SearchNewsController : UICollectionViewDelegateFlowLayout , UICollecti
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SearchCell
-        let article = news[indexPath.item]
-        let time = article.publishedAt.convertToDisplayFormat()
-        cell.headerLabel.text = article.title
-        cell.timeLabel.text = time
-        cell.sourceLabel.text = article.source.name
-        cell.newsImageView.sd_setImage(with: URL(string: article.urlToImage ?? ""))
-        
+        cell.news = self.news[indexPath.item]
         return cell
     }
-    
-    
-    
 }
 
 extension SearchNewsController :  UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         page = 1
-        activityIndicatorView.startAnimating()
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
             self.news.removeAll()
             self.searchNews(q: searchText, page: self.page)
             self.searchedText = searchText
-            
         })
         
     }
@@ -129,6 +123,7 @@ extension SearchNewsController :  UISearchBarDelegate {
         news.removeAll()
         page = 1
         collectionView.reloadData()
+
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -140,11 +135,10 @@ extension SearchNewsController :  UISearchBarDelegate {
             guard hasMoreNews else {
                 return
             }
-                page += 1
+            page += 1
             searchNews(q: searchedText, page: page)
             
         }
     }
-    
-    
+
 }

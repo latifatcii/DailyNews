@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class SearchCell : UICollectionViewCell {
     
@@ -14,6 +15,19 @@ class SearchCell : UICollectionViewCell {
     let headerLabel = UILabel(frame: .zero)
     let timeLabel = UILabel(frame: .zero)
     let sourceLabel = UILabel(frame: .zero)
+    
+    var news : EArticle? {
+        didSet {
+            if let news = news {
+                let time = news.publishedAt.convertToDisplayFormat()
+                headerLabel.text = news.title
+                timeLabel.text = time
+                sourceLabel.text = news.source.name
+                newsImageView.sd_setImage(with: URL(string: news.urlToImage ?? ""))
+
+            }
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
