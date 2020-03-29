@@ -24,14 +24,57 @@ class PagingController : UIViewController , PagingViewControllerDataSource  {
     private let sections = [FeaturedSectionController(),BusinessSectionController(),SportsSectionController(),TechnologySectionController(),ScienceSectionController(),EntertainmentSectionController(),HealthSectionController()]
     
     private let pagingViewController = PagingViewController()
-
+    let menu = UIViewController()
     
+    private var isMenuHidden = true
     override func viewDidLoad() {
         super.viewDidLoad()
         configurePagingViewController()
+        configureSlideMenu()
+        
         
     }
     
+    func configureSlideMenu() {
+        let menuButton = UIBarButtonItem(title: "Menu", style: .done, target: self, action: #selector(openMenu))
+        
+        self.navigationItem.leftBarButtonItem = menuButton
+        addChild(menu)
+        
+        view.insertSubview(menu.view, at: 0)
+        menu.didMove(toParent: self)
+        menu.view.backgroundColor = .orange
+        //        menu.view.isHidden = true
+        menu.view.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, size: .init(width: 200, height: 0))
+        //        menu.view.frame = view.frame
+        
+        let label = UILabel(text: "HakkarimNette  BatakKeyfi", font: .boldSystemFont(ofSize: 24))
+        label.numberOfLines = 0
+        menu.view.addSubview(label)
+        label.anchor(top: menu.view.topAnchor, leading: menu.view.leadingAnchor, bottom: menu.view.bottomAnchor, trailing: menu.view.trailingAnchor)
+        
+        
+    }
+    
+    @objc func openMenu() {
+        
+        if !isMenuHidden {
+            pagingViewController.view.frame.origin.x = 0
+            
+            menu.view.isHidden = true
+            isMenuHidden = true
+            
+        }
+        else {
+            pagingViewController.view.frame.origin.x = pagingViewController.view.frame.width - 220
+            isMenuHidden = false
+            menu.view.isHidden = false
+            
+        }
+        
+        
+        
+    }
     
     fileprivate func configurePagingViewController() {
         pagingViewController.dataSource = self
@@ -46,7 +89,7 @@ class PagingController : UIViewController , PagingViewControllerDataSource  {
             pagingViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             pagingViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             pagingViewController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            pagingViewController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            pagingViewController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
             
             
         ])
@@ -73,7 +116,7 @@ class PagingController : UIViewController , PagingViewControllerDataSource  {
     
     
     
-
     
-
+    
+    
 }

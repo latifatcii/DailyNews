@@ -33,6 +33,7 @@ class FeaturedSectionController : UIViewController{
         view.addSubview(activityIndicatorView)
         activityIndicatorView.fillSuperview()
         fetchNews(page: page)
+
     }
 
     func configureCollectionView() {
@@ -47,6 +48,8 @@ class FeaturedSectionController : UIViewController{
         view.addSubview(collectionView)
         collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor)
     }
+    
+
     
     func fetchNews(page : Int) {
         let dispatchGroup = DispatchGroup()

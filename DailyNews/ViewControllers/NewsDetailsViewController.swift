@@ -8,7 +8,6 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate , WKNavigation
     var webView : WKWebView = {
         let webConfiguration = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero, configuration: webConfiguration)
-        webView.translatesAutoresizingMaskIntoConstraints = false
         return webView
     }()
     
@@ -46,24 +45,15 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate , WKNavigation
         view.addSubview(bottomView)
         view.addSubview(topView)
         
-        NSLayoutConstraint.activate([
-            webView.topAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 45),
-            webView.leadingAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            webView.bottomAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -45),
-            webView.trailingAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            
-        ])
+        
+        webView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 45, left: 0, bottom: 45, right: 0))
         
         bottomView.anchor(top: webView.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, size: .init(width: 0, height: 45))
         
         topView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor,size: .init(width: 0, height: 45))
         let myRequest = URLRequest(url: url)
         webView.load(myRequest)
-
+        
     }
     
     
@@ -74,8 +64,8 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate , WKNavigation
         
         backButton.anchor(top: bottomView.topAnchor, leading: bottomView.leadingAnchor, bottom: bottomView.bottomAnchor, trailing: nil, size: .init(width: 60, height: 0))
         backButton.addTarget(self, action: #selector(goBackWebView), for: .touchUpInside)
-        backButton.backgroundColor = .white
         
+        backButton.backgroundColor = .white
         backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         backButton.imageView?.tintColor = .darkGray
         
@@ -83,6 +73,7 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate , WKNavigation
         bottomView.addSubview(forwardButton)
         
         forwardButton.anchor(top: bottomView.topAnchor, leading: backButton.trailingAnchor, bottom: bottomView.bottomAnchor, trailing: nil, size: .init(width: 60, height: 0))
+        
         forwardButton.addTarget(self, action: #selector(goForwardWebView), for: .touchUpInside)
         forwardButton.backgroundColor = .white
         forwardButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
@@ -95,7 +86,7 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate , WKNavigation
         
         safariButton.backgroundColor = .white
         safariButton.setImage(UIImage(systemName: "safari"), for: .normal)
-    
+        
         safariButton.addTarget(self, action: #selector(openSafari), for: .touchUpInside)
         
         
@@ -132,8 +123,6 @@ class NewsDetailsViewController : UIViewController , WKUIDelegate , WKNavigation
             webView.goBack()
         }
     }
-    
-    
     
     @objc func closeWebWiew() {
         webView.stopLoading()
