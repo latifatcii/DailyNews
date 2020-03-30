@@ -30,7 +30,7 @@ class PagingController : UIViewController , PagingViewControllerDataSource  {
     override func viewDidLoad() {
         super.viewDidLoad()
         configurePagingViewController()
-        configureSlideMenu()
+//        configureSlideMenu()
         
         
     }
@@ -40,7 +40,6 @@ class PagingController : UIViewController , PagingViewControllerDataSource  {
         
         self.navigationItem.leftBarButtonItem = menuButton
         addChild(menu)
-        
         view.insertSubview(menu.view, at: 0)
         menu.didMove(toParent: self)
         menu.view.backgroundColor = .orange
