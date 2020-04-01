@@ -9,8 +9,15 @@
 import UIKit
 import Parchment
 
-class PagingController : UIViewController , PagingViewControllerDataSource  {
-    
+class PagingController : UIViewController , PagingViewControllerDataSource   {
+        
+    let pagingViewController = PagingViewController()
+    var menuSlideDelegate : SlideMenuGestureDelegate?
+    var menuDelegate : SlideMenuDelegate?
+
+    var gesture : UITapGestureRecognizer?
+
+
     private let cities: [PagingItem] = [
         PagingIndexItem(index: 0, title: "Featured"),
         PagingIndexItem(index: 1, title: "Business"),
@@ -23,14 +30,15 @@ class PagingController : UIViewController , PagingViewControllerDataSource  {
     ]
     private let sections = [FeaturedSectionController(),BusinessSectionController(),SportsSectionController(),TechnologySectionController(),ScienceSectionController(),EntertainmentSectionController(),HealthSectionController()]
     
-    private let pagingViewController = PagingViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configurePagingViewController()  
-    }
+        configurePagingViewController()
+        configureGestureRecognizer()
+        swipeGesture()
 
-    
+
+    }
     fileprivate func configurePagingViewController() {
         pagingViewController.dataSource = self
         pagingViewController.menuItemSize = .fixed(width: view.frame.width/4, height: 44)
@@ -41,17 +49,15 @@ class PagingController : UIViewController , PagingViewControllerDataSource  {
         pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            pagingViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            pagingViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            pagingViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 7),
+            pagingViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -7),
             pagingViewController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             pagingViewController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-            
             
         ])
     }
     
-    
-    
+
     func numberOfViewControllers(in pagingViewController: PagingViewController) -> Int {
         return cities.count
     }
@@ -67,11 +73,30 @@ class PagingController : UIViewController , PagingViewControllerDataSource  {
     }
     
     
+    func configureGestureRecognizer() {
+        gesture = UITapGestureRecognizer(target: self, action: #selector(closeSlideMenu))
+        view.addGestureRecognizer(gesture!)
+    }
+    
+    @objc func closeSlideMenu() {
+        menuSlideDelegate?.configureTapGestureForSlideMenu()
+        gesture!.cancelsTouchesInView = false
+        
+    }
+
     
     
-    
-    
-    
-    
-    
+    func swipeGesture() {
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
+        edgePan.edges = .left
+        view.addGestureRecognizer(edgePan)
+    }
+
+    @objc func screenEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+        if recognizer.state == .recognized {
+            menuDelegate?.configureSlideMenu()
+        }
+        
+    }
 }
+

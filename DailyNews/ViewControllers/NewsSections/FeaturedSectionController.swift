@@ -20,6 +20,7 @@ class FeaturedSectionController : UIViewController{
     var page = 2
     var hasMoreNews = true
     
+    
     let activityIndicatorView: UIActivityIndicatorView = {
         let aiv = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
         aiv.color = .black
@@ -33,6 +34,8 @@ class FeaturedSectionController : UIViewController{
         view.addSubview(activityIndicatorView)
         activityIndicatorView.fillSuperview()
         fetchNews(page: page)
+        
+
 
     }
 
@@ -98,7 +101,7 @@ class FeaturedSectionController : UIViewController{
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return .init(width: view.frame.width, height: view.frame.width / 1.5)
+        return .init(width: view.frame.width, height: view.frame.width / 1.0)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -132,7 +135,7 @@ extension FeaturedSectionController : UICollectionViewDelegateFlowLayout , UICol
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return .init(width: view.frame.width, height: view.frame.width / 1.2)
+        return .init(width: view.frame.width, height: view.frame.width / 1.2 )
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -146,4 +149,6 @@ extension FeaturedSectionController : UICollectionViewDelegateFlowLayout , UICol
         present(newsDetailsVC , animated: true)
         
     }
+
+    
 }

@@ -28,7 +28,7 @@ class NewsHeaderController: BaseListController , UICollectionViewDelegateFlowLay
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return .init(width: view.frame.width, height: view.frame.width / 1.5)
+        return .init(width: view.frame.width, height: view.frame.width / 1.0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

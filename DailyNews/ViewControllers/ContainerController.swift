@@ -11,7 +11,7 @@ import UIKit
 class ContainerController : UIViewController {
     
     let tabBar = TabBarController()
-    var menuController : SwipeMenuController!
+    var menuController : SlideMenuController!
     private var isMenuHidden = true
     
     override func viewDidLoad() {
@@ -19,6 +19,9 @@ class ContainerController : UIViewController {
         view.backgroundColor = .white
         setupTabBarView()
         tabBar.menuDelegate = self
+        tabBar.feedVC.menuSlideDelegate = self
+        tabBar.feedVC.menuDelegate = self
+
     }
     
     func setupTabBarView() {
@@ -27,10 +30,11 @@ class ContainerController : UIViewController {
         tabBar.didMove(toParent: self)
     }
     
+    
     func setupMenuController() {
         
         if menuController == nil {
-            menuController = SwipeMenuController()
+            menuController = SlideMenuController()
             addChild(menuController)
             view.insertSubview(menuController.view, at: 0)
             menuController.didMove(toParent: self)
@@ -48,20 +52,27 @@ class ContainerController : UIViewController {
             UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
                 self.tabBar.view.frame.origin.x = 0
                 self.isMenuHidden = true
+                self.tabBar.feedVC.pagingViewController.view.isUserInteractionEnabled = true
+                
+                
             })
         }
-        else {
+        else  {
             UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
                 
                 self.tabBar.view.frame.origin.x = self.tabBar.view.frame.width - 165
                 self.isMenuHidden = false
+                self.tabBar.feedVC.pagingViewController.view.isUserInteractionEnabled = false
+                
+                
             })
         }
     }
     
+
 }
-extension ContainerController : SwipeMenuDelegate {
-    func configureSwipeMenu() {
+extension ContainerController : SlideMenuDelegate {
+    func configureSlideMenu() {
         
         if isMenuHidden {
             setupMenuController()
@@ -69,6 +80,21 @@ extension ContainerController : SwipeMenuDelegate {
         
         isMenuHidden = !isMenuHidden
         showMenuController(shouldExpand: isMenuHidden)
+    }
+    
+    
+}
+
+extension ContainerController : SlideMenuGestureDelegate {
+    func configureTapGestureForSlideMenu() {
+        
+        if isMenuHidden {
+            setupMenuController()
+        }
+        
+        showMenuController(shouldExpand: true)
+        
+
     }
     
     

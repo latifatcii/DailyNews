@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SwipeMenuController : UIViewController {
+class SlideMenuController : UIViewController {
     
 
     

@@ -8,6 +8,9 @@
 
 import Foundation
 
-protocol SwipeMenuDelegate {
-    func configureSwipeMenu()
+protocol SlideMenuDelegate {
+    func configureSlideMenu()
+}
+protocol SlideMenuGestureDelegate {
+    func configureTapGestureForSlideMenu()
 }

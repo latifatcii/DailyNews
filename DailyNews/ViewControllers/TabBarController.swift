@@ -12,13 +12,15 @@ class TabBarController: UITabBarController {
     
     let feedVC = PagingController()
     let searchVC = SearchNewsController()
-    var menuDelegate : SwipeMenuDelegate?
-    
+    var menuDelegate : SlideMenuDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureTabBar()
         setupMenuButton()
+
+
     }
     
     func configureTabBar() {
@@ -39,15 +41,19 @@ class TabBarController: UITabBarController {
     }
     
     private func setupMenuButton() {
-        let menuButton = UIBarButtonItem(title: "Menu", style: .done, target: self, action: #selector(openMenu))
+        
+        let menuButton = UIBarButtonItem(image: UIImage(named: "hamburger.png"), style: .plain, target: self, action: #selector(openMenu))
+        
         feedVC.navigationItem.leftBarButtonItem = menuButton
+        feedVC.navigationItem.leftBarButtonItem?.tintColor = .black
     }
     
     
     @objc func openMenu() {
-        menuDelegate?.configureSwipeMenu()
+        menuDelegate?.configureSlideMenu()
+
     }
-    
-    
+
+  
 }
 

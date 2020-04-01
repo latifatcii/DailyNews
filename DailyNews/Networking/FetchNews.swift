@@ -1,10 +1,11 @@
+//ff5f1bcd02d643f38454768fbc539040
+
 import UIKit
 
 
 class FetchNews {
     static let shared = FetchNews()
     let cache = NSCache<NSString, UIImage>()
-
     
     func fetchData(_ from: THRequest, completion: @escaping (Result<THNews,Error>) -> Void) {
         
@@ -13,7 +14,7 @@ class FetchNews {
         guard let pageSize = from.pageSize else { return }
         guard let category = from.category else { return }
         
-        let endpoint = EndPointType().TopHeadline + "?apiKey=ff5f1bcd02d643f38454768fbc539040&country=\(country)&pageSize=\(pageSize)&page=\(page)&category=\(category)"
+        let endpoint = EndPointType().TopHeadline + "?apiKey=8937c23c392f4972873b51f17d46d42d&country=\(country)&pageSize=\(pageSize)&page=\(page)&category=\(category)"
         
         guard let url = URL(string: endpoint) else {
             return }
@@ -61,7 +62,7 @@ class FetchNews {
         guard let language = from.language else { return }
         guard let q = from.q else { return }
         
-        let endpoint = EndPointType().Everything + "?apiKey=ff5f1bcd02d643f38454768fbc539040&language=\(language)&pageSize=\(pageSize)&q=\(q)&page=\(page)"
+        let endpoint = EndPointType().Everything + "?apiKey=8937c23c392f4972873b51f17d46d42d&language=\(language)&pageSize=\(pageSize)&q=\(q)&page=\(page)"
         
         guard let url = URL(string: endpoint) else {
             return }

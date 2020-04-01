@@ -35,6 +35,8 @@ class NewsCell : UICollectionViewCell {
         addSubview(newsImageView)
         addSubview(timeLabel)
         newsImageView.clipsToBounds = true
+        newsImageView.layer.cornerRadius = 10
+        
 
         headerLabel.textColor = .darkGray
         headerLabel.font = .systemFont(ofSize: 22)
@@ -61,7 +63,7 @@ class NewsCell : UICollectionViewCell {
         labelStackView.axis = .vertical
         
         
-        newsImageView.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, size: .init(width: 0, height: 240))
+        newsImageView.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 5, left: 5, bottom: 5, right: 5),size: .init(width: 0, height: 240))
         
         labelStackView.anchor(top: newsImageView.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 5, bottom: 0, right: 0))
         

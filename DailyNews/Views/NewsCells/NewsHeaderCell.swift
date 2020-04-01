@@ -25,9 +25,16 @@ class NewsHeaderCell: UICollectionViewCell {
     }
     
     func setupViews() {
-        addSubview(scrollIndicator)
+        let stackView = UIStackView(arrangedSubviews: [headerLabel,scrollIndicator])
+        
+        addSubview(stackView)
         addSubview(newsImageView)
-        newsImageView.addSubview(headerLabel)
+        
+        newsImageView.layer.cornerRadius = 10
+        
+        stackView.alignment = .center
+        stackView.axis = .vertical
+        
         
         scrollIndicator.currentPage = 0
         scrollIndicator.numberOfPages = 5
@@ -35,20 +42,18 @@ class NewsHeaderCell: UICollectionViewCell {
         scrollIndicator.pageIndicatorTintColor = .lightGray
         
         newsImageView.layer.cornerRadius = 10
-        newsImageView.clipsToBounds = true        
+        newsImageView.clipsToBounds = true
         
-        headerLabel.textColor = .systemBlue
-        headerLabel.font = .systemFont(ofSize: 30)
+        headerLabel.textColor = .black
+        headerLabel.font = .systemFont(ofSize: 20)
         headerLabel.numberOfLines = 0
         headerLabel.adjustsFontSizeToFitWidth = true
         headerLabel.textAlignment = .center
         
         
-        headerLabel.anchor(top: nil, leading: newsImageView.leadingAnchor, bottom: newsImageView.bottomAnchor, trailing: newsImageView.trailingAnchor, size: .init(width: 0, height: 100))
+        stackView.anchor(top: newsImageView.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor)
         
-        newsImageView.anchor(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 0, bottom: 20, right: 0))
-        
-        scrollIndicator.anchor(top: newsImageView.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor)
+        newsImageView.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0),size: .init(width: 0, height: 280))
         
         
     }
