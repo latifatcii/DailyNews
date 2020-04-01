@@ -8,17 +8,12 @@
 
 import UIKit
 
-class SlideMenuController : UIViewController , UITableViewDataSource {
+class SlideMenuController : UIViewController , UITableViewDataSource , UITableViewDelegate {
     
     var tableView : UITableView!
     let slideMenuCellId = "CellId"
-    var sourcesGeneral : [Sources] = []
-    var sourcesBusiness : [Sources] = []
-    var sourcesEntertainment : [Sources] = []
-    var sourcesHealth : [Sources] = []
-    var sourcesScience : [Sources] = []
-    var sourcesSports : [Sources] = []
-    var sourcesTechnology : [Sources] = []
+    var sources : [ExpandedSources] = []
+    var sourceCategories = ["General","Business","Entertainment","Health","Sports","Science"]
     
     
     override func viewDidLoad() {
@@ -28,6 +23,7 @@ class SlideMenuController : UIViewController , UITableViewDataSource {
         view.addSubview(activityIndicatorView)
         activityIndicatorView.fillSuperview()
         tableView.dataSource = self
+        tableView.delegate = self
         fetchSources()
     }
     
@@ -50,12 +46,60 @@ class SlideMenuController : UIViewController , UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sourcesSports.count
+        
+        if !sources[section].isExpanded {
+            return 0
+        }
+        
+        return sources[section].sources.count
     }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sources.count
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        
+        let button = UIButton(type: .system)
+        button.setTitle(sourceCategories[section], for: .normal)
+        button.backgroundColor = .systemGray3
+        button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(handleExpanding), for: .touchUpInside)
+        button.tag = section
+        return button
+    }
+    
+    @objc func handleExpanding(button : UIButton) {
+        let section = button.tag
+        
+        var indexPaths = [IndexPath]()
+        
+        for row in sources[section].sources.indices {
+            let indexPath = IndexPath(row: row, section: section)
+            indexPaths.append(indexPath)
+        }
+        
+        let isExpanded = sources[section].isExpanded
+        sources[section].isExpanded = !isExpanded
+        
+        if isExpanded {
+            tableView.deleteRows(at: indexPaths, with: .fade)
+        }
+        else {
+            tableView.insertRows(at: indexPaths, with: .fade)
+        }
+        
+    }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: slideMenuCellId, for: indexPath) as! SlideMenuCell
-        cell.menuLabel.text = sourcesSports[indexPath.item].name
+        cell.menuLabel.text = sources[indexPath.section].sources[indexPath.row].name
+        
         cell.selectionStyle = .none
         return cell
     }
@@ -70,7 +114,7 @@ class SlideMenuController : UIViewController , UITableViewDataSource {
         var scienceGroup : [Sources] = []
         var sportsGroup : [Sources] = []
         activityIndicatorView.startAnimating()
-
+        
         
         dispatchGroup.enter()
         FetchNews.shared.fetchSources(SRequest(category: .general, language: "en", country: nil)) { (result) in
@@ -141,13 +185,14 @@ class SlideMenuController : UIViewController , UITableViewDataSource {
         
         dispatchGroup.notify(queue: .main) {
             self.activityIndicatorView.stopAnimating()
-
-            self.sourcesGeneral.append(contentsOf: generalGroup)
-            self.sourcesBusiness.append(contentsOf: businessGroup)
-            self.sourcesEntertainment.append(contentsOf: entertainmentGroup)
-            self.sourcesHealth.append(contentsOf: healthGroup)
-            self.sourcesSports.append(contentsOf: sportsGroup)
-            self.sourcesScience.append(contentsOf: scienceGroup)
+            self.sources.insert(ExpandedSources(isExpanded: false, sources: generalGroup), at: 0)
+            self.sources.insert(ExpandedSources(isExpanded: false, sources: businessGroup), at: 1)
+            self.sources.insert(ExpandedSources(isExpanded: false, sources: entertainmentGroup), at: 2)
+            self.sources.insert(ExpandedSources(isExpanded: false, sources: healthGroup), at: 3)
+            self.sources.insert(ExpandedSources(isExpanded: false, sources: sportsGroup), at: 4)
+            self.sources.insert(ExpandedSources(isExpanded: false, sources: scienceGroup), at: 5)
+            
+            
             self.tableView.reloadData()
         }
         
