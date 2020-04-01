@@ -42,7 +42,7 @@ class ContainerController : UIViewController {
             menuController.view.backgroundColor = .yellow
             menuController.didMove(toParent: self)
             
-            menuController.view.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, size: .init(width: 250, height: 0))
+            menuController.view.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, size: .init(width: 240, height: 0))
         }
     }
     

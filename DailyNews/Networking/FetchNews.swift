@@ -97,9 +97,47 @@ class FetchNews {
             
         }
         task.resume()
+    }
+    
+    func fetchSources(_ from : SRequest, completion: @escaping (Result<SourcesModel,Error>) -> Void) {
         
+        guard let category = from.category else { return }
+        guard let language = from.language else { return }
+//        guard let country = from.country else { return }
         
+        let endpoint = EndPointType().SourcesRepsonses + "?apiKey=8937c23c392f4972873b51f17d46d42d&category=\(category)&language\(language)"
         
+        guard let url = URL(string: endpoint) else { return }
         
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            if let _ = error {
+                print("hata1")
+            }
+            
+            guard let response = response as? HTTPURLResponse , response.statusCode == 200 else {
+                print("invalid response")
+                return
+            }
+            
+            guard let data = data else {
+                print("invalid data")
+                return
+            }
+            
+            do {
+                
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let sources = try decoder.decode(SourcesModel.self, from: data)
+                completion(.success(sources))
+                
+            } catch {
+
+                print(error.localizedDescription)
+            }
+            
+        }
+        task.resume()
     }
 }
