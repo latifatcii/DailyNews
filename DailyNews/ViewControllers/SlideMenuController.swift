@@ -15,6 +15,9 @@ class SlideMenuController : UIViewController , UITableViewDataSource , UITableVi
     var sources : [ExpandedSources] = []
     var sourceCategories = ["General","Business","Entertainment","Health","Sports","Science"]
     
+    var sourcesGeneral : [Sources] = []
+    var sourcesString = ""
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +30,7 @@ class SlideMenuController : UIViewController , UITableViewDataSource , UITableVi
         fetchSources()
     }
     
+
     let activityIndicatorView: UIActivityIndicatorView = {
         let aiv = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
         aiv.color = .black
@@ -39,7 +43,7 @@ class SlideMenuController : UIViewController , UITableViewDataSource , UITableVi
         tableView.register(SlideMenuCell.self, forCellReuseIdentifier: slideMenuCellId)
         view.addSubview(tableView)
         
-        tableView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
+        tableView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor,padding: .init(top: 150, left: 0, bottom: 0, right: 0))
         
         tableView.separatorStyle = .none
         tableView.rowHeight = 80
@@ -59,6 +63,12 @@ class SlideMenuController : UIViewController , UITableViewDataSource , UITableVi
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let fsvc = FeaturedCategoryController()
+        fsvc.modalPresentationStyle = .fullScreen
+        present(fsvc , animated: true)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -185,6 +195,7 @@ class SlideMenuController : UIViewController , UITableViewDataSource , UITableVi
         
         dispatchGroup.notify(queue: .main) {
             self.activityIndicatorView.stopAnimating()
+            self.sourcesGeneral.append(contentsOf: generalGroup)
             self.sources.insert(ExpandedSources(isExpanded: false, sources: generalGroup), at: 0)
             self.sources.insert(ExpandedSources(isExpanded: false, sources: businessGroup), at: 1)
             self.sources.insert(ExpandedSources(isExpanded: false, sources: entertainmentGroup), at: 2)
@@ -192,7 +203,12 @@ class SlideMenuController : UIViewController , UITableViewDataSource , UITableVi
             self.sources.insert(ExpandedSources(isExpanded: false, sources: sportsGroup), at: 4)
             self.sources.insert(ExpandedSources(isExpanded: false, sources: scienceGroup), at: 5)
             
-            
+            for source in self.sourcesGeneral {
+                let sourceId = source.id
+                self.sourcesString.append(contentsOf: sourceId)
+                self.sourcesString.append(",")
+            }
+
             self.tableView.reloadData()
         }
         

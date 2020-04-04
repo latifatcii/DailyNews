@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SafariServices
 class SearchNewsController : UIViewController {
     
     var timer : Timer?
@@ -17,6 +17,8 @@ class SearchNewsController : UIViewController {
     var page = 1
     var hasMoreNews = true
     var searchedText : String = ""
+
+
     
     
     let activityIndicatorView: UIActivityIndicatorView = {
@@ -33,6 +35,7 @@ class SearchNewsController : UIViewController {
         configureCollectionView()
         view.addSubview(activityIndicatorView)
         activityIndicatorView.fillSuperview()
+
     }
     
     
@@ -59,7 +62,7 @@ class SearchNewsController : UIViewController {
     
     func searchNews(q : String , page : Int) {
         activityIndicatorView.startAnimating()
-        FetchNews.shared.fetchDataForSearchController(ERequest(q: q, qInTitle: nil, domains: nil, excludeDomains: nil, from: nil, to: nil, language: "en", sortBy: nil, pageSize: 10, page: page)) { (result) in
+        FetchNews.shared.fetchDataForSearchController(ERequest(q: q, qInTitle: nil, domains: nil, excludeDomains: nil, from: nil, to: nil, language: "en", sortBy: nil, pageSize: 10, page: page, sources: nil)) { (result) in
             DispatchQueue.main.async {
                 self.activityIndicatorView.stopAnimating()
             }
@@ -80,10 +83,16 @@ class SearchNewsController : UIViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let newsDetailsVC = NewsDetailsViewController()
-        newsDetailsVC.url = URL(string: news[indexPath.item].url)
-        newsDetailsVC.modalPresentationStyle = .overFullScreen
-        present(newsDetailsVC , animated: true)
+        
+        let sf = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
+        
+//
+//        let newsDetailsVC = NewsDetailsViewController()
+//        newsDetailsVC.url = URL(string: news[indexPath.item].url)
+//        newsDetailsVC.modalPresentationStyle = .overFullScreen
+        sf.modalPresentationStyle = .overFullScreen
+
+        present(sf , animated: true)
         
     }
     
@@ -134,6 +143,8 @@ extension SearchNewsController :  UISearchBarDelegate {
         collectionView.reloadData()
 
     }
+    
+
 
 }
 

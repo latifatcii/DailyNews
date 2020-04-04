@@ -19,9 +19,8 @@ class ContainerController : UIViewController {
         view.backgroundColor = .white
         setupTabBarView()
         tabBar.menuDelegate = self
-        tabBar.feedVC.menuSlideDelegate = self
-        tabBar.feedVC.menuDelegate = self
-
+        tabBar.menuSlideDelegate = self
+        
     }
     
     func setupTabBarView() {
@@ -39,10 +38,10 @@ class ContainerController : UIViewController {
             view.insertSubview(menuController.view, at: 0)
             menuController.didMove(toParent: self)
             
-            menuController.view.backgroundColor = .yellow
+            menuController.view.backgroundColor = .systemBackground
             menuController.didMove(toParent: self)
             
-            menuController.view.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, size: .init(width: 240, height: 0))
+            menuController.view.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, size: .init(width: 260, height: 0))
         }
     }
     
@@ -52,7 +51,7 @@ class ContainerController : UIViewController {
             UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
                 self.tabBar.view.frame.origin.x = 0
                 self.isMenuHidden = true
-                self.tabBar.feedVC.pagingViewController.view.isUserInteractionEnabled = true
+                self.tabBar.feedVC.view.isUserInteractionEnabled = true
                 
                 
             })
@@ -62,14 +61,13 @@ class ContainerController : UIViewController {
                 
                 self.tabBar.view.frame.origin.x = self.tabBar.view.frame.width - 165
                 self.isMenuHidden = false
-                self.tabBar.feedVC.pagingViewController.view.isUserInteractionEnabled = false
-                
+                self.tabBar.feedVC.view.isUserInteractionEnabled = false
                 
             })
         }
     }
     
-
+    
 }
 extension ContainerController : SlideMenuDelegate {
     func configureSlideMenu() {
@@ -94,7 +92,7 @@ extension ContainerController : SlideMenuGestureDelegate {
         
         showMenuController(shouldExpand: true)
         
-
+        
     }
     
     

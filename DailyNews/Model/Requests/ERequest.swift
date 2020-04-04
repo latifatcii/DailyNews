@@ -11,6 +11,7 @@ struct ERequest {
     let sortBy : ESortBy?
     let pageSize : Int?
     let page : Int?
+    let sources : String?
 
 }
 
