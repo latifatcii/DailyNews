@@ -85,13 +85,6 @@ class SearchNewsController : UIViewController {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let sf = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
-        
-//
-//        let newsDetailsVC = NewsDetailsViewController()
-//        newsDetailsVC.url = URL(string: news[indexPath.item].url)
-//        newsDetailsVC.modalPresentationStyle = .overFullScreen
-        sf.modalPresentationStyle = .overFullScreen
-
         present(sf , animated: true)
         
     }

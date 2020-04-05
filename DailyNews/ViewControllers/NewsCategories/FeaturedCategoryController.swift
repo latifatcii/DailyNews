@@ -145,11 +145,7 @@ extension FeaturedCategoryController : UICollectionViewDelegateFlowLayout , UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //        let newsDetailsVC = NewsDetailsViewController()
-        //        newsDetailsVC.url = URL(string: news[indexPath.item].url)
-        //        newsDetailsVC.modalPresentationStyle = .overFullScreen
         let sf = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
-        sf.modalPresentationStyle = .overFullScreen
 
         present(sf , animated: true)
         

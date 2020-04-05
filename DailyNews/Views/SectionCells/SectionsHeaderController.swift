@@ -39,12 +39,8 @@ class SectionsHeaderController: BaseListController , UICollectionViewDelegateFlo
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let sf = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
-        sf.modalPresentationStyle = .overFullScreen
-
-        //        let newsDetailsVC = NewsDetailsViewController()
-        //        newsDetailsVC.url = URL(string: news[indexPath.item].url)
-        //        newsDetailsVC.modalPresentationStyle = .overFullScreen
-        present(sf , animated: true)
+        self.view.window?.rootViewController?.present(sf, animated: true, completion: nil)
+        
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

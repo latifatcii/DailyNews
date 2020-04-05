@@ -26,7 +26,6 @@ class NewsHeaderController: BaseListController , UICollectionViewDelegateFlowLay
         collectionView.showsHorizontalScrollIndicator = false
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return .init(width: view.frame.width, height: view.frame.width / 1.2)
     }
@@ -36,14 +35,9 @@ class NewsHeaderController: BaseListController , UICollectionViewDelegateFlowLay
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        //        let newsDetailsVC = NewsDetailsViewController()
-        //        newsDetailsVC.url = URL(string: news[indexPath.item].url)
-        //        newsDetailsVC.modalPresentationStyle = .overFullScreen
-        let sf = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
-        print(news[indexPath.item].url)
-        sf.modalPresentationStyle = .overFullScreen
-        present(sf , animated: true)
+
+        let sf = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)        
+        self.view.window?.rootViewController?.present(sf, animated: true, completion: nil)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -78,13 +78,11 @@ class TabBarController: UITabBarController {
         let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
         edgePan.edges = .left
         view.addGestureRecognizer(edgePan)
-        print("bbb")
     }
     
     @objc func screenEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
         if recognizer.state == .recognized {
             menuDelegate?.configureSlideMenu()
-            print("aaaa")
         }
         
     }
