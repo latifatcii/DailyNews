@@ -6,11 +6,19 @@
 //  Copyright © 2020 Latif Atci. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol SlideMenuDelegate {
     func configureSlideMenu()
 }
 protocol SlideMenuGestureDelegate {
     func configureTapGestureForSlideMenu()
+}
+
+protocol SlideMenuTableViewDelegate{
+    func configureFavoriteSources(cell : UITableViewCell)
+}
+
+protocol SourcesViewControllerDelegate {
+    func pushToSourcesVC()
 }

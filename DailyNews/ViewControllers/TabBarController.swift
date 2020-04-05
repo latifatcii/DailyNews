@@ -8,14 +8,15 @@
 
 import UIKit
 
-class TabBarController: UITabBarController {
-    
-    let feedVC = NewsViewController()
+class TabBarController: UITabBarController{
+
+    var feedVC = NewsViewController()
     let searchVC = SearchNewsController()
     let categoriesVC = CategoriesViewController()
     var menuDelegate : SlideMenuDelegate?
     var gesture : UITapGestureRecognizer?
     var menuSlideDelegate : SlideMenuGestureDelegate?
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,6 +87,7 @@ class TabBarController: UITabBarController {
         }
         
     }
+    
   
 }
 

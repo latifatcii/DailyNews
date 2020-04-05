@@ -1,11 +1,13 @@
 import UIKit
 
-class SectionsCell : UICollectionViewCell {
+class SectionsCell : UICollectionViewCell  {
+    
     
     let newsImageView = UIImageView(frame: .zero)
     let headerLabel = UILabel(frame: .zero)
     let timeLabel = UILabel(frame: .zero)
     let sourceLabel = UILabel(frame: .zero)
+    
     
     var news : THArticle? {
         didSet {
@@ -35,6 +37,8 @@ class SectionsCell : UICollectionViewCell {
         super.init(frame: frame)
         setupViews()
         backgroundColor = .systemBackground
+
+        
     }
     
     required init?(coder: NSCoder) {
@@ -81,4 +85,5 @@ class SectionsCell : UICollectionViewCell {
         
     }
 }
+
 

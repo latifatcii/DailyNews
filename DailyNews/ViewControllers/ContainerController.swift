@@ -21,6 +21,7 @@ class ContainerController : UIViewController {
         tabBar.menuDelegate = self
         tabBar.menuSlideDelegate = self
         
+        
     }
     
     func setupTabBarView() {
@@ -34,6 +35,7 @@ class ContainerController : UIViewController {
         
         if menuController == nil {
             menuController = SlideMenuController()
+            menuController.sourceDelegate = self
             addChild(menuController)
             view.insertSubview(menuController.view, at: 0)
             menuController.didMove(toParent: self)
@@ -41,35 +43,42 @@ class ContainerController : UIViewController {
             menuController.view.backgroundColor = .systemBackground
             menuController.didMove(toParent: self)
             
-            menuController.view.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, size: .init(width: 260, height: 0))
+            menuController.view.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, size: .init(width: 250, height: 0))
         }
     }
     
     func showMenuController(shouldExpand : Bool) {
-        if shouldExpand {
+        if !shouldExpand {
+            
+            
             
             UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
-                self.tabBar.view.frame.origin.x = 0
-                self.isMenuHidden = true
-                self.tabBar.feedVC.view.isUserInteractionEnabled = true
-                
-                
-            })
+                self.tabBar.view.frame.origin.x = self.tabBar.view.frame.width - 165
+            }) { (_) in
+                self.tabBar.feedVC.view.isUserInteractionEnabled = false
+
+            }
         }
         else  {
             UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
+                self.tabBar.view.frame.origin.x = 0
                 
-                self.tabBar.view.frame.origin.x = self.tabBar.view.frame.width - 165
-                self.isMenuHidden = false
-                self.tabBar.feedVC.view.isUserInteractionEnabled = false
-                
-            })
+            }) { (_) in
+                self.isMenuHidden = true
+                self.tabBar.feedVC.view.isUserInteractionEnabled = true
+//                self.pushToSourcesVC()
+            }
         }
     }
     
     
 }
-extension ContainerController : SlideMenuDelegate {
+extension ContainerController : SlideMenuDelegate , SourcesViewControllerDelegate {
+    func pushToSourcesVC() {
+        
+        print("bas")
+    }
+    
     func configureSlideMenu() {
         
         if isMenuHidden {
@@ -86,12 +95,9 @@ extension ContainerController : SlideMenuDelegate {
 extension ContainerController : SlideMenuGestureDelegate {
     func configureTapGestureForSlideMenu() {
         
-        if isMenuHidden {
-            setupMenuController()
-        }
-        
+
         showMenuController(shouldExpand: true)
-        
+
         
     }
     

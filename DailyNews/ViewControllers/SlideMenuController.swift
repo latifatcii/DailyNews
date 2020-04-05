@@ -8,7 +8,10 @@
 
 import UIKit
 
-class SlideMenuController : UIViewController , UITableViewDataSource , UITableViewDelegate {
+class SlideMenuController : UIViewController , UITableViewDataSource , UITableViewDelegate , SlideMenuTableViewDelegate {
+    
+
+    
     
     var tableView : UITableView!
     let slideMenuCellId = "CellId"
@@ -17,7 +20,19 @@ class SlideMenuController : UIViewController , UITableViewDataSource , UITableVi
     
     var sourcesGeneral : [Sources] = []
     var sourcesString = ""
+    var sourceDelegate : SourcesViewControllerDelegate?
     
+
+    func configureFavoriteSources(cell: UITableViewCell) {
+        
+        let indexPath = tableView.indexPath(for: cell)
+        
+        let sourceId = sources[indexPath!.section].sources[indexPath!.row].id
+        sourcesString = sourceId
+        let sourceVC = SourcesViewController()
+        sourceVC.sourceId = sourceId
+        sourceDelegate?.pushToSourcesVC()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,9 +59,10 @@ class SlideMenuController : UIViewController , UITableViewDataSource , UITableVi
         view.addSubview(tableView)
         
         tableView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor,padding: .init(top: 150, left: 0, bottom: 0, right: 0))
-        
+        tableView.showsVerticalScrollIndicator = false
         tableView.separatorStyle = .none
-        tableView.rowHeight = 80
+        
+        tableView.rowHeight = 40
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -64,23 +80,40 @@ class SlideMenuController : UIViewController , UITableViewDataSource , UITableVi
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
+
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let fsvc = FeaturedCategoryController()
-        fsvc.modalPresentationStyle = .fullScreen
-        present(fsvc , animated: true)
+//        let fsvc = SourcesViewController()
+//        fsvc.modalPresentationStyle = .overFullScreen
+//        present(fsvc , animated: true)
+//        sourceDelegate?.pushToSourcesVC()
+
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
+        let headerView = UIView()
         
         let button = UIButton(type: .system)
-        button.setTitle(sourceCategories[section], for: .normal)
+        button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
         button.backgroundColor = .systemGray3
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(handleExpanding), for: .touchUpInside)
         button.tag = section
-        return button
+        
+        let label = UILabel(text: sourceCategories[section], font: .boldSystemFont(ofSize: 16))
+
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.addArrangedSubview(label)
+        stackView.addArrangedSubview(button)
+        stackView.distribution = .equalCentering
+        stackView.alignment = .center
+        
+        headerView.addSubview(stackView)
+        stackView.anchor(top: headerView.topAnchor, leading: headerView.leadingAnchor, bottom: headerView.bottomAnchor, trailing: headerView.trailingAnchor,padding: .init(top: 0, left: 0, bottom: 0, right: 10))
+        
+        return headerView
     }
     
     @objc func handleExpanding(button : UIButton) {
@@ -98,9 +131,13 @@ class SlideMenuController : UIViewController , UITableViewDataSource , UITableVi
         
         if isExpanded {
             tableView.deleteRows(at: indexPaths, with: .fade)
+            button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+
         }
         else {
             tableView.insertRows(at: indexPaths, with: .fade)
+            button.setImage(UIImage(systemName: "chevron.up"), for: .normal)
+
         }
         
     }
@@ -108,9 +145,10 @@ class SlideMenuController : UIViewController , UITableViewDataSource , UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: slideMenuCellId, for: indexPath) as! SlideMenuCell
-        cell.menuLabel.text = sources[indexPath.section].sources[indexPath.row].name
         
+        cell.sources = self.sources[indexPath.section].sources[indexPath.row]
         cell.selectionStyle = .none
+        cell.slideDelegate = self
         return cell
     }
     
@@ -203,12 +241,6 @@ class SlideMenuController : UIViewController , UITableViewDataSource , UITableVi
             self.sources.insert(ExpandedSources(isExpanded: false, sources: sportsGroup), at: 4)
             self.sources.insert(ExpandedSources(isExpanded: false, sources: scienceGroup), at: 5)
             
-            for source in self.sourcesGeneral {
-                let sourceId = source.id
-                self.sourcesString.append(contentsOf: sourceId)
-                self.sourcesString.append(",")
-            }
-
             self.tableView.reloadData()
         }
         

@@ -10,6 +10,7 @@ import UIKit
 import SafariServices
 
 class NewsViewController : UIViewController {
+
     
     let layout = UICollectionViewFlowLayout()
     var news : [EArticle] = []
@@ -38,9 +39,8 @@ class NewsViewController : UIViewController {
         activityIndicatorView.fillSuperview()
         fetchNews(page: page)
         
-        
     }
-    
+
     func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemGray5
@@ -156,7 +156,4 @@ extension NewsViewController : UICollectionViewDelegateFlowLayout , UICollection
         present(sf , animated: true)
         
     }
-
-
-    
 }
