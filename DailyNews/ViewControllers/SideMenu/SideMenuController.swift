@@ -54,8 +54,9 @@ class SideMenuController : UIViewController {
         
         
         let sourceNameLabel = UILabel(text: "Daily News", font: .boldSystemFont(ofSize: 22))
+        sourceNameLabel.adjustsFontSizeToFitWidth = true
         slideMenuTopView.addSubview(sourceNameLabel)
-        sourceNameLabel.centerInSuperview()
+        sourceNameLabel.anchor(top: slideMenuTopView.topAnchor, leading: appIconImage.trailingAnchor, bottom: slideMenuTopView.bottomAnchor, trailing: nil, padding: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0), size: .zero)
     }
     
     
