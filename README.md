@@ -33,4 +33,4 @@ It is powered by NewsAPI !
 
 ## Licanse
 
-Mit
+MIT
