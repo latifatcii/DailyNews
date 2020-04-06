@@ -18,10 +18,7 @@ class SearchNewsController : UIViewController {
     var page = 1
     var hasMoreNews = true
     var searchedText : String = ""
-
-
     let activityIndicatorView = UIActivityIndicatorView(color: .black)
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,10 +27,7 @@ class SearchNewsController : UIViewController {
         configureCollectionView()
         view.addSubview(activityIndicatorView)
         activityIndicatorView.fillSuperview()
-
     }
-    
-    
     func configureSearchController() {
         let searchController = UISearchController()
         searchController.obscuresBackgroundDuringPresentation = false
@@ -53,7 +47,6 @@ class SearchNewsController : UIViewController {
         
         collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor)
     }
-
     
     func searchNews(q : String , page : Int) {
         activityIndicatorView.startAnimating()
@@ -119,8 +112,9 @@ extension SearchNewsController :  UISearchBarDelegate {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
             self.news.removeAll()
-            self.searchNews(q: searchText, page: self.page)
-            self.searchedText = searchText
+            let searchedText = searchText.replacingOccurrences(of: " ", with: "-")
+            self.searchNews(q: searchedText, page: self.page)
+            self.searchedText = searchedText
         })
         
     }

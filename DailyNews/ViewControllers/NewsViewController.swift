@@ -18,7 +18,6 @@ class NewsViewController : UIViewController {
     var collectionView : UICollectionView!
     let newsCellId = "newsCellId"
     let headerNewsCellId = "headerCellId"
-    var sourcesString = ""
     var page = 2
     var hasMoreNews = true
 
@@ -45,14 +44,6 @@ class NewsViewController : UIViewController {
         collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor)
     }
 
-    func configureSourcesString() {
-        for source in sources {
-            let sourceId = source.id
-            sourcesString.append(contentsOf: sourceId)
-            sourcesString.append(",")
-        }
-        
-    }
     
     func fetchNews(page : Int) {
         let dispatchGroup = DispatchGroup()

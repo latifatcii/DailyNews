@@ -35,13 +35,11 @@ class SourcesViewController : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(sourceId!)
         view.backgroundColor = .white
         configureCollectionView()
         fetchNews(source: sourceId, page: 1)
         view.addSubview(activityIndicatorView)
         activityIndicatorView.fillSuperview()
-        configureDismissButton()
     }
         
     private func configureCollectionView() {
@@ -52,29 +50,9 @@ class SourcesViewController : UIViewController {
         collectionView.dataSource = self
         view.addSubview(collectionView)
 
-        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor,padding: .init(top: 30, left: 0, bottom: 0, right: 0))
+        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor,padding: .init(top: 0, left: 0, bottom: 0, right: 0))
     }
-    
-    private func configureDismissButton() {
-        let topView = UIView(frame: .zero)
-        view.addSubview(topView)
-        
-        topView.addSubview(dismissButton)
-        topView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: collectionView.topAnchor, trailing: view.trailingAnchor,padding: .init(top: 10, left: 0, bottom: 0, right: 0))
-        
-        dismissButton.anchor(top: topView.topAnchor, leading: topView.leadingAnchor, bottom: topView.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 10, bottom: 0, right: 0),size: .init(width: 50, height: 0))
-        
-        dismissButton.addTarget(self, action: #selector(dismissVC), for: .touchUpInside)
-        
-        let sourceNameLabel = UILabel(text: sourceName, font: .boldSystemFont(ofSize: 18))
-        topView.addSubview(sourceNameLabel)
-        sourceNameLabel.centerInSuperview()
-    }
-    
-    @objc private func dismissVC() {
-        dismiss(animated: true, completion: nil)
-    }
-    
+
     private func fetchNews(source : String , page : Int) {
         activityIndicatorView.startAnimating()
         FetchNews.shared.fetchNewsWithSources(ERequest(q: nil, qInTitle: nil, domains: nil, excludeDomains: nil, from: nil, to: nil, language: "en", sortBy: nil, pageSize: 10, page: page, sources: source)) { (result) in

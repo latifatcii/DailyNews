@@ -12,11 +12,6 @@ class CategoriesViewController : UIViewController {
     
     var collectionView : UICollectionView!
     let cellId = "cellId"
-    let listOfCategories = [FeaturedCategoryController(),BusinessCategoryController(),SportsCategoryController(),TechnologyCategoryController(),ScienceCategoryController(),EntertainmentCategoryController(),HealthCategoryController()]
-    
-    let categoryImageNames = ["featured","business","sports","technology","science","entertainment","health"]
-    
-    let categoryNames = ["Featured","Business","Sports","Technology","Science","Entertainment","Health"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +19,7 @@ class CategoriesViewController : UIViewController {
     }
     
     func configureCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createTwoColumnFlowLayout(in: view))
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createTwoColumnFlowLayoutForCategories(in : view))
         collectionView.backgroundColor = .systemBackground
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -44,16 +39,16 @@ extension CategoriesViewController : UICollectionViewDelegateFlowLayout,UICollec
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CategoriesCell
-        cell.categoryImageView.image = UIImage(named: categoryImageNames[indexPath.item])
-        cell.categoryLabel.text = categoryNames[indexPath.item]
+        cell.categoryImageView.image = UIImage(named: Constants.categoryImageNames[indexPath.item])
+        cell.categoryLabel.text = Constants.categoryNames[indexPath.item]
         
         return cell
         
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        listOfCategories[indexPath.item].title = categoryNames[indexPath.item]
-        self.navigationController?.pushViewController(listOfCategories[indexPath.item], animated: true)
+        Constants.listOfCategories[indexPath.item].title = Constants.categoryNames[indexPath.item]
+        self.navigationController?.pushViewController(Constants.listOfCategories[indexPath.item], animated: true)
         
     }
     

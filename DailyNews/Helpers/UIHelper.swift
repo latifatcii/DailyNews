@@ -2,6 +2,7 @@ import UIKit
 
 struct UIHelper {
     
+    //Sean Allen Github-Followers
     static func createThreeColumnFlowLayout(in view : UIView) -> UICollectionViewFlowLayout {
         let width = view.bounds.width
         let padding : CGFloat = 12
@@ -12,11 +13,10 @@ struct UIHelper {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
         flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth + 40)
-        
-        
-        
+
         return flowLayout
     }
+    //Sean Allen Github-Followers
     static func createTwoColumnFlowLayout(in view : UIView) -> UICollectionViewFlowLayout {
         let width = view.bounds.width
         let padding : CGFloat = 15
@@ -27,6 +27,21 @@ struct UIHelper {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
         flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth + 20)
+
+        return flowLayout
+    }
+    
+    //Sean Allen Github-Followers
+    static func createTwoColumnFlowLayoutForCategories(in view : UIView) -> UICollectionViewFlowLayout {
+        let width = view.bounds.width
+        let padding : CGFloat = 15
+        let minimumItemSpacing : CGFloat = 12
+        let availableWidth = width - (padding * 2) - (minimumItemSpacing * 2)
+        let itemWidth = availableWidth / 2
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+        flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
 
         return flowLayout
     }

@@ -1,7 +1,5 @@
-//ff5f1bcd02d643f38454768fbc539040
-//8937c23c392f4972873b51f17d46d42d
-import UIKit
 
+import UIKit
 
 class FetchNews {
     static let shared = FetchNews()
@@ -14,7 +12,7 @@ class FetchNews {
         guard let pageSize = from.pageSize else { return }
         guard let category = from.category else { return }
         
-        let endpoint = EndPointType().TopHeadline + "?apiKey=ff5f1bcd02d643f38454768fbc539040&country=\(country)&pageSize=\(pageSize)&page=\(page)&category=\(category)"
+        let endpoint = EndPointType().TopHeadline + "?apiKey=YOURAPIKEY&country=\(country)&pageSize=\(pageSize)&page=\(page)&category=\(category)"
         
         guard let url = URL(string: endpoint) else {
             return }
@@ -22,7 +20,7 @@ class FetchNews {
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             if let _ = error {
-                print("hata1")
+                print("error1")
             }
             
             guard let response = response as? HTTPURLResponse , response.statusCode == 200 else {
@@ -62,7 +60,7 @@ class FetchNews {
         guard let language = from.language else { return }
         guard let q = from.q else { return }
         
-        let endpoint = EndPointType().Everything + "?apiKey=ff5f1bcd02d643f38454768fbc539040&language=\(language)&pageSize=\(pageSize)&q=\(q)&page=\(page)"
+        let endpoint = EndPointType().Everything + "?apiKey=YOURAPIKEY&language=\(language)&pageSize=\(pageSize)&q=\(q)&page=\(page)"
         
         guard let url = URL(string: endpoint) else {
             return }
@@ -70,7 +68,7 @@ class FetchNews {
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             if let _ = error {
-                print("hata1")
+                print("error1")
             }
             
             guard let response = response as? HTTPURLResponse , response.statusCode == 200 else {
@@ -107,7 +105,7 @@ class FetchNews {
         guard let sources = from.sources else { return }
         guard let sortBy = from.sortBy else { return }
         
-        let endpoint = EndPointType().Everything + "?apiKey=ff5f1bcd02d643f38454768fbc539040&language=\(language)&pageSize=\(pageSize)&page=\(page)&sources=\(sources)&sortBy=\(sortBy)"
+        let endpoint = EndPointType().Everything + "?apiKey=YOURAPIKEY&language=\(language)&pageSize=\(pageSize)&page=\(page)&sources=\(sources)&sortBy=\(sortBy)"
         
         guard let url = URL(string: endpoint) else {
             return }
@@ -115,7 +113,7 @@ class FetchNews {
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             if let _ = error {
-                print("hata1")
+                print("error1")
             }
             
             guard let response = response as? HTTPURLResponse , response.statusCode == 200 else {
@@ -148,16 +146,15 @@ class FetchNews {
         
         guard let category = from.category else { return }
         guard let language = from.language else { return }
-//        guard let country = from.country else { return }
         
-        let endpoint = EndPointType().SourcesRepsonses + "?apiKey=ff5f1bcd02d643f38454768fbc539040&category=\(category)&language\(language)"
+        let endpoint = EndPointType().SourcesRepsonses + "?apiKey=YOURAPIKEY&category=\(category)&language\(language)"
         
         guard let url = URL(string: endpoint) else { return }
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             if let _ = error {
-                print("hata1")
+                print("error1")
             }
             
             guard let response = response as? HTTPURLResponse , response.statusCode == 200 else {
@@ -191,9 +188,8 @@ class FetchNews {
         guard let pageSize = from.pageSize else { return }
         guard let language = from.language else { return }
         guard let sources = from.sources else { return }
-//        guard let sortBy = from.sortBy else { return }
         
-        let endpoint = EndPointType().Everything + "?apiKey=ff5f1bcd02d643f38454768fbc539040&language=\(language)&pageSize=\(pageSize)&page=\(page)&sources=\(sources)"
+        let endpoint = EndPointType().Everything + "?apiKey=YOURAPIKEY&language=\(language)&pageSize=\(pageSize)&page=\(page)&sources=\(sources)"
         
         guard let url = URL(string: endpoint) else {
             return }
@@ -201,7 +197,7 @@ class FetchNews {
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             if let _ = error {
-                print("hata1")
+                print("error1")
             }
             
             guard let response = response as? HTTPURLResponse , response.statusCode == 200 else {

@@ -8,21 +8,19 @@
 
 import UIKit
 
-class SlideMenuController : UIViewController {
+class SideMenuController : UIViewController {
     
-    var slideMenuTopView = UIView()
+
     var tableView : UITableView!
-    let slideMenuCellId = "CellId"
+    let sideMenuCellId = "CellId"
     var sources : [ExpandedSources] = []
     var sourceCategories = ["General","Business","Entertainment","Health","Sports","Science"]
     
-    var sourcesString = ""
     var sourceDelegate : SourcesViewControllerDelegate?
     let activityIndicatorView = UIActivityIndicatorView(color: .black)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
         configureTableView()
         configureTopView()
         view.addSubview(activityIndicatorView)
@@ -31,28 +29,34 @@ class SlideMenuController : UIViewController {
         
     }
     private func configureTableView() {
-        tableView = UITableView(frame: .zero, style: .plain)
+        tableView = UITableView(frame: .zero, style: .insetGrouped)
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(SlideMenuCell.self, forCellReuseIdentifier: slideMenuCellId)
+        tableView.register(SlideMenuCell.self, forCellReuseIdentifier: sideMenuCellId)
         view.addSubview(tableView)
-        
-        tableView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor,padding: .init(top: 150, left: 0, bottom: 0, right: 0))
+        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor,padding: .init(top: 60, left: 0, bottom: 0, right: 0))
         tableView.showsVerticalScrollIndicator = false
-        tableView.separatorStyle = .none
         tableView.rowHeight = 40
+        tableView.separatorStyle = .none
     }
-    
     private func configureTopView() {
+        let slideMenuTopView = UIView(frame : .zero)
+
         view.addSubview(slideMenuTopView)
-        slideMenuTopView.backgroundColor = .black
         
-        slideMenuTopView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.leadingAnchor,size: .init(width: 0, height: 150))
+        slideMenuTopView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: tableView.topAnchor, trailing: view.trailingAnchor)
+        
+        let appIconImage = UIImageView(image: UIImage(named: "applogo"))
+        slideMenuTopView.addSubview(appIconImage)
+        appIconImage.anchor(top: slideMenuTopView.topAnchor, leading: slideMenuTopView.leadingAnchor, bottom: slideMenuTopView.bottomAnchor, trailing: nil,size: .init(width: 60, height: 0))
+        appIconImage.layer.cornerRadius = 10
+        
+        
+        let sourceNameLabel = UILabel(text: "Daily News", font: .boldSystemFont(ofSize: 22))
+        slideMenuTopView.addSubview(sourceNameLabel)
+        sourceNameLabel.centerInSuperview()
     }
-    
-    
-    
     
     
     func fetchSources() {
@@ -151,13 +155,12 @@ class SlideMenuController : UIViewController {
     
 }
 
-extension SlideMenuController : SlideMenuTableViewDelegate {
+extension SideMenuController : SlideMenuTableViewDelegate {
     
     func didSelectSlideMenuCell(cell: UITableViewCell) {
         let indexPath = tableView.indexPath(for: cell)
         let sourceId = sources[indexPath!.section].sources[indexPath!.row].id
         let sourceName = sources[indexPath!.section].sources[indexPath!.row].name
-        sourcesString = sourceId
         let sourceVC = SourcesViewController()
         sourceVC.sourceId = sourceId
         sourceVC.sourceName = sourceName
@@ -165,7 +168,7 @@ extension SlideMenuController : SlideMenuTableViewDelegate {
     }
 }
 
-extension SlideMenuController : UITableViewDelegate,UITableViewDataSource {
+extension SideMenuController : UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -184,7 +187,7 @@ extension SlideMenuController : UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: slideMenuCellId, for: indexPath) as! SlideMenuCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: sideMenuCellId, for: indexPath) as! SlideMenuCell
         
         cell.sources = self.sources[indexPath.section].sources[indexPath.row]
         cell.selectionStyle = .none
@@ -195,7 +198,6 @@ extension SlideMenuController : UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let headerView = UIView()
-        
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
         button.setTitleColor(.black, for: .normal)

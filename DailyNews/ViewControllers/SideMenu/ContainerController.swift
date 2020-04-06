@@ -11,7 +11,7 @@ import UIKit
 class ContainerController : UIViewController {
     
     let tabBar = TabBarController()
-    var menuController : SlideMenuController!
+    var menuController : SideMenuController!
     private var isMenuHidden = true
     
     override func viewDidLoad() {
@@ -20,8 +20,6 @@ class ContainerController : UIViewController {
         setupTabBarView()
         tabBar.menuDelegate = self
         tabBar.menuSlideDelegate = self
-        
-        
     }
     
     func setupTabBarView() {
@@ -29,18 +27,14 @@ class ContainerController : UIViewController {
         addChild(tabBar)
         tabBar.didMove(toParent: self)
     }
-    
-    
     func setupMenuController() {
         
         if menuController == nil {
-            menuController = SlideMenuController()
+            menuController = SideMenuController()
             menuController.sourceDelegate = self
             addChild(menuController)
             view.insertSubview(menuController.view, at: 0)
             menuController.didMove(toParent: self)
-            
-            menuController.view.backgroundColor = .systemBackground
             menuController.didMove(toParent: self)
             
             menuController.view.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, size: .init(width: 250, height: 0))
@@ -49,12 +43,12 @@ class ContainerController : UIViewController {
     
     func showMenuController(shouldExpand : Bool) {
         if !shouldExpand {
-
+            
             UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
                 self.tabBar.view.frame.origin.x = self.tabBar.view.frame.width - 165
             }) { (_) in
                 self.tabBar.feedVC.view.isUserInteractionEnabled = false
-
+                
             }
         }
         else  {
@@ -73,7 +67,7 @@ extension ContainerController : SlideMenuDelegate , SourcesViewControllerDelegat
         
         showMenuController(shouldExpand: true)
         source.modalPresentationStyle = .fullScreen
-        self.present(source,animated: true)
+        tabBar.feedVC.navigationController?.pushViewController(source, animated: true)
     }
     
     func configureSlideMenu() {
@@ -85,7 +79,6 @@ extension ContainerController : SlideMenuDelegate , SourcesViewControllerDelegat
         isMenuHidden = !isMenuHidden
         showMenuController(shouldExpand: isMenuHidden)
     }
-    
     
 }
 
