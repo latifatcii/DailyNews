@@ -16,9 +16,9 @@ protocol SlideMenuGestureDelegate {
 }
 
 protocol SlideMenuTableViewDelegate{
-    func configureFavoriteSources(cell : UITableViewCell)
+    func didSelectSlideMenuCell(cell : UITableViewCell)
 }
 
 protocol SourcesViewControllerDelegate {
-    func pushToSourcesVC()
+    func pushToSourcesVC(source : UIViewController)
 }

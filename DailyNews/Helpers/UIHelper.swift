@@ -27,9 +27,16 @@ struct UIHelper {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
         flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth + 20)
-        
-        
-        
+
         return flowLayout
+    }
+    
+    static func activityIndicatorView() -> UIActivityIndicatorView {
+        
+        let activityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+            activityIndicatorView.color = .black
+            activityIndicatorView.hidesWhenStopped = true
+            return activityIndicatorView
+
     }
 }

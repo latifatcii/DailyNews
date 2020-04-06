@@ -34,3 +34,11 @@ extension UIButton {
     }
 }
 
+extension UIActivityIndicatorView {
+    convenience init(color : UIColor) {
+        self.init(style : UIActivityIndicatorView.Style.large)
+        self.color = color
+        self.hidesWhenStopped = true
+    }
+}
+

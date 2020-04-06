@@ -40,7 +40,6 @@ class TabBarController: UITabBarController{
 
         
         let feedNavigationController = UINavigationController(rootViewController: feedVC)
-        
         let categoriesNavigationController = UINavigationController(rootViewController: categoriesVC)
         
         let searchNavigationController = UINavigationController(rootViewController: searchVC)

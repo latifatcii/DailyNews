@@ -49,9 +49,7 @@ class ContainerController : UIViewController {
     
     func showMenuController(shouldExpand : Bool) {
         if !shouldExpand {
-            
-            
-            
+
             UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
                 self.tabBar.view.frame.origin.x = self.tabBar.view.frame.width - 165
             }) { (_) in
@@ -66,17 +64,16 @@ class ContainerController : UIViewController {
             }) { (_) in
                 self.isMenuHidden = true
                 self.tabBar.feedVC.view.isUserInteractionEnabled = true
-//                self.pushToSourcesVC()
             }
         }
     }
-    
-    
 }
 extension ContainerController : SlideMenuDelegate , SourcesViewControllerDelegate {
-    func pushToSourcesVC() {
+    func pushToSourcesVC(source : UIViewController) {
         
-        print("bas")
+        showMenuController(shouldExpand: true)
+        source.modalPresentationStyle = .fullScreen
+        self.present(source,animated: true)
     }
     
     func configureSlideMenu() {
@@ -94,12 +91,6 @@ extension ContainerController : SlideMenuDelegate , SourcesViewControllerDelegat
 
 extension ContainerController : SlideMenuGestureDelegate {
     func configureTapGestureForSlideMenu() {
-        
-
         showMenuController(shouldExpand: true)
-
-        
     }
-    
-    
 }

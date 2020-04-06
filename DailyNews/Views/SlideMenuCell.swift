@@ -49,7 +49,7 @@ class SlideMenuCell : UITableViewCell {
     
     @objc func addFavorite(button : UIButton) {
 
-        slideDelegate?.configureFavoriteSources(cell: self)
+        slideDelegate?.didSelectSlideMenuCell(cell: self)
     }
     
     

@@ -52,6 +52,7 @@ extension CategoriesViewController : UICollectionViewDelegateFlowLayout,UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        listOfCategories[indexPath.item].title = categoryNames[indexPath.item]
         self.navigationController?.pushViewController(listOfCategories[indexPath.item], animated: true)
         
     }

@@ -11,6 +11,7 @@ import SafariServices
 
 class SourcesViewController : UIViewController {
     
+    var sourceName : String!
     var sourceId : String!
     var collectionView : UICollectionView!
     var news : [EArticle] = []
@@ -18,6 +19,11 @@ class SourcesViewController : UIViewController {
     var hasMoreNews = true
     let cellId = "cellId"
 
+    let dismissButton : UIButton = {
+        let button = UIButton(title: "Close")
+        
+        return button
+    }()
     
     let activityIndicatorView: UIActivityIndicatorView = {
         let aiv = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
@@ -30,12 +36,14 @@ class SourcesViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print(sourceId!)
+        view.backgroundColor = .white
         configureCollectionView()
         fetchNews(source: sourceId, page: 1)
         view.addSubview(activityIndicatorView)
         activityIndicatorView.fillSuperview()
+        configureDismissButton()
     }
-    
+        
     private func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createTwoColumnFlowLayout(in: view))
         collectionView.register(SearchCell.self, forCellWithReuseIdentifier: cellId)
@@ -43,8 +51,28 @@ class SourcesViewController : UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(collectionView)
+
+        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor,padding: .init(top: 30, left: 0, bottom: 0, right: 0))
+    }
+    
+    private func configureDismissButton() {
+        let topView = UIView(frame: .zero)
+        view.addSubview(topView)
         
-        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor)
+        topView.addSubview(dismissButton)
+        topView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: collectionView.topAnchor, trailing: view.trailingAnchor,padding: .init(top: 10, left: 0, bottom: 0, right: 0))
+        
+        dismissButton.anchor(top: topView.topAnchor, leading: topView.leadingAnchor, bottom: topView.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 10, bottom: 0, right: 0),size: .init(width: 50, height: 0))
+        
+        dismissButton.addTarget(self, action: #selector(dismissVC), for: .touchUpInside)
+        
+        let sourceNameLabel = UILabel(text: sourceName, font: .boldSystemFont(ofSize: 18))
+        topView.addSubview(sourceNameLabel)
+        sourceNameLabel.centerInSuperview()
+    }
+    
+    @objc private func dismissVC() {
+        dismiss(animated: true, completion: nil)
     }
     
     private func fetchNews(source : String , page : Int) {
@@ -70,7 +98,6 @@ class SourcesViewController : UIViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         let sf = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
         present(sf , animated: true)
         

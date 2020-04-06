@@ -19,12 +19,20 @@ class SearchCell : UICollectionViewCell {
     var news : EArticle? {
         didSet {
             if let news = news {
+                if let newsImageUrl = news.urlToImage {
                 let time = news.publishedAt.getTimeAgo()
                 headerLabel.text = news.title
                 timeLabel.text = time
                 sourceLabel.text = news.source.name
-                newsImageView.sd_setImage(with: URL(string: news.urlToImage ?? ""))
+                    if newsImageUrl != "null" {
+                        newsImageView.sd_setImage(with: URL(string: newsImageUrl))
+                        
+                    }
+                    else {
+                        newsImageView.image = UIImage(named: "placeholderNews")
 
+                    }
+                }
             }
         }
     }
@@ -46,6 +54,7 @@ class SearchCell : UICollectionViewCell {
         
         newsImageView.clipsToBounds = true
         newsImageView.layer.cornerRadius = 10
+
         
         headerLabel.textColor = .darkGray
         headerLabel.translatesAutoresizingMaskIntoConstraints = false

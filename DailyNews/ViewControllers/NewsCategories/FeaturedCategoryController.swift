@@ -20,25 +20,15 @@ class FeaturedCategoryController : UIViewController{
     let headerCellId = "headerCellId"
     var page = 2
     var hasMoreNews = true
-    
-    
-    let activityIndicatorView: UIActivityIndicatorView = {
-        let aiv = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-        aiv.color = .black
-        aiv.hidesWhenStopped = true
-        return aiv
-    }()
+    let activityIndicatorView = UIActivityIndicatorView(color: .black)
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        self.title = "Featured"
         configureCollectionView()
         view.addSubview(activityIndicatorView)
         activityIndicatorView.fillSuperview()
         fetchNews(page: page)
-        
-        
-        
     }
     
     func configureCollectionView() {
@@ -53,9 +43,6 @@ class FeaturedCategoryController : UIViewController{
         view.addSubview(collectionView)
         collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor)
     }
-    
-    
-    
     func fetchNews(page : Int) {
         let dispatchGroup = DispatchGroup()
         var headerGroup : [THArticle] = []
@@ -94,29 +81,6 @@ class FeaturedCategoryController : UIViewController{
             self.collectionView.reloadData()
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerCellId, for: indexPath) as! SectionsPageHeader
-        header.feedHeaderController.news = self.headerNews
-        header.feedHeaderController.collectionView.reloadData()
-        return header
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return .init(width: view.frame.width, height: view.frame.width / 1.2)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: feedCellId, for: indexPath) as! SectionsCell
-        let article = news[indexPath.item]
-        cell.news = article
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return news.count
-    }
-    
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
@@ -149,6 +113,28 @@ extension FeaturedCategoryController : UICollectionViewDelegateFlowLayout , UICo
 
         present(sf , animated: true)
         
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerCellId, for: indexPath) as! SectionsPageHeader
+        header.feedHeaderController.news = self.headerNews
+        header.feedHeaderController.collectionView.reloadData()
+        return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return .init(width: view.frame.width, height: view.frame.width / 1.2)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: feedCellId, for: indexPath) as! SectionsCell
+        let article = news[indexPath.item]
+        cell.news = article
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return news.count
     }
     
     

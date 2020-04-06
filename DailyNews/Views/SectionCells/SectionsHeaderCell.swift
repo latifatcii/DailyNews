@@ -9,8 +9,16 @@ class SectionsHeaderCell: UICollectionViewCell {
     var news : THArticle? {
         didSet {
             if let news = news {
-                newsImageView.sd_setImage(with: URL(string: news.urlToImage ?? ""))
-                headerLabel.text = news.title
+                if let newsImageUrl = news.urlToImage {
+                    headerLabel.text = news.title
+                    
+                    if newsImageUrl != "null" {
+                        newsImageView.sd_setImage(with: URL(string: newsImageUrl))
+                    }
+                    else {
+                        newsImageView.image = UIImage(named: "placeholderNews")
+                    }
+                }
             }
         }
     }
@@ -18,8 +26,15 @@ class SectionsHeaderCell: UICollectionViewCell {
     var newsEverything : EArticle? {
         didSet {
             if let newsEverything = newsEverything {
-                newsImageView.sd_setImage(with: URL(string: newsEverything.urlToImage ?? ""))
-                headerLabel.text = newsEverything.title
+                if let newsImageUrl = newsEverything.urlToImage {
+                    headerLabel.text = newsEverything.title
+                    if newsImageUrl != "null" {
+                        newsImageView.sd_setImage(with: URL(string: newsImageUrl))
+                    }
+                    else {
+                        newsImageView.image = UIImage(named: "placeholderNews")
+                    }
+                }
             }
         }
     }
@@ -40,6 +55,7 @@ class SectionsHeaderCell: UICollectionViewCell {
         addSubview(newsImageView)
         
         newsImageView.layer.cornerRadius = 10
+        newsImageView.image = UIImage(named: "placeholderNews")
         
         stackView.alignment = .center
         stackView.axis = .vertical

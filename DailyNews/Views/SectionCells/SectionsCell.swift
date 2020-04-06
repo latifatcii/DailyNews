@@ -12,11 +12,18 @@ class SectionsCell : UICollectionViewCell  {
     var news : THArticle? {
         didSet {
             if let news = news {
-                let time = news.publishedAt.getTimeAgo()
-                headerLabel.text = news.title
-                timeLabel.text = time
-                sourceLabel.text = news.source.name
-                newsImageView.sd_setImage(with: URL(string: news.urlToImage ?? ""))
+                if let newsImageUrl = news.urlToImage {
+                    let time = news.publishedAt.getTimeAgo()
+                    headerLabel.text = news.title
+                    timeLabel.text = time
+                    sourceLabel.text = news.source.name
+                    if newsImageUrl != "null" {
+                        newsImageView.sd_setImage(with: URL(string: newsImageUrl))
+                    }
+                    else {
+                        newsImageView.image = UIImage(named: "placeholderNews")
+                    }
+                }
             }
         }
     }
@@ -24,11 +31,18 @@ class SectionsCell : UICollectionViewCell  {
     var newsEverything : EArticle? {
         didSet {
             if let newsEverything = newsEverything {
-                let time = newsEverything.publishedAt.getTimeAgo()
-                headerLabel.text = newsEverything.title
-                timeLabel.text = time
-                sourceLabel.text = newsEverything.source.name
-                newsImageView.sd_setImage(with: URL(string: newsEverything.urlToImage ?? ""))
+                if let newsImageUrl = newsEverything.urlToImage {
+                    let time = newsEverything.publishedAt.getTimeAgo()
+                    headerLabel.text = newsEverything.title
+                    timeLabel.text = time
+                    sourceLabel.text = newsEverything.source.name
+                    if newsImageUrl != "null"{
+                        newsImageView.sd_setImage(with: URL(string: newsImageUrl))
+                    }
+                    else {
+                        newsImageView.image = UIImage(named: "placeholderNews")
+                    }
+                }
             }
         }
     }
@@ -37,7 +51,7 @@ class SectionsCell : UICollectionViewCell  {
         super.init(frame: frame)
         setupViews()
         backgroundColor = .systemBackground
-
+        
         
     }
     
@@ -52,8 +66,8 @@ class SectionsCell : UICollectionViewCell  {
         addSubview(timeLabel)
         newsImageView.clipsToBounds = true
         newsImageView.layer.cornerRadius = 10
+        newsImageView.image = UIImage(named: "placeholderNews")
         
-
         headerLabel.textColor = .darkGray
         headerLabel.font = .systemFont(ofSize: 22)
         headerLabel.adjustsFontSizeToFitWidth = true

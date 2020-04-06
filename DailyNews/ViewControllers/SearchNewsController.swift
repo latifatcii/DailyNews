@@ -8,6 +8,7 @@
 
 import UIKit
 import SafariServices
+
 class SearchNewsController : UIViewController {
     
     var timer : Timer?
@@ -19,14 +20,8 @@ class SearchNewsController : UIViewController {
     var searchedText : String = ""
 
 
-    
-    
-    let activityIndicatorView: UIActivityIndicatorView = {
-        let aiv = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-        aiv.color = .black
-        aiv.hidesWhenStopped = true
-        return aiv
-    }()
+    let activityIndicatorView = UIActivityIndicatorView(color: .black)
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
