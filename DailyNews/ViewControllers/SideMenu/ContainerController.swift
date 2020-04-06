@@ -37,6 +37,8 @@ class ContainerController : UIViewController {
             menuController.didMove(toParent: self)
             menuController.didMove(toParent: self)
             
+            /// FIX: - We can clean this up so that there isnt such hardcoded values.
+            /// In the future but for now it cleans it up so that it isnt being cut off by the other controller.
             menuController.view.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, size: .init(width: self.tabBar.view.frame.width - 165, height: 0))
         }
     }
