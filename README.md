@@ -3,8 +3,7 @@
 Hey ! Daily News is a news app written with %100 programmatically ui. <br />
 
 # Usage
-It is powered by NewsAPI! You should get your free developer API key from [NewsAPI](https://newsapi.org)
-and change "YOURAPIKEY" string with your API key in DailyNews/Networking/FetchNews.swift. 
+It is powered by NewsAPI! You should get your free developer API key from [NewsAPI](https://newsapi.org) and add it to DailyNews/Networking/FetchNews.swift. 
 
 # ScreenShots
 
