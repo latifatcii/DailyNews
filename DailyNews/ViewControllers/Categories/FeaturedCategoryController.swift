@@ -8,6 +8,7 @@
 
 import UIKit
 import SafariServices
+import TinyConstraints
 
 class FeaturedCategoryController: UIViewController {
 
@@ -38,9 +39,8 @@ class FeaturedCategoryController: UIViewController {
         collectionView.register(SectionsPageHeader.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerCellId)
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                              leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                              trailing: view.trailingAnchor)
+        collectionView.edgesToSuperview()
+
     }
     func fetchNews(page: Int) {
         let dispatchGroup = DispatchGroup()

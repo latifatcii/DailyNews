@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TinyConstraints
 
 class CategoriesViewController: UIViewController {
 
@@ -26,9 +27,8 @@ class CategoriesViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.register(CategoriesCell.self, forCellWithReuseIdentifier: cellId)
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                              leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                              trailing: view.trailingAnchor)
+        collectionView.edgesToSuperview()
+
     }
 }
 

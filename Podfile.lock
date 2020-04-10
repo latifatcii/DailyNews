@@ -3,20 +3,24 @@ PODS:
     - SDWebImage/Core (= 5.6.1)
   - SDWebImage/Core (5.6.1)
   - SwiftLint (0.37.0)
+  - TinyConstraints (4.0.1)
 
 DEPENDENCIES:
   - SDWebImage
   - SwiftLint
+  - TinyConstraints
 
 SPEC REPOS:
   trunk:
     - SDWebImage
     - SwiftLint
+    - TinyConstraints
 
 SPEC CHECKSUMS:
   SDWebImage: 7edb9c3ea661e77a66661f7f044de8c1b55d1120
   SwiftLint: c078a14d7d7ade75e5507795d185e3da41d844d2
+  TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
 
-PODFILE CHECKSUM: 0e51acf33b54aadc09f93567fffe265dd90edbe0
+PODFILE CHECKSUM: 535dc04dae40a29b1c587c7448a6411fc818cabd
 
 COCOAPODS: 1.8.4

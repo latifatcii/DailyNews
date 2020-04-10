@@ -47,17 +47,17 @@ class ContainerController: UIViewController {
             UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8,
                            initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
                 self.tabBar.view.frame.origin.x = self.tabBar.view.frame.width - 165
-            }) { (_) in
+            }, completion:  { (_) in
                 self.tabBar.feedVC.view.isUserInteractionEnabled = false
-            }
+            })
         } else {
             UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8,
                            initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
                 self.tabBar.view.frame.origin.x = 0
-            }) { (_) in
+            }, completion:  { (_) in
                 self.isMenuHidden = true
                 self.tabBar.feedVC.view.isUserInteractionEnabled = true
-            }
+            })
         }
     }
 }

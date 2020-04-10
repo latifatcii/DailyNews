@@ -8,6 +8,7 @@
 
 import UIKit
 import SafariServices
+import TinyConstraints
 
 class NewsViewController: UIViewController {
 
@@ -28,6 +29,8 @@ class NewsViewController: UIViewController {
         view.addSubview(activityIndicatorView)
         activityIndicatorView.fillSuperview()
         fetchNews(page: page)
+        activityIndicatorView.startAnimating()
+
     }
 
     func configureCollectionView() {
@@ -39,12 +42,49 @@ class NewsViewController: UIViewController {
         collectionView.register(NewsPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: headerNewsCellId)
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                              leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                              trailing: view.trailingAnchor)
+        collectionView.edgesToSuperview()
+    }
+    
+    func fetchNews(page: Int) {
+        
+        DispatchQueue.global(qos: .utility).async {
+            FetchNews.shared.fetchNewsFromEverything(ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil, fromDate: nil, toDate: nil, language: "en", sortBy: .publishedAt, pageSize: 10, page: 1, sources: Constants.sourcesIds))  { [weak self] (result) in
+                guard let self = self else { return }
+                switch result {
+                case .success(let news):
+                    self.headerNews = news.articles
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
+                case .failure(let err):
+                    print(err)
+                }
+            }
+        }
+        
+        DispatchQueue.global(qos: .utility).async {
+            FetchNews.shared.fetchNewsFromEverything(ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil, fromDate: nil, toDate: nil, language: "en", sortBy: .publishedAt, pageSize: 10, page: page, sources: Constants.sourcesIds)) { [weak self] (result) in
+                guard let self = self else { return }
+                switch result {
+                case .success(let news):
+                    if news.articles.count < 10 {
+                        self.hasMoreNews = false
+                    }
+                    self.news.append(contentsOf: news.articles)
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                        self.activityIndicatorView.stopAnimating()
+
+                    }
+                case .failure(let err):
+                    print(err)
+                }
+            }
+        }
+        
     }
 
-    func fetchNews(page: Int) {
+    func fetchNewsl(page: Int) {
         let dispatchGroup = DispatchGroup()
         var headerGroup: [EArticle] = []
         var group: [EArticle] = []

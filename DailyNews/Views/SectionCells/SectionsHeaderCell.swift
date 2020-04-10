@@ -1,4 +1,5 @@
 import UIKit
+import TinyConstraints
 
 class SectionsHeaderCell: UICollectionViewCell {
 
@@ -72,10 +73,9 @@ class SectionsHeaderCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
 
-        stackView.anchor(top: newsImageView.bottomAnchor, leading: leadingAnchor,
-                         bottom: bottomAnchor, trailing: trailingAnchor)
-        newsImageView.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil,
-                             trailing: trailingAnchor,
-                             padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 250))
+        stackView.edgesToSuperview(excluding: .top)
+        stackView.topToBottom(of: newsImageView)
+        newsImageView.edgesToSuperview(excluding: .bottom)
+        newsImageView.height(250)
     }
 }

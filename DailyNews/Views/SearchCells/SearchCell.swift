@@ -8,6 +8,7 @@
 
 import UIKit
 import SDWebImage
+import TinyConstraints
 
 class SearchCell: UICollectionViewCell {
 
@@ -81,10 +82,11 @@ class SearchCell: UICollectionViewCell {
         labelStackView.addArrangedSubview(horizontalStackView)
         labelStackView.axis = .vertical
 
-        newsImageView.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil,
-                             trailing: trailingAnchor, size: .init(width: 0, height: 130))
-        labelStackView.anchor(top: newsImageView.bottomAnchor, leading: leadingAnchor,
-                              bottom: bottomAnchor, trailing: trailingAnchor,
-                              padding: .init(top: 0, left: 5, bottom: 0, right: 0))
+        newsImageView.edgesToSuperview(excluding: .bottom)
+        newsImageView.height(130)
+        
+        labelStackView.edgesToSuperview(excluding: .top, insets: .left(5))
+        labelStackView.topToBottom(of: newsImageView)
+        
     }
 }

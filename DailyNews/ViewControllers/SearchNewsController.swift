@@ -8,6 +8,7 @@
 
 import UIKit
 import SafariServices
+import TinyConstraints
 
 class SearchNewsController: UIViewController {
     var timer: Timer?
@@ -45,9 +46,7 @@ class SearchNewsController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                              leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                              trailing: view.trailingAnchor)
+        collectionView.edgesToSuperview()
     }
 
     func searchNews(qWord: String, page: Int) {

@@ -7,6 +7,7 @@ target 'DailyNews' do
   
     pod 'SDWebImage'
     pod 'SwiftLint'
+    pod "TinyConstraints"
 
   # Pods for DailyNews
 

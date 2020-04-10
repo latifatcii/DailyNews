@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TinyConstraints
 
 class CategoriesCell: UICollectionViewCell {
 
@@ -35,8 +36,10 @@ class CategoriesCell: UICollectionViewCell {
     func setupViews() {
         addSubview(categoryImageView)
         categoryImageView.addSubview(categoryLabel)
-        categoryImageView.anchor(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor)
-        categoryLabel.anchor(top: nil, leading: leadingAnchor, bottom: categoryImageView.bottomAnchor,
-                             trailing: trailingAnchor, size: .init(width: 0, height: 30))
+        categoryImageView.edgesToSuperview()
+        categoryLabel.leadingToSuperview()
+        categoryLabel.trailingToSuperview()
+        categoryLabel.height(30)
+        categoryLabel.bottom(to: categoryImageView)
     }
 }
