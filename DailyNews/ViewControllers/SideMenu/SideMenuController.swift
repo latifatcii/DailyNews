@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SideMenuController : UIViewController {
+class SideMenuController: UIViewController {
 
     var tableView: UITableView!
     let sideMenuCellId = "CellId"
@@ -16,7 +16,7 @@ class SideMenuController : UIViewController {
     var sourceCategories = ["General", "Business", "Entertainment", "Health", "Sports", "Science"]
     weak var sourceDelegate: SourcesViewControllerDelegate?
     let activityIndicatorView = UIActivityIndicatorView(color: .black)
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
@@ -25,6 +25,7 @@ class SideMenuController : UIViewController {
         activityIndicatorView.fillSuperview()
         fetchSources()
     }
+
     private func configureTableView() {
         tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.dataSource = self
@@ -38,6 +39,7 @@ class SideMenuController : UIViewController {
         tableView.rowHeight = 40
         tableView.separatorStyle = .none
     }
+
     private func configureTopView() {
         let slideMenuTopView = UIView(frame: .zero)
         view.addSubview(slideMenuTopView)
@@ -46,9 +48,9 @@ class SideMenuController : UIViewController {
                                 trailing: view.trailingAnchor)
         let appIconImage = UIImageView(image: UIImage(named: "applogo"))
         slideMenuTopView.addSubview(appIconImage)
-        appIconImage.anchor(top: slideMenuTopView.topAnchor, leading: slideMenuTopView.leadingAnchor, bottom: slideMenuTopView.bottomAnchor, trailing: nil,size: .init(width: 60, height: 0))
+        appIconImage.anchor(top: slideMenuTopView.topAnchor, leading: slideMenuTopView.leadingAnchor, bottom: slideMenuTopView.bottomAnchor, trailing: nil, size: .init(width: 60, height: 0))
         appIconImage.layer.cornerRadius = 10
-        
+
         let sourceNameLabel = UILabel(text: "Daily News", font: .boldSystemFont(ofSize: 22))
         sourceNameLabel.adjustsFontSizeToFitWidth = true
         slideMenuTopView.addSubview(sourceNameLabel)
@@ -56,10 +58,10 @@ class SideMenuController : UIViewController {
             appIconImage.trailingAnchor, bottom: slideMenuTopView.bottomAnchor,
             trailing: nil, padding: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0), size: .zero)
     }
-    
+
     func fetchSources() {
         let dispatchGroup = DispatchGroup()
-        
+
         var generalGroup: [Sources] = []
         var businessGroup: [Sources] = []
         var entertainmentGroup: [Sources] = []
@@ -67,7 +69,7 @@ class SideMenuController : UIViewController {
         var scienceGroup: [Sources] = []
         var sportsGroup: [Sources] = []
         activityIndicatorView.startAnimating()
-        
+
         dispatchGroup.enter()
         FetchNews.shared.fetchSources(SRequest(category: .general, language: "en", country: nil)) { (result) in
             dispatchGroup.leave()
@@ -78,7 +80,7 @@ class SideMenuController : UIViewController {
                 print(err)
             }
         }
-        
+
         dispatchGroup.enter()
         FetchNews.shared.fetchSources(SRequest(category: .business, language: "en", country: nil)) { (result) in
             dispatchGroup.leave()
@@ -100,7 +102,7 @@ class SideMenuController : UIViewController {
                 print(err)
             }
         }
-        
+
         dispatchGroup.enter()
         FetchNews.shared.fetchSources(SRequest(category: .health, language: "en", country: nil)) { (result) in
             dispatchGroup.leave()
@@ -111,7 +113,7 @@ class SideMenuController : UIViewController {
                 print(err)
             }
         }
-        
+
         dispatchGroup.enter()
         FetchNews.shared.fetchSources(SRequest(category: .science, language: "en", country: nil)) { (result) in
             dispatchGroup.leave()
@@ -122,7 +124,7 @@ class SideMenuController : UIViewController {
                 print(err)
             }
         }
-        
+
         dispatchGroup.enter()
         FetchNews.shared.fetchSources(SRequest(category: .sports, language: "en", country: nil)) { (result) in
             dispatchGroup.leave()
@@ -133,7 +135,7 @@ class SideMenuController : UIViewController {
                 print(err)
             }
         }
-        
+
         dispatchGroup.notify(queue: .main) {
             self.activityIndicatorView.stopAnimating()
             self.sources.insert(ExpandedSources(isExpanded: false, sources: generalGroup), at: 0)
@@ -148,7 +150,7 @@ class SideMenuController : UIViewController {
 }
 
 extension SideMenuController: SlideMenuTableViewDelegate {
-    
+
     func didSelectSlideMenuCell(cell: UITableViewCell) {
         let indexPath = tableView.indexPath(for: cell)
         let sourceId = sources[indexPath!.section].sources[indexPath!.row].sourceId
@@ -160,33 +162,32 @@ extension SideMenuController: SlideMenuTableViewDelegate {
     }
 }
 
-extension SideMenuController: UITableViewDelegate,UITableViewDataSource {
-    
+extension SideMenuController: UITableViewDelegate, UITableViewDataSource {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if !sources[section].isExpanded {
             return 0
         }
         return sources[section].sources.count
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return sources.count
     }
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: sideMenuCellId, for: indexPath) as? SlideMenuCell
-            else {
-                return UITableViewCell()
-        }
+            else { return UITableViewCell() }
         cell.sources = self.sources[indexPath.section].sources[indexPath.row]
         cell.selectionStyle = .none
         cell.slideDelegate = self
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
         let button = UIButton(type: .system)
@@ -207,7 +208,7 @@ extension SideMenuController: UITableViewDelegate,UITableViewDataSource {
                          padding: .init(top: 0, left: 0, bottom: 0, right: 10))
         return headerView
     }
-    
+
     @objc func handleExpanding(button: UIButton) {
         let section = button.tag
         var indexPaths = [IndexPath]()

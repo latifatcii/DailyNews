@@ -14,11 +14,9 @@ protocol SlideMenuDelegate: class {
 protocol SlideMenuGestureDelegate: class {
     func configureTapGestureForSlideMenu()
 }
-
-protocol SlideMenuTableViewDelegate: class{
-    func didSelectSlideMenuCell(cell : UITableViewCell)
+protocol SlideMenuTableViewDelegate: class {
+    func didSelectSlideMenuCell(cell: UITableViewCell)
 }
-
 protocol SourcesViewControllerDelegate: class {
     func pushToSourcesVC(source: UIViewController)
 }

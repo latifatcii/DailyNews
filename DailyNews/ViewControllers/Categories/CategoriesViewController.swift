@@ -8,14 +8,16 @@
 
 import UIKit
 
-class CategoriesViewController : UIViewController {
-    
+class CategoriesViewController: UIViewController {
+
     var collectionView: UICollectionView!
     let cellId = "cellId"
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
     }
+
     func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds,
                                     collectionViewLayout: UIHelper.createTwoColumnFlowLayoutForCategories(in: view))
@@ -34,15 +36,15 @@ extension CategoriesViewController: UICollectionViewDelegateFlowLayout, UICollec
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 7
     }
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? CategoriesCell
-            else {
-                return UICollectionViewCell()
-        }
+            else { return UICollectionViewCell() }
         cell.categoryImageView.image = UIImage(named: Constants.categoryImageNames[indexPath.item])
         cell.categoryLabel.text = Constants.categoryNames[indexPath.item]
         return cell
     }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         Constants.listOfCategories[indexPath.item].title = Constants.categoryNames[indexPath.item]
         self.navigationController?.pushViewController(Constants.listOfCategories[indexPath.item], animated: true)

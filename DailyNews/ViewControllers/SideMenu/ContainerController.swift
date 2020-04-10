@@ -8,12 +8,12 @@
 
 import UIKit
 
-class ContainerController : UIViewController {
-    
+class ContainerController: UIViewController {
+
     let tabBar = TabBarController()
-    var menuController : SideMenuController!
+    var menuController: SideMenuController!
     private var isMenuHidden = true
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -21,12 +21,13 @@ class ContainerController : UIViewController {
         tabBar.menuDelegate = self
         tabBar.menuSlideDelegate = self
     }
-    
+
     func setupTabBarView() {
         view.addSubview(tabBar.view)
         addChild(tabBar)
         tabBar.didMove(toParent: self)
     }
+
     func setupMenuController() {
         if menuController == nil {
             menuController = SideMenuController()
@@ -40,7 +41,7 @@ class ContainerController : UIViewController {
                                        size: .init(width: self.tabBar.view.frame.width - 165, height: 0))
         }
     }
-    
+
     func showMenuController(shouldExpand: Bool) {
         if !shouldExpand {
             UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8,
@@ -61,13 +62,13 @@ class ContainerController : UIViewController {
     }
 }
 extension ContainerController: SlideMenuDelegate, SourcesViewControllerDelegate {
-    
+
     func pushToSourcesVC(source: UIViewController) {
         showMenuController(shouldExpand: true)
         source.modalPresentationStyle = .fullScreen
         tabBar.feedVC.navigationController?.pushViewController(source, animated: true)
     }
-    
+
     func configureSlideMenu() {
         if isMenuHidden {
             setupMenuController()

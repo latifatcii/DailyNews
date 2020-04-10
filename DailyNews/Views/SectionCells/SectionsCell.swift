@@ -1,12 +1,37 @@
 import UIKit
 
-class SectionsCell : UICollectionViewCell {
-    
-    let newsImageView = UIImageView(frame: .zero)
-    let headerLabel = UILabel(frame: .zero)
-    let timeLabel = UILabel(frame: .zero)
-    let sourceLabel = UILabel(frame: .zero)
-    var news : THArticle? {
+class SectionsCell: UICollectionViewCell {
+
+    var newsImageView: UIImageView = {
+        let imageV = UIImageView(frame: .zero)
+        imageV.clipsToBounds = true
+        imageV.layer.cornerRadius = 10
+        imageV.image = UIImage(named: "placeholderNews")
+        return imageV
+    }()
+    var headerLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.textColor = .darkGray
+        label.font = .systemFont(ofSize: 22)
+        label.adjustsFontSizeToFitWidth = true
+        label.numberOfLines = 0
+        return label
+    }()
+    var timeLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.textColor = .lightGray
+        label.adjustsFontSizeToFitWidth = true
+        label.font = .systemFont(ofSize: 12)
+        return label
+    }()
+    var sourceLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.textColor = .systemGray
+        label.adjustsFontSizeToFitWidth = true
+        label.font = .systemFont(ofSize: 13)
+        return label
+    }()
+    var news: THArticle? {
         didSet {
             if let news = news {
                 if let newsImageUrl = news.urlToImage {
@@ -40,7 +65,7 @@ class SectionsCell : UICollectionViewCell {
             }
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -50,25 +75,12 @@ class SectionsCell : UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func setupViews() {
         addSubview(headerLabel)
         addSubview(newsImageView)
         addSubview(timeLabel)
-        newsImageView.clipsToBounds = true
-        newsImageView.layer.cornerRadius = 10
-        newsImageView.image = UIImage(named: "placeholderNews")
-        headerLabel.textColor = .darkGray
-        headerLabel.font = .systemFont(ofSize: 22)
-        headerLabel.adjustsFontSizeToFitWidth = true
-        headerLabel.numberOfLines = 0
-        timeLabel.textColor = .lightGray
-        timeLabel.adjustsFontSizeToFitWidth = true
-        timeLabel.font = .systemFont(ofSize: 12)
-        sourceLabel.textColor = .systemGray
-        sourceLabel.adjustsFontSizeToFitWidth = true
-        sourceLabel.font = .systemFont(ofSize: 13)
-        let horizontalStackView = UIStackView(arrangedSubviews: [timeLabel,sourceLabel])
+        let horizontalStackView = UIStackView(arrangedSubviews: [timeLabel, sourceLabel])
         horizontalStackView.distribution = .equalSpacing
         let labelStackView = UIStackView()
         addSubview(labelStackView)
@@ -77,8 +89,8 @@ class SectionsCell : UICollectionViewCell {
         labelStackView.axis = .vertical
         newsImageView.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil,
                              trailing: trailingAnchor,
-                             padding: .init(top: 5, left: 5, bottom: 5, right: 5),size: .init(width: 0, height: 240))
-        
+                             padding: .init(top: 5, left: 5, bottom: 5, right: 5), size: .init(width: 0, height: 240))
+
         labelStackView.anchor(top: newsImageView.bottomAnchor, leading: leadingAnchor,
                               bottom: bottomAnchor, trailing: trailingAnchor,
                               padding: .init(top: 0, left: 5, bottom: 0, right: 0))

@@ -16,6 +16,7 @@ class TabBarController: UITabBarController {
     weak var menuDelegate: SlideMenuDelegate?
     var gesture: UITapGestureRecognizer?
     weak var menuSlideDelegate: SlideMenuGestureDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -32,19 +33,16 @@ class TabBarController: UITabBarController {
         categoriesVC.tabBarItem = UITabBarItem(title: "Categories", image: UIImage(systemName: "paperplane"), tag: 1)
         searchVC.title = "Search"
         searchVC.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 2)
-        
+
         let feedNavigationController = UINavigationController(rootViewController: feedVC)
         let categoriesNavigationController = UINavigationController(rootViewController: categoriesVC)
         let searchNavigationController = UINavigationController(rootViewController: searchVC)
-        
         searchNavigationController.navigationBar.prefersLargeTitles = true
-        
         viewControllers = [feedNavigationController, categoriesNavigationController, searchNavigationController]
-        
+
     }
-    
+
     private func setupMenuButton() {
-        
         let menuButton = UIBarButtonItem(image: UIImage(named: "hamburger.png"),
                                          style: .plain, target: self, action: #selector(openMenu))
         feedVC.navigationItem.leftBarButtonItem = menuButton
@@ -54,16 +52,15 @@ class TabBarController: UITabBarController {
     @objc func openMenu() {
         menuDelegate?.configureSlideMenu()
     }
-    
+
     func configureGestureRecognizer() {
         gesture = UITapGestureRecognizer(target: self, action: #selector(closeSlideMenu))
         view.addGestureRecognizer(gesture!)
     }
-    
+
     @objc func closeSlideMenu() {
         menuSlideDelegate?.configureTapGestureForSlideMenu()
         gesture!.cancelsTouchesInView = false
-
     }
 
     func swipeGesture() {
@@ -71,7 +68,7 @@ class TabBarController: UITabBarController {
         edgePan.edges = .left
         view.addGestureRecognizer(edgePan)
     }
-    
+
     @objc func screenEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
         if recognizer.state == .recognized {
             menuDelegate?.configureSlideMenu()

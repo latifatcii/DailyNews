@@ -8,18 +8,18 @@
 
 import UIKit
 
-class SportsCategoryController : FeaturedCategoryController {
-    
+class SportsCategoryController: FeaturedCategoryController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
+
     override func fetchNews(page: Int) {
         let dispatchGroup = DispatchGroup()
-        var headerGroup : [THArticle] = []
-        var group : [THArticle] = []
+        var headerGroup: [THArticle] = []
+        var group: [THArticle] = []
         activityIndicatorView.startAnimating()
-        
+
         dispatchGroup.enter()
         FetchNews.shared.fetchData(THRequest(country: "us", category: .sports, qWord: nil, pageSize: 10, page: page)) { (result) in
             dispatchGroup.leave()
@@ -33,7 +33,7 @@ class SportsCategoryController : FeaturedCategoryController {
                 print(err.localizedDescription)
             }
         }
-        
+
         dispatchGroup.enter()
         FetchNews.shared.fetchData(THRequest(country: "us", category: .sports, qWord: nil, pageSize: 10, page: 1)) { (result) in
             dispatchGroup.leave()

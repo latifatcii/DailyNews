@@ -8,18 +8,18 @@
 
 import UIKit
 
-class EntertainmentCategoryController : FeaturedCategoryController {
-    
+class EntertainmentCategoryController: FeaturedCategoryController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityIndicatorView.startAnimating()
     }
+
     override func fetchNews(page: Int) {
         let dispatchGroup = DispatchGroup()
-        var headerGroup : [THArticle] = []
-        var group : [THArticle] = []
+        var headerGroup: [THArticle] = []
+        var group: [THArticle] = []
         activityIndicatorView.startAnimating()
-        
+
         dispatchGroup.enter()
         FetchNews.shared.fetchData(THRequest(country: "us", category: .entertainment, qWord: nil, pageSize: 10, page: page)) { (result) in
             dispatchGroup.leave()

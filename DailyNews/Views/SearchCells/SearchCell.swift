@@ -9,13 +9,37 @@
 import UIKit
 import SDWebImage
 
-class SearchCell : UICollectionViewCell {
-    
-    let newsImageView = UIImageView(frame: .zero)
-    let headerLabel = UILabel(frame: .zero)
-    let timeLabel = UILabel(frame: .zero)
-    let sourceLabel = UILabel(frame: .zero)
-    var news : EArticle? {
+class SearchCell: UICollectionViewCell {
+
+    var newsImageView: UIImageView = {
+        let imageV = UIImageView(frame: .zero)
+        imageV.clipsToBounds = true
+        imageV.layer.cornerRadius = 10
+        return imageV
+    }()
+    var headerLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.textColor = .darkGray
+        label.font = .systemFont(ofSize: 18)
+        label.adjustsFontSizeToFitWidth = true
+        label.numberOfLines = 0
+        return label
+    }()
+    var timeLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.textColor = .lightGray
+        label.adjustsFontSizeToFitWidth = true
+        label.font = .systemFont(ofSize: 12)
+        return label
+    }()
+    var sourceLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.textColor = .systemGray
+        label.adjustsFontSizeToFitWidth = true
+        label.font = .systemFont(ofSize: 12)
+        return label
+    }()
+    var news: EArticle? {
         didSet {
             if let news = news {
                 if let newsImageUrl = news.urlToImage {
@@ -32,40 +56,31 @@ class SearchCell : UICollectionViewCell {
             }
         }
     }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .systemBackground
         setupViews()
     }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
     func setupViews() {
         addSubview(headerLabel)
         addSubview(newsImageView)
         addSubview(timeLabel)
-        newsImageView.clipsToBounds = true
-        newsImageView.layer.cornerRadius = 10
-        headerLabel.textColor = .darkGray
-        headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerLabel.font = .systemFont(ofSize: 18)
-        headerLabel.adjustsFontSizeToFitWidth = true
-        headerLabel.numberOfLines = 0
-        timeLabel.translatesAutoresizingMaskIntoConstraints = false
-        timeLabel.textColor = .lightGray
-        timeLabel.adjustsFontSizeToFitWidth = true
-        timeLabel.font = .systemFont(ofSize: 12)
-        sourceLabel.translatesAutoresizingMaskIntoConstraints = false
-        sourceLabel.textColor = .systemGray
-        sourceLabel.adjustsFontSizeToFitWidth = true
-        sourceLabel.font = .systemFont(ofSize: 12)
+
         let horizontalStackView = UIStackView(arrangedSubviews: [timeLabel, sourceLabel])
         horizontalStackView.distribution = .equalSpacing
+
         let labelStackView = UIStackView()
         addSubview(labelStackView)
         labelStackView.addArrangedSubview(headerLabel)
         labelStackView.addArrangedSubview(horizontalStackView)
         labelStackView.axis = .vertical
+
         newsImageView.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil,
                              trailing: trailingAnchor, size: .init(width: 0, height: 130))
         labelStackView.anchor(top: newsImageView.bottomAnchor, leading: leadingAnchor,
