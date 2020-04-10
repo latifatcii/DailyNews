@@ -3,6 +3,7 @@ import UIKit
 class FetchNews {
     static let shared = FetchNews()
     let cache = NSCache<NSString, UIImage>()
+    
     func fetchData(_ from: THRequest, completion: @escaping (Result<THNews, Error>) -> Void) {
         guard let page = from.page, let country = from.country, let pageSize = from.pageSize, let category = from.category else { return }
 

@@ -26,7 +26,7 @@ class SearchNewsController: UIViewController {
         configureSearchController()
         configureCollectionView()
         view.addSubview(activityIndicatorView)
-        activityIndicatorView.fillSuperview()
+        activityIndicatorView.edgesToSuperview()
     }
 
     func configureSearchController() {
@@ -53,7 +53,8 @@ class SearchNewsController: UIViewController {
         activityIndicatorView.startAnimating()
         FetchNews.shared.fetchDataForSearchController(ERequest(qWord: qWord, qInTitle: nil, domains: nil,
                                                                excludeDomains: nil, fromDate: nil, toDate: nil, language: "en",
-                                                               sortBy: nil, pageSize: 10, page: page, sources: nil)) { (result) in
+                                                               sortBy: nil, pageSize: 10, page: page, sources: nil)) { [weak self] (result) in
+                                                                guard let self = self else { return }
                                                                 DispatchQueue.main.async {
                                                                     self.activityIndicatorView.stopAnimating()
                                                                 }
@@ -110,8 +111,10 @@ extension SearchNewsController: UISearchBarDelegate {
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
             self.news.removeAll()
             let searchedText = searchText.replacingOccurrences(of: " ", with: "-")
+            if !searchedText.isEmpty {
             self.searchNews(qWord: searchedText, page: self.page)
-            self.searchedText = searchedText
+                self.searchedText = searchedText
+            }
         })
     }
 

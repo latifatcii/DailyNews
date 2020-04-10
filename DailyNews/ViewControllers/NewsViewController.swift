@@ -27,7 +27,7 @@ class NewsViewController: UIViewController {
         super.viewDidLoad()
         configureCollectionView()
         view.addSubview(activityIndicatorView)
-        activityIndicatorView.fillSuperview()
+        activityIndicatorView.edgesToSuperview()
         fetchNews(page: page)
         activityIndicatorView.startAnimating()
 
@@ -44,25 +44,29 @@ class NewsViewController: UIViewController {
         view.addSubview(collectionView)
         collectionView.edgesToSuperview()
     }
-    
+
     func fetchNews(page: Int) {
-        
-        DispatchQueue.global(qos: .utility).async {
-            FetchNews.shared.fetchNewsFromEverything(ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil, fromDate: nil, toDate: nil, language: "en", sortBy: .publishedAt, pageSize: 10, page: 1, sources: Constants.sourcesIds))  { [weak self] (result) in
-                guard let self = self else { return }
+        let dispatchQueue = DispatchQueue(label: "com.latifatci.DailyNews", qos: .background, attributes: .concurrent)
+        let dispatchGroup = DispatchGroup()
+        var headerGroup: [EArticle] = []
+        var group: [EArticle] = []
+        activityIndicatorView.startAnimating()
+
+        dispatchGroup.enter()
+        dispatchQueue.async {
+            FetchNews.shared.fetchNewsFromEverything(ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil, fromDate: nil, toDate: nil, language: "en", sortBy: .publishedAt, pageSize: 10, page: 1, sources: Constants.sourcesIds)) { (result) in
                 switch result {
                 case .success(let news):
-                    self.headerNews = news.articles
-                    DispatchQueue.main.async {
-                        self.collectionView.reloadData()
-                    }
+                    headerGroup = news.articles
                 case .failure(let err):
                     print(err)
                 }
+                dispatchGroup.leave()
             }
         }
-        
-        DispatchQueue.global(qos: .utility).async {
+
+        dispatchGroup.enter()
+        dispatchQueue.async {
             FetchNews.shared.fetchNewsFromEverything(ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil, fromDate: nil, toDate: nil, language: "en", sortBy: .publishedAt, pageSize: 10, page: page, sources: Constants.sourcesIds)) { [weak self] (result) in
                 guard let self = self else { return }
                 switch result {
@@ -70,48 +74,11 @@ class NewsViewController: UIViewController {
                     if news.articles.count < 10 {
                         self.hasMoreNews = false
                     }
-                    self.news.append(contentsOf: news.articles)
-                    DispatchQueue.main.async {
-                        self.collectionView.reloadData()
-                        self.activityIndicatorView.stopAnimating()
-
-                    }
+                    group.append(contentsOf: news.articles)
                 case .failure(let err):
                     print(err)
                 }
-            }
-        }
-        
-    }
-
-    func fetchNewsl(page: Int) {
-        let dispatchGroup = DispatchGroup()
-        var headerGroup: [EArticle] = []
-        var group: [EArticle] = []
-        activityIndicatorView.startAnimating()
-
-        dispatchGroup.enter()
-        FetchNews.shared.fetchNewsFromEverything(ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil, fromDate: nil, toDate: nil, language: "en", sortBy: .publishedAt, pageSize: 10, page: 1, sources: Constants.sourcesIds)) { (result) in
-            dispatchGroup.leave()
-            switch result {
-            case .success(let news):
-                headerGroup = news.articles
-            case .failure(let err):
-                print(err)
-            }
-        }
-
-        dispatchGroup.enter()
-        FetchNews.shared.fetchNewsFromEverything(ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil, fromDate: nil, toDate: nil, language: "en", sortBy: .publishedAt, pageSize: 10, page: page, sources: Constants.sourcesIds)) { (result) in
-            dispatchGroup.leave()
-            switch result {
-            case .success(let news):
-                if news.articles.count < 10 {
-                    self.hasMoreNews = false
-                }
-                group.append(contentsOf: news.articles)
-            case .failure(let err):
-                print(err)
+                dispatchGroup.leave()
             }
         }
 

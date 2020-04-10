@@ -28,7 +28,7 @@
 #endif
 
 extension View: Constrainable {
-    
+
     @discardableResult
     public func prepareForLayout() -> Self {
         translatesAutoresizingMaskIntoConstraints = false
@@ -48,10 +48,10 @@ public protocol Constrainable {
     var rightAnchor: NSLayoutXAxisAnchor { get }
     var leadingAnchor: NSLayoutXAxisAnchor { get }
     var trailingAnchor: NSLayoutXAxisAnchor { get }
-    
+
     var centerXAnchor: NSLayoutXAxisAnchor { get }
     var centerYAnchor: NSLayoutYAxisAnchor { get }
-    
+
     var widthAnchor: NSLayoutDimension { get }
     var heightAnchor: NSLayoutDimension { get }
 

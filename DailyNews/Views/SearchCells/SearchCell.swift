@@ -84,9 +84,9 @@ class SearchCell: UICollectionViewCell {
 
         newsImageView.edgesToSuperview(excluding: .bottom)
         newsImageView.height(130)
-        
+
         labelStackView.edgesToSuperview(excluding: .top, insets: .left(5))
         labelStackView.topToBottom(of: newsImageView)
-        
+
     }
 }

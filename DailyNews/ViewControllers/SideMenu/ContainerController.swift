@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TinyConstraints
 
 class ContainerController: UIViewController {
 
@@ -36,9 +37,8 @@ class ContainerController: UIViewController {
             view.insertSubview(menuController.view, at: 0)
             menuController.didMove(toParent: self)
             menuController.didMove(toParent: self)
-            menuController.view.anchor(top: view.topAnchor, leading: view.leadingAnchor,
-                                       bottom: view.bottomAnchor, trailing: nil,
-                                       size: .init(width: self.tabBar.view.frame.width - 165, height: 0))
+            menuController.view.edgesToSuperview(excluding: .trailing)
+            menuController.view.width(self.tabBar.view.frame.width-165)
         }
     }
 
@@ -47,14 +47,14 @@ class ContainerController: UIViewController {
             UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8,
                            initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
                 self.tabBar.view.frame.origin.x = self.tabBar.view.frame.width - 165
-            }, completion:  { (_) in
+            }, completion: { (_) in
                 self.tabBar.feedVC.view.isUserInteractionEnabled = false
             })
         } else {
             UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8,
                            initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
                 self.tabBar.view.frame.origin.x = 0
-            }, completion:  { (_) in
+            }, completion: { (_) in
                 self.isMenuHidden = true
                 self.tabBar.feedVC.view.isUserInteractionEnabled = true
             })

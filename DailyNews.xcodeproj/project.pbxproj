@@ -41,7 +41,6 @@
 		7F55F49724143E4F0027ADAC /* SectionsPageHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F55F49624143E4F0027ADAC /* SectionsPageHeader.swift */; };
 		7F55F49924143F2E0027ADAC /* BaseListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F55F49824143F2E0027ADAC /* BaseListController.swift */; };
 		7F55F49E241440A60027ADAC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F55F49B241440A60027ADAC /* Extensions.swift */; };
-		7F55F49F241440A60027ADAC /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F55F49C241440A60027ADAC /* UIView+Layout.swift */; };
 		7F55F4A324144E050027ADAC /* String + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F55F4A124144E050027ADAC /* String + Ext.swift */; };
 		7F55F4A424144E050027ADAC /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F55F4A224144E050027ADAC /* Date+Ext.swift */; };
 		7F5778DA2434F64600012A9E /* SlideMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5778D92434F64600012A9E /* SlideMenuCell.swift */; };
@@ -96,7 +95,6 @@
 		7F55F49624143E4F0027ADAC /* SectionsPageHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionsPageHeader.swift; sourceTree = "<group>"; };
 		7F55F49824143F2E0027ADAC /* BaseListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseListController.swift; sourceTree = "<group>"; };
 		7F55F49B241440A60027ADAC /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		7F55F49C241440A60027ADAC /* UIView+Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
 		7F55F4A124144E050027ADAC /* String + Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String + Ext.swift"; sourceTree = "<group>"; };
 		7F55F4A224144E050027ADAC /* Date+Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		7F5778D92434F64600012A9E /* SlideMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuCell.swift; sourceTree = "<group>"; };
@@ -313,7 +311,6 @@
 				7F55F4A224144E050027ADAC /* Date+Ext.swift */,
 				7F55F4A124144E050027ADAC /* String + Ext.swift */,
 				7F55F49B241440A60027ADAC /* Extensions.swift */,
-				7F55F49C241440A60027ADAC /* UIView+Layout.swift */,
 				7F5177F0242DF7DD009AA333 /* UIHelper.swift */,
 				7F5213D12432BB4E00D38137 /* Protocols.swift */,
 				7F64AA57243B78C00005A967 /* Constants.swift */,
@@ -519,7 +516,6 @@
 				7F1F6CDF240EF7F300B23C4B /* SceneDelegate.swift in Sources */,
 				7F5177FC242E2515009AA333 /* ENewsModel.swift in Sources */,
 				7F5177F1242DF7DD009AA333 /* UIHelper.swift in Sources */,
-				7F55F49F241440A60027ADAC /* UIView+Layout.swift in Sources */,
 				7F55F49E241440A60027ADAC /* Extensions.swift in Sources */,
 				7F5F6C47243A77C500CFBB99 /* SourcesViewController.swift in Sources */,
 				7F2E9DCE241D64E80039F6C0 /* SportsCategoryController.swift in Sources */,

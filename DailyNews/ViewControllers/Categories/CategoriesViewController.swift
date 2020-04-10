@@ -28,7 +28,6 @@ class CategoriesViewController: UIViewController {
         collectionView.register(CategoriesCell.self, forCellWithReuseIdentifier: cellId)
         view.addSubview(collectionView)
         collectionView.edgesToSuperview()
-
     }
 }
 

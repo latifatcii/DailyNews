@@ -1,13 +1,13 @@
 import Foundation
 
-struct THRequest: Codable {
+struct THRequest {
     let country: String?
     let category: THCategories?
     let qWord: String?
     let pageSize: Int?
     let page: Int?
 }
-enum THCategories: String, Codable {
+enum THCategories {
     case business
     case entertainment
     case general

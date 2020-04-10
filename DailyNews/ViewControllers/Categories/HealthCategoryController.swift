@@ -21,27 +21,32 @@ class HealthCategoryController: FeaturedCategoryController {
         activityIndicatorView.startAnimating()
 
         dispatchGroup.enter()
-        FetchNews.shared.fetchData(THRequest(country: "us", category: .health, qWord: nil, pageSize: 10, page: page)) { (result) in
-            dispatchGroup.leave()
-            switch result {
-            case .success(let news):
-                if news.articles.count < 10 {
-                    self.hasMoreNews = false
+        dispatchQueue.async {
+            FetchNews.shared.fetchData(THRequest(country: "us", category: .health, qWord: nil, pageSize: 10, page: page)) { [weak self] (result) in
+                guard let self = self else { return }
+                switch result {
+                case .success(let news):
+                    if news.articles.count < 10 {
+                        self.hasMoreNews = false
+                    }
+                    group.append(contentsOf: news.articles)
+                case .failure(let err):
+                    print(err.localizedDescription)
                 }
-                group.append(contentsOf: news.articles)
-            case .failure(let err):
-                print(err.localizedDescription)
+                dispatchGroup.leave()
             }
         }
 
         dispatchGroup.enter()
-        FetchNews.shared.fetchData(THRequest(country: "us", category: .health, qWord: nil, pageSize: 10, page: 1)) { (result) in
-            dispatchGroup.leave()
-            switch result {
-            case .success(let news):
-                headerGroup = news.articles
-            case .failure(let err):
-                print(err.localizedDescription)
+        dispatchQueue.async {
+            FetchNews.shared.fetchData(THRequest(country: "us", category: .health, qWord: nil, pageSize: 10, page: 1)) { (result) in
+                switch result {
+                case .success(let news):
+                    headerGroup = news.articles
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
+                dispatchGroup.leave()
             }
         }
         dispatchGroup.notify(queue: .main) {

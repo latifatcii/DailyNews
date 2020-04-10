@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TinyConstraints
 
 class SideMenuController: UIViewController {
 
@@ -22,7 +23,7 @@ class SideMenuController: UIViewController {
         configureTableView()
         configureTopView()
         view.addSubview(activityIndicatorView)
-        activityIndicatorView.fillSuperview()
+        activityIndicatorView.edgesToSuperview()
         fetchSources()
     }
 
@@ -32,9 +33,7 @@ class SideMenuController: UIViewController {
         tableView.delegate = self
         tableView.register(SlideMenuCell.self, forCellReuseIdentifier: sideMenuCellId)
         view.addSubview(tableView)
-        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-            leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor,
-            trailing: view.trailingAnchor, padding: .init(top: 60, left: 0, bottom: 0, right: 0))
+        tableView.edgesToSuperview(insets: .top(60), usingSafeArea: true)
         tableView.showsVerticalScrollIndicator = false
         tableView.rowHeight = 40
         tableView.separatorStyle = .none
@@ -43,23 +42,22 @@ class SideMenuController: UIViewController {
     private func configureTopView() {
         let slideMenuTopView = UIView(frame: .zero)
         view.addSubview(slideMenuTopView)
-        slideMenuTopView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                                leading: view.leadingAnchor, bottom: tableView.topAnchor,
-                                trailing: view.trailingAnchor)
+        slideMenuTopView.edgesToSuperview(excluding: .bottom, usingSafeArea: true)
+        slideMenuTopView.bottomToTop(of: tableView)
         let appIconImage = UIImageView(image: UIImage(named: "applogo"))
         slideMenuTopView.addSubview(appIconImage)
-        appIconImage.anchor(top: slideMenuTopView.topAnchor, leading: slideMenuTopView.leadingAnchor, bottom: slideMenuTopView.bottomAnchor, trailing: nil, size: .init(width: 60, height: 0))
+        appIconImage.edgesToSuperview(excluding: .trailing, usingSafeArea: true)
+        appIconImage.width(60)
         appIconImage.layer.cornerRadius = 10
 
         let sourceNameLabel = UILabel(text: "Daily News", font: .boldSystemFont(ofSize: 22))
         sourceNameLabel.adjustsFontSizeToFitWidth = true
         slideMenuTopView.addSubview(sourceNameLabel)
-        sourceNameLabel.anchor(top: slideMenuTopView.topAnchor, leading:
-            appIconImage.trailingAnchor, bottom: slideMenuTopView.bottomAnchor,
-            trailing: nil, padding: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0), size: .zero)
+        sourceNameLabel.centerInSuperview(offset: .init(x: 20, y: 0))
     }
 
     func fetchSources() {
+        let dispatchQueue = DispatchQueue(label: "com.latifatci.DailyNews", qos: .background, attributes: .concurrent)
         let dispatchGroup = DispatchGroup()
 
         var generalGroup: [Sources] = []
@@ -71,68 +69,80 @@ class SideMenuController: UIViewController {
         activityIndicatorView.startAnimating()
 
         dispatchGroup.enter()
-        FetchNews.shared.fetchSources(SRequest(category: .general, language: "en", country: nil)) { (result) in
-            dispatchGroup.leave()
-            switch result {
-            case .success(let sourcesResponse):
-                generalGroup.append(contentsOf: sourcesResponse.sources)
-            case .failure(let err):
-                print(err)
+        dispatchQueue.async {
+            FetchNews.shared.fetchSources(SRequest(category: .general, language: "en", country: nil)) { (result) in
+                switch result {
+                case .success(let sourcesResponse):
+                    generalGroup.append(contentsOf: sourcesResponse.sources)
+                case .failure(let err):
+                    print(err)
+                }
+                dispatchGroup.leave()
             }
         }
 
         dispatchGroup.enter()
-        FetchNews.shared.fetchSources(SRequest(category: .business, language: "en", country: nil)) { (result) in
-            dispatchGroup.leave()
-            switch result {
-            case .success(let sourcesResponse):
-                businessGroup.append(contentsOf: sourcesResponse.sources)
-            case .failure(let err):
-                print(err)
+        dispatchQueue.async {
+            FetchNews.shared.fetchSources(SRequest(category: .business, language: "en", country: nil)) { (result) in
+                switch result {
+                case .success(let sourcesResponse):
+                    businessGroup.append(contentsOf: sourcesResponse.sources)
+                case .failure(let err):
+                    print(err)
+                }
+                dispatchGroup.leave()
             }
         }
 
         dispatchGroup.enter()
-        FetchNews.shared.fetchSources(SRequest(category: .entertainment, language: "en", country: nil)) { (result) in
-            dispatchGroup.leave()
-            switch result {
-            case .success(let sourcesResponse):
-                entertainmentGroup.append(contentsOf: sourcesResponse.sources)
-            case .failure(let err):
-                print(err)
+        dispatchQueue.async {
+            FetchNews.shared.fetchSources(SRequest(category: .entertainment, language: "en", country: nil)) { (result) in
+                switch result {
+                case .success(let sourcesResponse):
+                    entertainmentGroup.append(contentsOf: sourcesResponse.sources)
+                case .failure(let err):
+                    print(err)
+                }
+                dispatchGroup.leave()
             }
         }
 
         dispatchGroup.enter()
-        FetchNews.shared.fetchSources(SRequest(category: .health, language: "en", country: nil)) { (result) in
-            dispatchGroup.leave()
-            switch result {
-            case .success(let sourcesResponse):
-                healthGroup.append(contentsOf: sourcesResponse.sources)
-            case .failure(let err):
-                print(err)
+        dispatchQueue.async {
+            FetchNews.shared.fetchSources(SRequest(category: .health, language: "en", country: nil)) { (result) in
+                switch result {
+                case .success(let sourcesResponse):
+                    healthGroup.append(contentsOf: sourcesResponse.sources)
+                case .failure(let err):
+                    print(err)
+                }
+                dispatchGroup.leave()
             }
         }
 
         dispatchGroup.enter()
-        FetchNews.shared.fetchSources(SRequest(category: .science, language: "en", country: nil)) { (result) in
-            dispatchGroup.leave()
-            switch result {
-            case .success(let sourcesResponse):
-                scienceGroup.append(contentsOf: sourcesResponse.sources)
-            case .failure(let err):
-                print(err)
+        dispatchQueue.async {
+            FetchNews.shared.fetchSources(SRequest(category: .science, language: "en", country: nil)) { (result) in
+                switch result {
+                case .success(let sourcesResponse):
+                    scienceGroup.append(contentsOf: sourcesResponse.sources)
+                case .failure(let err):
+                    print(err)
+                }
+                dispatchGroup.leave()
             }
         }
 
         dispatchGroup.enter()
-        FetchNews.shared.fetchSources(SRequest(category: .sports, language: "en", country: nil)) { (result) in
-            dispatchGroup.leave()
-            switch result {
-            case .success(let sourcesResponse):
-                sportsGroup.append(contentsOf: sourcesResponse.sources)
-            case .failure(let err):
-                print(err)
+        dispatchQueue.async {
+            FetchNews.shared.fetchSources(SRequest(category: .sports, language: "en", country: nil)) { (result) in
+                switch result {
+                case .success(let sourcesResponse):
+                    sportsGroup.append(contentsOf: sourcesResponse.sources)
+                case .failure(let err):
+                    print(err)
+                }
+                dispatchGroup.leave()
             }
         }
 
@@ -196,16 +206,16 @@ extension SideMenuController: UITableViewDelegate, UITableViewDataSource {
         button.addTarget(self, action: #selector(handleExpanding), for: .touchUpInside)
         button.tag = section
         let label = UILabel(text: sourceCategories[section], font: .boldSystemFont(ofSize: 16))
+
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.addArrangedSubview(label)
         stackView.addArrangedSubview(button)
         stackView.distribution = .equalCentering
         stackView.alignment = .center
+
         headerView.addSubview(stackView)
-        stackView.anchor(top: headerView.topAnchor, leading: headerView.leadingAnchor,
-                         bottom: headerView.bottomAnchor, trailing: headerView.trailingAnchor,
-                         padding: .init(top: 0, left: 0, bottom: 0, right: 10))
+        stackView.edgesToSuperview(insets: .right(10))
         return headerView
     }
 

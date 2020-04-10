@@ -88,7 +88,7 @@ class SectionsCell: UICollectionViewCell {
         labelStackView.addArrangedSubview(headerLabel)
         labelStackView.addArrangedSubview(horizontalStackView)
         labelStackView.axis = .vertical
-        
+
         newsImageView.edgesToSuperview(excluding: .bottom, insets: .init(top: 5, left: 5, bottom: 5, right: 5))
         newsImageView.height(240)
         labelStackView.edgesToSuperview(excluding: .top, insets: .left(5))

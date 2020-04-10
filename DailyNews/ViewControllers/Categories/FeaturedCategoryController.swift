@@ -12,6 +12,7 @@ import TinyConstraints
 
 class FeaturedCategoryController: UIViewController {
 
+    let dispatchQueue = DispatchQueue(label: "com.latifatci.DailyNews", qos: .background, attributes: .concurrent)
     let layout = UICollectionViewFlowLayout()
     var news: [THArticle] = []
     var headerNews: [THArticle] = []
@@ -26,7 +27,7 @@ class FeaturedCategoryController: UIViewController {
         super.viewDidLoad()
         configureCollectionView()
         view.addSubview(activityIndicatorView)
-        activityIndicatorView.fillSuperview()
+        activityIndicatorView.edgesToSuperview()
         fetchNews(page: page)
     }
 
@@ -37,7 +38,7 @@ class FeaturedCategoryController: UIViewController {
         collectionView.dataSource = self
         collectionView.register(SectionsCell.self, forCellWithReuseIdentifier: feedCellId)
         collectionView.register(SectionsPageHeader.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerCellId)
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerCellId)
         view.addSubview(collectionView)
         collectionView.edgesToSuperview()
 
@@ -49,27 +50,32 @@ class FeaturedCategoryController: UIViewController {
         activityIndicatorView.startAnimating()
 
         dispatchGroup.enter()
-        FetchNews.shared.fetchData(THRequest(country: "us", category: .general, qWord: nil, pageSize: 10, page: page)) { (result) in
-            dispatchGroup.leave()
-            switch result {
-            case .success(let news):
-                if news.articles.count < 10 {
-                    self.hasMoreNews = false
+        dispatchQueue.async {
+            FetchNews.shared.fetchData(THRequest(country: "us", category: .general, qWord: nil, pageSize: 10, page: page)) { [weak self] (result) in
+                guard let self = self else { return }
+                switch result {
+                case .success(let news):
+                    if news.articles.count < 10 {
+                        self.hasMoreNews = false
+                    }
+                    group.append(contentsOf: news.articles)
+                case .failure(let err):
+                    print(err.localizedDescription)
                 }
-                group.append(contentsOf: news.articles)
-            case .failure(let err):
-                print(err.localizedDescription)
+                dispatchGroup.leave()
             }
         }
 
         dispatchGroup.enter()
-        FetchNews.shared.fetchData(THRequest(country: "us", category: .general, qWord: nil, pageSize: 10, page: 1)) { (result) in
-            dispatchGroup.leave()
-            switch result {
-            case .success(let news):
-                headerGroup = news.articles
-            case .failure(let err):
-                print(err.localizedDescription)
+        dispatchQueue.async {
+            FetchNews.shared.fetchData(THRequest(country: "us", category: .general, qWord: nil, pageSize: 10, page: 1)) { (result) in
+                switch result {
+                case .success(let news):
+                    headerGroup = news.articles
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
+                dispatchGroup.leave()
             }
         }
 

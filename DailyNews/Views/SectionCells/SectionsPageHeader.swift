@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TinyConstraints
 
 class SectionsPageHeader: UICollectionReusableView {
 
@@ -15,7 +16,7 @@ class SectionsPageHeader: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(feedHeaderController.view)
-        feedHeaderController.view.fillSuperview()
+        feedHeaderController.view.edgesToSuperview()
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -8,6 +8,7 @@
 
 import UIKit
 import SafariServices
+import TinyConstraints
 
 class SourcesViewController: UIViewController {
 
@@ -36,7 +37,7 @@ class SourcesViewController: UIViewController {
         view.backgroundColor = .white
         configureCollectionView()
         view.addSubview(activityIndicatorView)
-        activityIndicatorView.fillSuperview()
+        activityIndicatorView.edgesToSuperview()
         fetchNews(source: sourceId, page: 1)
     }
 
@@ -47,19 +48,16 @@ class SourcesViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor,
-                              bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                              trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0))
+        collectionView.edgesToSuperview()
+
     }
 
     private func fetchNews(source: String, page: Int) {
         activityIndicatorView.startAnimating()
         FetchNews.shared.fetchNewsWithSources(ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil,
                                                        fromDate: nil, toDate: nil, language: "en", sortBy: nil,
-                                                       pageSize: 10, page: page, sources: source)) { (result) in
-                                                        DispatchQueue.main.async {
-                                                            self.activityIndicatorView.stopAnimating()
-                                                        }
+                                                       pageSize: 10, page: page, sources: source)) { [weak self] (result) in
+                                                        guard let self = self else { return }
                                                         switch result {
                                                         case .success(let news):
                                                             if news.articles.count < 10 {
@@ -68,6 +66,7 @@ class SourcesViewController: UIViewController {
                                                             self.news.append(contentsOf: news.articles)
                                                             DispatchQueue.main.async {
                                                                 self.collectionView.reloadData()
+                                                                self.activityIndicatorView.stopAnimating()
                                                             }
                                                         case .failure(let err):
                                                             print(err)
