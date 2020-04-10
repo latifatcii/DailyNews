@@ -9,6 +9,6 @@
 import Foundation
 
 struct ExpandedSources {
-    var isExpanded : Bool
-    var sources : [Sources]
+    var isExpanded: Bool
+    var sources: [Sources]
 }

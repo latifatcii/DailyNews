@@ -13,7 +13,8 @@ import UIKit
 extension UIView {
     
     @discardableResult
-    func anchor(top: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, trailing: NSLayoutXAxisAnchor?, padding: UIEdgeInsets = .zero, size: CGSize = .zero) -> AnchoredConstraints {
+    func anchor(top: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, trailing: NSLayoutXAxisAnchor?,
+                padding: UIEdgeInsets = .zero, size: CGSize = .zero) -> AnchoredConstraints {
         
         translatesAutoresizingMaskIntoConstraints = false
         var anchoredConstraints = AnchoredConstraints()
@@ -42,8 +43,9 @@ extension UIView {
             anchoredConstraints.height = heightAnchor.constraint(equalToConstant: size.height)
         }
         
-        [anchoredConstraints.top, anchoredConstraints.leading, anchoredConstraints.bottom, anchoredConstraints.trailing, anchoredConstraints.width, anchoredConstraints.height].forEach{ $0?.isActive = true }
-        
+        [anchoredConstraints.top, anchoredConstraints.leading, anchoredConstraints.bottom,
+         anchoredConstraints.trailing, anchoredConstraints.width, anchoredConstraints.height].forEach{ $0?.isActive = true }
+
         return anchoredConstraints
     }
     
@@ -65,7 +67,6 @@ extension UIView {
             trailingAnchor.constraint(equalTo: superviewTrailingAnchor, constant: -padding.right).isActive = true
         }
     }
-    
     func centerInSuperview(size: CGSize = .zero) {
         translatesAutoresizingMaskIntoConstraints = false
         if let superviewCenterXAnchor = superview?.centerXAnchor {

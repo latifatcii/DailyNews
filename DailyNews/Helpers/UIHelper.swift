@@ -3,9 +3,9 @@ import UIKit
 struct UIHelper {
     
     //Sean Allen Github-Followers
-    static func createThreeColumnFlowLayout(in view : UIView) -> UICollectionViewFlowLayout {
+    static func createThreeColumnFlowLayout(in view: UIView) -> UICollectionViewFlowLayout {
         let width = view.bounds.width
-        let padding : CGFloat = 12
+        let padding: CGFloat = 12
         let minimumItemSpacing : CGFloat = 10
         let availableWidth = width - (padding * 2) - (minimumItemSpacing * 2)
         let itemWidth = availableWidth / 3
@@ -20,7 +20,7 @@ struct UIHelper {
     static func createTwoColumnFlowLayout(in view : UIView) -> UICollectionViewFlowLayout {
         let width = view.bounds.width
         let padding : CGFloat = 15
-        let minimumItemSpacing : CGFloat = 12
+        let minimumItemSpacing: CGFloat = 12
         let availableWidth = width - (padding * 2) - (minimumItemSpacing * 2)
         let itemWidth = availableWidth / 2
         
@@ -32,10 +32,10 @@ struct UIHelper {
     }
     
     //Sean Allen Github-Followers
-    static func createTwoColumnFlowLayoutForCategories(in view : UIView) -> UICollectionViewFlowLayout {
+    static func createTwoColumnFlowLayoutForCategories(in view: UIView) -> UICollectionViewFlowLayout {
         let width = view.bounds.width
-        let padding : CGFloat = 15
-        let minimumItemSpacing : CGFloat = 12
+        let padding: CGFloat = 15
+        let minimumItemSpacing: CGFloat = 12
         let availableWidth = width - (padding * 2) - (minimumItemSpacing * 2)
         let itemWidth = availableWidth / 2
         

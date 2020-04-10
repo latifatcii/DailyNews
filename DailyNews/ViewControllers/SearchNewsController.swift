@@ -38,19 +38,23 @@ class SearchNewsController : UIViewController {
     }
     
     private func configureCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createTwoColumnFlowLayout(in: view))
+        collectionView = UICollectionView(frame: view.bounds,
+                                          collectionViewLayout: UIHelper.createTwoColumnFlowLayout(in: view))
         collectionView.register(SearchCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.backgroundColor = .systemBackground
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(collectionView)
-        
-        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor)
+        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                              leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                              trailing: view.trailingAnchor)
     }
     
-    func searchNews(q : String , page : Int) {
+    func searchNews(qWord: String, page: Int) {
         activityIndicatorView.startAnimating()
-        FetchNews.shared.fetchDataForSearchController(ERequest(q: q, qInTitle: nil, domains: nil, excludeDomains: nil, from: nil, to: nil, language: "en", sortBy: nil, pageSize: 10, page: page, sources: nil)) { (result) in
+        FetchNews.shared.fetchDataForSearchController(ERequest(qWord: qWord, qInTitle: nil, domains: nil,
+                                                    excludeDomains: nil, fromDate: nil, toDate: nil, language: "en",
+                                                    sortBy: nil, pageSize: 10, page: page, sources: nil)) { (result) in
             DispatchQueue.main.async {
                 self.activityIndicatorView.stopAnimating()
             }
@@ -66,68 +70,57 @@ class SearchNewsController : UIViewController {
             case .failure(let err):
                 print(err)
             }
-            
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let sf = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
-        present(sf , animated: true)
-        
+        let safariVC = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
+        present(safariVC, animated: true)
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let height = scrollView.frame.size.height
-        
         if offsetY > contentHeight - height {
             guard hasMoreNews else {
                 return
             }
             page += 1
-            searchNews(q: searchedText, page: page)
-            
+            searchNews(qWord: searchedText, page: page)
         }
     }
 }
 
-extension SearchNewsController : UICollectionViewDelegateFlowLayout , UICollectionViewDataSource {
+extension SearchNewsController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return news.count
     }
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SearchCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? SearchCell
+            else {
+                return UICollectionViewCell()
+        }
         cell.news = self.news[indexPath.item]
         return cell
     }
 }
 
-extension SearchNewsController :  UISearchBarDelegate {
+extension SearchNewsController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
         page = 1
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
             self.news.removeAll()
             let searchedText = searchText.replacingOccurrences(of: " ", with: "-")
-            self.searchNews(q: searchedText, page: self.page)
+            self.searchNews(qWord: searchedText, page: self.page)
             self.searchedText = searchedText
         })
-        
     }
-    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         news.removeAll()
         page = 1
         collectionView.reloadData()
-
     }
-    
-
-
 }
-
-

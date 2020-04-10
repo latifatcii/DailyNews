@@ -8,17 +8,17 @@
 
 import UIKit
 
-protocol SlideMenuDelegate {
+protocol SlideMenuDelegate: class {
     func configureSlideMenu()
 }
-protocol SlideMenuGestureDelegate {
+protocol SlideMenuGestureDelegate: class {
     func configureTapGestureForSlideMenu()
 }
 
-protocol SlideMenuTableViewDelegate{
+protocol SlideMenuTableViewDelegate: class{
     func didSelectSlideMenuCell(cell : UITableViewCell)
 }
 
-protocol SourcesViewControllerDelegate {
-    func pushToSourcesVC(source : UIViewController)
+protocol SourcesViewControllerDelegate: class {
+    func pushToSourcesVC(source: UIViewController)
 }

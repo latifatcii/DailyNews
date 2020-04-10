@@ -9,8 +9,7 @@
 import UIKit
 import SafariServices
 
-class FeaturedCategoryController : UIViewController{
-    
+class FeaturedCategoryController : UIViewController {
     
     let layout = UICollectionViewFlowLayout()
     var news : [THArticle] = []
@@ -21,7 +20,6 @@ class FeaturedCategoryController : UIViewController{
     var page = 2
     var hasMoreNews = true
     let activityIndicatorView = UIActivityIndicatorView(color: .black)
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,21 +34,22 @@ class FeaturedCategoryController : UIViewController{
         collectionView.backgroundColor = .systemGray5
         collectionView.delegate = self
         collectionView.dataSource = self
-        
         collectionView.register(SectionsCell.self, forCellWithReuseIdentifier: feedCellId)
-        collectionView.register(SectionsPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerCellId)
-        
+        collectionView.register(SectionsPageHeader.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerCellId)
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor)
+        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                              leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                              trailing: view.trailingAnchor)
     }
-    func fetchNews(page : Int) {
+    func fetchNews(page: Int) {
         let dispatchGroup = DispatchGroup()
-        var headerGroup : [THArticle] = []
-        var group : [THArticle] = []
+        var headerGroup: [THArticle] = []
+        var group: [THArticle] = []
         activityIndicatorView.startAnimating()
-        dispatchGroup.enter()
         
-        FetchNews.shared.fetchData(THRequest(country: "us", category: .general, q: nil, pageSize: 10, page: page)) { (result) in
+        dispatchGroup.enter()
+        FetchNews.shared.fetchData(THRequest(country: "us", category: .general, qWord: nil, pageSize: 10, page: page)) { (result) in
             dispatchGroup.leave()
             switch result {
             case .success(let news):
@@ -64,7 +63,7 @@ class FeaturedCategoryController : UIViewController{
         }
         
         dispatchGroup.enter()
-        FetchNews.shared.fetchData(THRequest(country: "us", category: .general, q: nil, pageSize: 5, page: 1)) { (result) in
+        FetchNews.shared.fetchData(THRequest(country: "us", category: .general, qWord: nil, pageSize: 10, page: 1)) { (result) in
             dispatchGroup.leave()
             switch result {
             case .success(let news):
@@ -91,32 +90,28 @@ class FeaturedCategoryController : UIViewController{
                 return
             }
             page += 1
-            fetchNews(page : page)
+            fetchNews(page: page)
         }
     }
-    
 }
 
-extension FeaturedCategoryController : UICollectionViewDelegateFlowLayout , UICollectionViewDataSource {
+extension FeaturedCategoryController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         return .init(width: view.frame.width, height: view.frame.width / 1.2 )
     }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let sf = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
-
-        present(sf , animated: true)
-        
+        let safariVC = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
+        present(safariVC, animated: true)
     }
-    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerCellId, for: indexPath) as! SectionsPageHeader
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerCellId, for: indexPath)
+            as? SectionsPageHeader else {
+                return UICollectionReusableView()
+        }
         header.feedHeaderController.news = self.headerNews
         header.feedHeaderController.collectionView.reloadData()
         return header
@@ -125,17 +120,16 @@ extension FeaturedCategoryController : UICollectionViewDelegateFlowLayout , UICo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return .init(width: view.frame.width, height: view.frame.width / 1.2)
     }
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: feedCellId, for: indexPath) as! SectionsCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: feedCellId, for: indexPath) as? SectionsCell
+            else {
+                return UICollectionViewCell()
+        }
         let article = news[indexPath.item]
         cell.news = article
         return cell
     }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return news.count
     }
-    
-    
 }

@@ -2,8 +2,8 @@ import Foundation
 
 struct EArticle: Codable {
     let source: ESource
-    let author : String?
-    let title : String?
+    let author: String?
+    let title: String?
     let articleDescription: String?
     let url: String
     let urlToImage: String?

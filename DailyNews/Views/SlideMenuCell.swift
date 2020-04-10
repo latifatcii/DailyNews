@@ -15,45 +15,29 @@ class SlideMenuCell : UITableViewCell {
         label.font = .italicSystemFont(ofSize: 12)
         return label
     }()
-    
-    var sources : Sources? {
+    var sources: Sources? {
         didSet {
             if let sources = sources {
             textLabel?.text = sources.name
             }
         }
     }
-    
-    var slideDelegate : SlideMenuTableViewDelegate?
-    
-    
+   weak var slideDelegate : SlideMenuTableViewDelegate?
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
-
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     private func setupViews() {
-        
-        let starButton = UIButton(frame: .init(x: 0, y: 0, width: 50, height: 50))
-        starButton.setImage(UIImage(systemName: "arrow.right"), for: .normal)
-        
-        starButton.addTarget(self, action: #selector(addFavorite), for: .touchUpInside)
-        
-        accessoryView = starButton
+        let arrowButton = UIButton(frame: .init(x: 0, y: 0, width: 50, height: 50))
+        arrowButton.setImage(UIImage(systemName: "arrow.right"), for: .normal)
+        arrowButton.addTarget(self, action: #selector(addFavorite), for: .touchUpInside)
+        accessoryView = arrowButton
     }
-    
     @objc func addFavorite(button : UIButton) {
-
         slideDelegate?.didSelectSlideMenuCell(cell: self)
     }
-    
-    
-    
-    
-    
 }

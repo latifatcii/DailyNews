@@ -21,8 +21,7 @@ class TechnologyCategoryController : FeaturedCategoryController {
         activityIndicatorView.startAnimating()
 
         dispatchGroup.enter()
-
-        FetchNews.shared.fetchData(THRequest(country: "us", category: .technology, q: nil, pageSize: 10, page: page)) { (result) in
+        FetchNews.shared.fetchData(THRequest(country: "us", category: .technology, qWord: nil, pageSize: 10, page: page)) { (result) in
             dispatchGroup.leave()
             switch result {
             case .success(let news):
@@ -34,9 +33,9 @@ class TechnologyCategoryController : FeaturedCategoryController {
                 print(err.localizedDescription)
             }
         }
-        
+    
         dispatchGroup.enter()
-        FetchNews.shared.fetchData(THRequest(country: "us", category: .technology, q: nil, pageSize: 5, page: 1)) { (result) in
+        FetchNews.shared.fetchData(THRequest(country: "us", category: .technology, qWord: nil, pageSize: 10, page: 1)) { (result) in
             dispatchGroup.leave()
             switch result {
             case .success(let news):
@@ -45,7 +44,6 @@ class TechnologyCategoryController : FeaturedCategoryController {
                 print(err.localizedDescription)
             }
         }
-        
         dispatchGroup.notify(queue: .main) {
             self.activityIndicatorView.stopAnimating()
             self.headerNews = headerGroup

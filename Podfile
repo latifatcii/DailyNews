@@ -6,6 +6,7 @@ target 'DailyNews' do
   use_frameworks!
   
     pod 'SDWebImage'
+    pod 'SwiftLint'
 
   # Pods for DailyNews
 

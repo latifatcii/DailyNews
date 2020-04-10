@@ -3,7 +3,7 @@ import Foundation
 struct THArticle: Codable {
     let source: THSource
     let author: String?
-    let title : String
+    let title: String
     let articleDescription: String?
     let url: String
     let urlToImage: String?

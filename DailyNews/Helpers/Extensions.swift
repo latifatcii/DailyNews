@@ -8,8 +8,7 @@
 
 import UIKit
 
-fileprivate var containerView : UIView!
-
+private var containerView : UIView!
 extension UILabel {
     convenience init(text: String, font: UIFont) {
         self.init(frame: .zero)
@@ -17,7 +16,6 @@ extension UILabel {
         self.font = font
     }
 }
-
 extension UIImageView {
     convenience init(cornerRadius: CGFloat) {
         self.init(image: nil)
@@ -26,14 +24,12 @@ extension UIImageView {
         self.contentMode = .scaleAspectFill
     }
 }
-
 extension UIButton {
     convenience init(title: String) {
         self.init(type: .system)
         self.setTitle(title, for: .normal)
     }
 }
-
 extension UIActivityIndicatorView {
     convenience init(color : UIColor) {
         self.init(style : UIActivityIndicatorView.Style.large)
@@ -41,4 +37,3 @@ extension UIActivityIndicatorView {
         self.hidesWhenStopped = true
     }
 }
-

@@ -1,3 +1,4 @@
+import Foundation
 
 struct THNews: Codable {
     let status: String

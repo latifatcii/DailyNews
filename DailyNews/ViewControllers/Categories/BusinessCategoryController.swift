@@ -19,8 +19,9 @@ class BusinessCategoryController :  FeaturedCategoryController {
         var headerGroup : [THArticle] = []
         var group : [THArticle] = []
         activityIndicatorView.startAnimating()
+        
         dispatchGroup.enter()
-        FetchNews.shared.fetchData(THRequest(country: "us", category: .business, q: nil, pageSize: 10, page: page)) { (result) in
+        FetchNews.shared.fetchData(THRequest(country: "us", category: .business, qWord: nil, pageSize: 10, page: page)) { (result) in
             dispatchGroup.leave()
             switch result {
             case .success(let news):
@@ -34,7 +35,7 @@ class BusinessCategoryController :  FeaturedCategoryController {
         }
         
         dispatchGroup.enter()
-        FetchNews.shared.fetchData(THRequest(country: "us", category: .business, q: nil, pageSize: 5, page: 1)) { (result) in
+        FetchNews.shared.fetchData(THRequest(country: "us", category: .business, qWord: nil, pageSize: 10, page: 1)) { (result) in
             dispatchGroup.leave()
             switch result {
             case .success(let news):
@@ -43,7 +44,6 @@ class BusinessCategoryController :  FeaturedCategoryController {
                 print(err.localizedDescription)
             }
         }
-        
         dispatchGroup.notify(queue: .main) {
             self.activityIndicatorView.stopAnimating()
             self.headerNews = headerGroup

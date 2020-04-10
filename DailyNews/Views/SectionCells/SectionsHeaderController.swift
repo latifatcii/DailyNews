@@ -10,7 +10,7 @@ import UIKit
 import SDWebImage
 import SafariServices
 
-class SectionsHeaderController: BaseListController , UICollectionViewDelegateFlowLayout {
+class SectionsHeaderController: BaseListController, UICollectionViewDelegateFlowLayout {
     
     let cellId = "cellId"
     var news : [THArticle] = []
@@ -19,15 +19,13 @@ class SectionsHeaderController: BaseListController , UICollectionViewDelegateFlo
         super.viewDidLoad()
         collectionView.backgroundColor = .white
         collectionView.register(SectionsHeaderCell.self, forCellWithReuseIdentifier: cellId)
-        
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
         }
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
     }
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return .init(width: view.frame.width, height: view.frame.width / 1.2)
     }
@@ -38,9 +36,8 @@ class SectionsHeaderController: BaseListController , UICollectionViewDelegateFlo
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let sf = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
-        self.view.window?.rootViewController?.present(sf, animated: true, completion: nil)
-        
+        let safariVC = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
+        self.view.window?.rootViewController?.present(safariVC, animated: true, completion: nil)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -48,11 +45,13 @@ class SectionsHeaderController: BaseListController , UICollectionViewDelegateFlo
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SectionsHeaderCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? SectionsHeaderCell
+            else {
+                return UICollectionViewCell()
+        }
         let article = news[indexPath.item]
         cell.news = article
         cell.scrollIndicator.currentPage = indexPath.item
         return cell
     }
 }
-

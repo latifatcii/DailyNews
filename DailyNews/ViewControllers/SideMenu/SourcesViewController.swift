@@ -18,20 +18,17 @@ class SourcesViewController : UIViewController {
     var page = 1
     var hasMoreNews = true
     let cellId = "cellId"
-
-    let dismissButton : UIButton = {
+    
+    let dismissButton: UIButton = {
         let button = UIButton(title: "Close")
-        
         return button
     }()
-    
     let activityIndicatorView: UIActivityIndicatorView = {
         let aiv = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
         aiv.color = .black
         aiv.hidesWhenStopped = true
         return aiv
     }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +38,7 @@ class SourcesViewController : UIViewController {
         view.addSubview(activityIndicatorView)
         activityIndicatorView.fillSuperview()
     }
-        
+    
     private func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createTwoColumnFlowLayout(in: view))
         collectionView.register(SearchCell.self, forCellWithReuseIdentifier: cellId)
@@ -49,13 +46,16 @@ class SourcesViewController : UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(collectionView)
-
-        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor,padding: .init(top: 0, left: 0, bottom: 0, right: 0))
+        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor,
+                              bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                              trailing: view.trailingAnchor,padding: .init(top: 0, left: 0, bottom: 0, right: 0))
     }
-
-    private func fetchNews(source : String , page : Int) {
+    
+    private func fetchNews(source: String, page : Int) {
         activityIndicatorView.startAnimating()
-        FetchNews.shared.fetchNewsWithSources(ERequest(q: nil, qInTitle: nil, domains: nil, excludeDomains: nil, from: nil, to: nil, language: "en", sortBy: nil, pageSize: 10, page: page, sources: source)) { (result) in
+        FetchNews.shared.fetchNewsWithSources(ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil,
+                                                       fromDate: nil, toDate: nil, language: "en", sortBy: nil,
+                                                       pageSize: 10, page: page, sources: source)) { (result) in
             DispatchQueue.main.async {
                 self.activityIndicatorView.stopAnimating()
             }
@@ -76,20 +76,21 @@ class SourcesViewController : UIViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let sf = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
-        present(sf , animated: true)
-        
+        let safariVC = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
+        present(safariVC, animated: true)
     }
-    
 }
 
-extension SourcesViewController : UICollectionViewDelegateFlowLayout , UICollectionViewDataSource {
+extension SourcesViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return news.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SearchCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? SearchCell
+            else {
+                return UICollectionViewCell()
+        }
         cell.news = self.news[indexPath.item]
         return cell
     }
@@ -98,15 +99,13 @@ extension SourcesViewController : UICollectionViewDelegateFlowLayout , UICollect
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let height = scrollView.frame.size.height
-        
         if offsetY > contentHeight - height {
             guard hasMoreNews else {
                 return
             }
             page += 1
             fetchNews(source: sourceId, page: page)
-            
         }
     }
-
+    
 }
