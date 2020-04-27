@@ -31,7 +31,7 @@ class SideMenuController: UIViewController {
         tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(SlideMenuCell.self, forCellReuseIdentifier: sideMenuCellId)
+        tableView.register(SideMenuCell.self, forCellReuseIdentifier: sideMenuCellId)
         view.addSubview(tableView)
         tableView.edgesToSuperview(insets: .top(60), usingSafeArea: true)
         tableView.showsVerticalScrollIndicator = false
@@ -190,7 +190,7 @@ extension SideMenuController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: sideMenuCellId, for: indexPath) as? SlideMenuCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: sideMenuCellId, for: indexPath) as? SideMenuCell
             else { return UITableViewCell() }
         cell.sources = self.sources[indexPath.section].sources[indexPath.row]
         cell.selectionStyle = .none

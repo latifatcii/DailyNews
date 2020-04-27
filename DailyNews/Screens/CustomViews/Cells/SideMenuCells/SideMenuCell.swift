@@ -1,5 +1,5 @@
 //
-//  SlideMenuCell.swift
+//  SideMenuCell.swift
 //  DailyNews
 //
 //  Created by Latif Atci on 4/1/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SlideMenuCell: UITableViewCell {
+class SideMenuCell: UITableViewCell {
 
     weak var slideDelegate: SlideMenuTableViewDelegate?
     var menuLabel: UILabel = {
