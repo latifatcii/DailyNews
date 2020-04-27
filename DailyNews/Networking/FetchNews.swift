@@ -1,10 +1,17 @@
-import UIKit
+import Foundation
 
-class FetchNews {
+protocol FetchNewsProtocol {
+    func fetchTopHeadlineNews(_ from: THRequest, completion: @escaping (Result<THNews, Error>) -> Void)
+    func fetchDataForSearchController(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void)
+    func fetchNewsFromEverything( _ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void)
+    func fetchSources(_ from: SRequest, completion: @escaping (Result<SourcesModel, Error>) -> Void)
+    func fetchNewsWithSources(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void)
+}
+
+class FetchNews: FetchNewsProtocol {
     static let shared = FetchNews()
-    let cache = NSCache<NSString, UIImage>()
-    
-    func fetchData(_ from: THRequest, completion: @escaping (Result<THNews, Error>) -> Void) {
+
+    func fetchTopHeadlineNews(_ from: THRequest, completion: @escaping (Result<THNews, Error>) -> Void) {
         guard let page = from.page, let country = from.country, let pageSize = from.pageSize, let category = from.category else { return }
 
         let endpoint = EndPointType().topHeadline + "?apiKey=ff5f1bcd02d643f38454768fbc539040&country=\(country)&pageSize=\(pageSize)&page=\(page)&category=\(category)"
@@ -24,7 +31,7 @@ class FetchNews {
             }
             do {
                 let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
+//                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let news = try decoder.decode(THNews.self, from: data)
                 completion(.success(news))
             } catch {
@@ -54,7 +61,7 @@ class FetchNews {
             }
             do {
                 let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
+//                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let news = try decoder.decode(ENews.self, from: data)
                 completion(.success(news))
             } catch {
@@ -85,7 +92,7 @@ class FetchNews {
             }
             do {
                 let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
+//                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let news = try decoder.decode(ENews.self, from: data)
                 completion(.success(news))
             } catch {
@@ -115,7 +122,7 @@ class FetchNews {
             }
             do {
                 let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
+//                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let sources = try decoder.decode(SourcesModel.self, from: data)
                 completion(.success(sources))
             } catch {
@@ -145,7 +152,7 @@ class FetchNews {
             }
             do {
                 let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
+//                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let news = try decoder.decode(ENews.self, from: data)
                 completion(.success(news))
             } catch {

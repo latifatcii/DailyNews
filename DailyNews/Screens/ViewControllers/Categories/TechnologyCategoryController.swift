@@ -22,7 +22,7 @@ class TechnologyCategoryController: FeaturedCategoryController {
 
         dispatchGroup.enter()
         dispatchQueue.async {
-            FetchNews.shared.fetchData(THRequest(country: "us", category: .technology, qWord: nil, pageSize: 10, page: page)) { [weak self] (result) in
+            FetchNews.shared.fetchTopHeadlineNews(THRequest(country: "us", category: .technology, qWord: nil, pageSize: 10, page: page)) { [weak self] (result) in
                 guard let self = self else { return }
                 switch result {
                 case .success(let news):
@@ -39,7 +39,7 @@ class TechnologyCategoryController: FeaturedCategoryController {
 
         dispatchGroup.enter()
         dispatchQueue.async {
-            FetchNews.shared.fetchData(THRequest(country: "us", category: .technology, qWord: nil, pageSize: 10, page: 1)) { (result) in
+            FetchNews.shared.fetchTopHeadlineNews(THRequest(country: "us", category: .technology, qWord: nil, pageSize: 10, page: 1)) { (result) in
                 switch result {
                 case .success(let news):
                     headerGroup = news.articles
