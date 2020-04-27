@@ -36,16 +36,16 @@ class SectionsCell: UICollectionViewCell {
         didSet {
             if let news = news {
                 if let newsImageUrl = news.urlToImage {
-                    let time = news.publishedAt.getTimeAgo()
-                    headerLabel.text = news.title
-                    timeLabel.text = time
-                    sourceLabel.text = news.source.name
                     if newsImageUrl != "null" {
                         newsImageView.sd_setImage(with: URL(string: newsImageUrl))
                     } else {
                         newsImageView.image = UIImage(named: "placeholderNews")
                     }
                 }
+                let time = news.publishedAt.getTimeAgo()
+                headerLabel.text = news.title
+                timeLabel.text = time
+                sourceLabel.text = news.source.name
             }
         }
     }
@@ -53,16 +53,16 @@ class SectionsCell: UICollectionViewCell {
         didSet {
             if let newsEverything = newsEverything {
                 if let newsImageUrl = newsEverything.urlToImage {
-                    let time = newsEverything.publishedAt.getTimeAgo()
-                    headerLabel.text = newsEverything.title
-                    timeLabel.text = time
-                    sourceLabel.text = newsEverything.source.name
                     if newsImageUrl != "null"{
                         newsImageView.sd_setImage(with: URL(string: newsImageUrl))
                     } else {
                         newsImageView.image = UIImage(named: "placeholderNews")
                     }
                 }
+                let time = newsEverything.publishedAt.getTimeAgo()
+                headerLabel.text = newsEverything.title
+                timeLabel.text = time
+                sourceLabel.text = newsEverything.source.name
             }
         }
     }

@@ -34,7 +34,8 @@ class NewsHeaderController: BaseListController, UICollectionViewDelegateFlowLayo
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let safariVC = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
-        self.view.window?.rootViewController?.present(safariVC, animated: true, completion: nil)
+        show(safariVC, sender: nil)
+//        self.view.window?.rootViewController?.present(safariVC, animated: true, completion: nil)
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -44,16 +44,16 @@ class SearchCell: UICollectionViewCell {
         didSet {
             if let news = news {
                 if let newsImageUrl = news.urlToImage {
-                let time = news.publishedAt.getTimeAgo()
-                headerLabel.text = news.title
-                timeLabel.text = time
-                sourceLabel.text = news.source.name
                     if newsImageUrl != "null" {
                         newsImageView.sd_setImage(with: URL(string: newsImageUrl))
                     } else {
                         newsImageView.image = UIImage(named: "placeholderNews")
                     }
                 }
+                let time = news.publishedAt.getTimeAgo()
+                headerLabel.text = news.title
+                timeLabel.text = time
+                sourceLabel.text = news.source.name
             }
         }
     }

@@ -31,13 +31,13 @@ class SectionsHeaderCell: UICollectionViewCell {
         didSet {
             if let news = news {
                 if let newsImageUrl = news.urlToImage {
-                    headerLabel.text = news.title
                     if newsImageUrl != "null" {
                         newsImageView.sd_setImage(with: URL(string: newsImageUrl))
                     } else {
                         newsImageView.image = UIImage(named: "placeholderNews")
                     }
                 }
+                headerLabel.text = news.title
             }
         }
     }
@@ -45,13 +45,13 @@ class SectionsHeaderCell: UICollectionViewCell {
         didSet {
             if let newsEverything = newsEverything {
                 if let newsImageUrl = newsEverything.urlToImage {
-                    headerLabel.text = newsEverything.title
                     if newsImageUrl != "null" {
                         newsImageView.sd_setImage(with: URL(string: newsImageUrl))
                     } else {
                         newsImageView.image = UIImage(named: "placeholderNews")
                     }
                 }
+                headerLabel.text = newsEverything.title
             }
         }
     }
