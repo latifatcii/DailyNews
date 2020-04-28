@@ -49,7 +49,7 @@ class SectionsCell: UICollectionViewCell {
             }
         }
     }
-    var newsEverything: EArticle? {
+    var newsEverything: EverythingPresentation? {
         didSet {
             if let newsEverything = newsEverything {
                 if let newsImageUrl = newsEverything.urlToImage {
@@ -62,7 +62,7 @@ class SectionsCell: UICollectionViewCell {
                 let time = newsEverything.publishedAt.getTimeAgo()
                 headerLabel.text = newsEverything.title
                 timeLabel.text = time
-                sourceLabel.text = newsEverything.source.name
+                sourceLabel.text = newsEverything.source
             }
         }
     }

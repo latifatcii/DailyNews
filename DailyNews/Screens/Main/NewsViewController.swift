@@ -15,7 +15,7 @@ import RxCocoa
 class NewsViewController: UIViewController {
 
     let layout = UICollectionViewFlowLayout()
-    var news: [EArticle] = []
+    var news: PublishSubject<[EverythingPresentation]> = PublishSubject()
     var headerNews: [EArticle] = []
     var sources: [Sources] = []
     var collectionView: UICollectionView!
@@ -24,22 +24,40 @@ class NewsViewController: UIViewController {
     var page = 2
     var hasMoreNews = true
     let activityIndicatorView = UIActivityIndicatorView(color: .black)
-
+    
+    let viewModel = NewsViewModel()
+    let disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
         view.addSubview(activityIndicatorView)
         activityIndicatorView.edgesToSuperview()
-        fetchNews(page: page)
-        activityIndicatorView.startAnimating()
-
+        setupBinding()
+        viewModel.fetchNews()
+//        fetchNews(page: page)
+//        activityIndicatorView.startAnimating()
     }
+    
+    func setupBinding() {
+        viewModel.newsForCells
+            .observeOn(MainScheduler.instance)
+        .bind(to: news)
+        .disposed(by: disposeBag)
+        
+        news.bind(to: collectionView.rx.items(cellIdentifier: newsCellId, cellType: SectionsCell.self)) {
+            (row, news, cell) in
+            cell.newsEverything = news
+        }.disposed(by: disposeBag)
+            
+    }
+    
 
     func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemGray5
         collectionView.delegate = self
-        collectionView.dataSource = self
+//        collectionView.dataSource = self
         collectionView.register(SectionsCell.self, forCellWithReuseIdentifier: newsCellId)
         collectionView.register(NewsPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: headerNewsCellId)
@@ -87,24 +105,24 @@ class NewsViewController: UIViewController {
         dispatchGroup.notify(queue: .main) {
             self.activityIndicatorView.stopAnimating()
             self.headerNews = headerGroup
-            self.news.append(contentsOf: group)
+//            self.news.append(contentsOf: group)
             self.collectionView.reloadData()
         }
     }
 }
 
-extension NewsViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+extension NewsViewController: UICollectionViewDelegateFlowLayout {
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        news.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: newsCellId, for: indexPath) as? SectionsCell
-            else { return UICollectionViewCell() }
-        cell.newsEverything = news[indexPath.item]
-        return cell
-    }
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        news.count
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: newsCellId, for: indexPath) as? SectionsCell
+//            else { return UICollectionViewCell() }
+//        cell.newsEverything = news[indexPath.item]
+//        return cell
+//    }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerNewsCellId, for: indexPath) as? NewsPageHeader else { return UICollectionReusableView() }
@@ -136,8 +154,8 @@ extension NewsViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         return 5
     }
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let safariVC = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
-        present(safariVC, animated: true)
-    }
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        let safariVC = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
+//        present(safariVC, animated: true)
+//    }
 }
