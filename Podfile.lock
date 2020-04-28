@@ -8,14 +8,12 @@ PODS:
   - SDWebImage (5.6.1):
     - SDWebImage/Core (= 5.6.1)
   - SDWebImage/Core (5.6.1)
-  - SwiftLint (0.37.0)
   - TinyConstraints (4.0.1)
 
 DEPENDENCIES:
   - RxCocoa (~> 5)
   - RxSwift (~> 5)
   - SDWebImage
-  - SwiftLint
   - TinyConstraints
 
 SPEC REPOS:
@@ -24,7 +22,6 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - SDWebImage
-    - SwiftLint
     - TinyConstraints
 
 SPEC CHECKSUMS:
@@ -32,9 +29,8 @@ SPEC CHECKSUMS:
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SDWebImage: 7edb9c3ea661e77a66661f7f044de8c1b55d1120
-  SwiftLint: c078a14d7d7ade75e5507795d185e3da41d844d2
   TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
 
-PODFILE CHECKSUM: f17163024389c8c2b48aa9658eebb98578160e04
+PODFILE CHECKSUM: 7e8b81a0d5d70757c71e15c518bb44f80629872a
 
 COCOAPODS: 1.8.4

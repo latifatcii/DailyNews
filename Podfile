@@ -6,7 +6,6 @@ target 'DailyNews' do
   use_frameworks!
   
     pod 'SDWebImage'
-    pod 'SwiftLint'
     pod "TinyConstraints"
     pod 'RxSwift', '~> 5'
     pod 'RxCocoa', '~> 5'
