@@ -9,6 +9,4 @@
 import Foundation
 
 final class NewsViewModel {
-    
-    
 }
