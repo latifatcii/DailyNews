@@ -16,7 +16,7 @@ class NewsViewController: UIViewController {
 
     let layout = UICollectionViewFlowLayout()
     var news: PublishSubject<[EverythingPresentation]> = PublishSubject()
-    var headerNews: [EArticle] = []
+    var headerNews: PublishSubject<[EverythingPresentation]> = PublishSubject()
     var sources: [Sources] = []
     var collectionView: UICollectionView!
     let newsCellId = "newsCellId"
@@ -35,11 +35,15 @@ class NewsViewController: UIViewController {
         activityIndicatorView.edgesToSuperview()
         setupBinding()
         viewModel.fetchNews()
-//        fetchNews(page: page)
-//        activityIndicatorView.startAnimating()
+
     }
     
     func setupBinding() {
+        viewModel.loading.asObserver()
+            .observeOn(MainScheduler.instance)
+            .bind(to: activityIndicatorView.rx.isAnimating)
+            .disposed(by: disposeBag)
+        
         viewModel.newsForCells
             .observeOn(MainScheduler.instance)
         .bind(to: news)
@@ -49,7 +53,14 @@ class NewsViewController: UIViewController {
             (row, news, cell) in
             cell.newsEverything = news
         }.disposed(by: disposeBag)
-            
+        
+        viewModel.newsForHeader
+            .observeOn(MainScheduler.instance)
+        .bind(to: headerNews)
+        .disposed(by: disposeBag)
+        
+//        headerNews.bind(to: collectionView.rx.items(cellIdentifier: headerNewsCellId, cellType: NewsPageHeader.self))
+        
     }
     
 
@@ -104,7 +115,7 @@ class NewsViewController: UIViewController {
 
         dispatchGroup.notify(queue: .main) {
             self.activityIndicatorView.stopAnimating()
-            self.headerNews = headerGroup
+//            self.headerNews = headerGroup
 //            self.news.append(contentsOf: group)
             self.collectionView.reloadData()
         }
@@ -113,23 +124,13 @@ class NewsViewController: UIViewController {
 
 extension NewsViewController: UICollectionViewDelegateFlowLayout {
 
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        news.count
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: newsCellId, for: indexPath) as? SectionsCell
-//            else { return UICollectionViewCell() }
-//        cell.newsEverything = news[indexPath.item]
-//        return cell
-//    }
 
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerNewsCellId, for: indexPath) as? NewsPageHeader else { return UICollectionReusableView() }
-        header.feedHeaderController.news = self.headerNews
-        header.feedHeaderController.collectionView.reloadData()
-        return header
-    }
+//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerNewsCellId, for: indexPath) as? NewsPageHeader else { return UICollectionReusableView() }
+////        header.feedHeaderController.news = self.headerNews
+//        header.feedHeaderController.collectionView.reloadData()
+//        return header
+//    }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return .init(width: view.frame.width, height: view.frame.width / 1.2)
@@ -154,8 +155,4 @@ extension NewsViewController: UICollectionViewDelegateFlowLayout {
         return 5
     }
 
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let safariVC = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
-//        present(safariVC, animated: true)
-//    }
 }
