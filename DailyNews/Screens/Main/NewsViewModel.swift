@@ -10,13 +10,12 @@ import Foundation
 import RxSwift
 
 final class NewsViewModel {
-    
+
     let service = FetchNews()
     var newsForHeader: PublishSubject<[EverythingPresentation]> = PublishSubject()
     var newsForCells: PublishSubject<[EverythingPresentation]> = PublishSubject()
     let loading: PublishSubject<Bool> = PublishSubject()
-    
-    
+
     func fetchNews() {
         let dispatchQueue = DispatchQueue(label: "com.latifatci.DailyNews", qos: .background, attributes: .concurrent)
         let dispatchGroup = DispatchGroup()
@@ -26,6 +25,7 @@ final class NewsViewModel {
             self.service.fetchNewsFromEverything(ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil, fromDate: nil, toDate: nil, language: "en", sortBy: .publishedAt, pageSize: 10, page: 2, sources: Constants.sourcesIds)) { (result) in
                 switch result {
                 case .success(let news):
+                    
                     let cellNews = news.articles.map({EverythingPresentation.init(everything: $0)})
                     self.newsForCells.onNext(cellNews)
                 case .failure(let err):

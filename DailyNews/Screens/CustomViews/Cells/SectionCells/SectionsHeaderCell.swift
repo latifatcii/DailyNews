@@ -41,7 +41,7 @@ class SectionsHeaderCell: UICollectionViewCell {
             }
         }
     }
-    var newsEverything: EArticle? {
+    var newsEverything: EverythingPresentation? {
         didSet {
             if let newsEverything = newsEverything {
                 if let newsImageUrl = newsEverything.urlToImage {
