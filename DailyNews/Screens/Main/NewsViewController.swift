@@ -34,7 +34,7 @@ class NewsViewController: UIViewController {
         view.addSubview(activityIndicatorView)
         activityIndicatorView.edgesToSuperview()
         setupBinding()
-        viewModel.fetchNews()
+//        viewModel.fetchNews()
         
     }
     
@@ -50,9 +50,9 @@ class NewsViewController: UIViewController {
             cell.newsEverything = item
             return cell
         }, configureSupplementaryView: {
-            (a, b, c, d) in
-            guard let header = b.dequeueReusableSupplementaryView(ofKind: c, withReuseIdentifier: self.headerNewsCellId, for: d) as? NewsPageHeader else { return UICollectionReusableView() }
-
+            (a, collectionView, kind, indexPath) in
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: self.headerNewsCellId, for: indexPath) as? NewsPageHeader else { return UICollectionReusableView() }
+            
             return header
         })
         viewModel.newsForCells
@@ -69,7 +69,6 @@ class NewsViewController: UIViewController {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemGray5
         collectionView.delegate = self
-        //        collectionView.dataSource = self
         collectionView.register(SectionsCell.self, forCellWithReuseIdentifier: newsCellId)
         collectionView.register(NewsPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: headerNewsCellId)

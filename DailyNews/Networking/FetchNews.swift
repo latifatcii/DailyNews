@@ -1,4 +1,5 @@
 import Foundation
+import RxSwift
 
 protocol FetchNewsProtocol {
     func fetchTopHeadlineNews(_ from: THRequest, completion: @escaping (Result<THNews, Error>) -> Void)
@@ -10,133 +11,59 @@ protocol FetchNewsProtocol {
 
 class FetchNews: FetchNewsProtocol {
     static let shared = FetchNews()
-
+    
     func fetchTopHeadlineNews(_ from: THRequest, completion: @escaping (Result<THNews, Error>) -> Void) {
+        
         guard let page = from.page, let country = from.country, let pageSize = from.pageSize, let category = from.category else { return }
-
-        let endpoint = EndPointType().topHeadline + "?apiKey=ff5f1bcd02d643f38454768fbc539040&country=\(country)&pageSize=\(pageSize)&page=\(page)&category=\(category)"
-
-        guard let url = URL(string: endpoint) else { return }
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if error != nil {
-                print("error1")
-            }
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                print("invalid response")
-                return
-            }
-            guard let data = data else {
-                print("invalid data")
-                return
-            }
-            do {
-                let decoder = JSONDecoder()
-//                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let news = try decoder.decode(THNews.self, from: data)
-                completion(.success(news))
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        task.resume()
+        
+        let params: [String:Any] = ["country" : country, "pageSize": pageSize, "page": page, "category": category]
+        
+        deneme(params: params, endpointType: EndPointType().topHeadline , completion: completion)
     }
 
+    
     func fetchDataForSearchController(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void) {
+        
         guard let page = from.page, let pageSize = from.pageSize, let language = from.language, let qWord = from.qWord else { return }
-
-        let endpoint = EndPointType().everything + "?apiKey=ff5f1bcd02d643f38454768fbc539040&language=\(language)&pageSize=\(pageSize)&q=\(qWord)&page=\(page)"
-
-        guard let url = URL(string: endpoint) else { return }
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if error != nil {
-                print("error1")
-            }
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                print("invalid response")
-                return
-            }
-            guard let data = data else {
-                print("invalid data")
-                return
-            }
-            do {
-                let decoder = JSONDecoder()
-//                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let news = try decoder.decode(ENews.self, from: data)
-                completion(.success(news))
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        task.resume()
+        let params: [String:Any] = ["page" : page, "pageSize": pageSize, "language": language, "qWord": qWord]
+        
+        deneme(params: params, endpointType: EndPointType().everything , completion: completion)
     }
-
+    
     func fetchNewsFromEverything( _ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void) {
         guard let page = from.page, let pageSize = from.pageSize, let language = from.language, let sources = from.sources, let sortBy = from.sortBy
             else { return }
-
-        let endpoint = EndPointType().everything + "?apiKey=ff5f1bcd02d643f38454768fbc539040&language=\(language)&pageSize=\(pageSize)&page=\(page)&sources=\(sources)&sortBy=\(sortBy)"
-
-        guard let url = URL(string: endpoint) else { return }
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if error != nil {
-                print("error1")
-            }
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                print("invalid response")
-                return
-            }
-            guard let data = data else {
-                print("invalid data")
-                return
-            }
-            do {
-                let decoder = JSONDecoder()
-//                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let news = try decoder.decode(ENews.self, from: data)
-                completion(.success(news))
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        task.resume()
+        
+        let params: [String:Any] = ["page" : page, "pageSize": pageSize, "language": language, "sources": sources, "sortBy": sortBy]
+        
+        deneme(params: params, endpointType: EndPointType().everything , completion: completion)
     }
-
+    
     func fetchSources(_ from: SRequest, completion: @escaping (Result<SourcesModel, Error>) -> Void) {
         guard let category = from.category, let language = from.language else { return }
-
-        let endpoint = EndPointType().sourcesRepsonses + "?apiKey=ff5f1bcd02d643f38454768fbc539040&category=\(category)&language\(language)"
-
-        guard let url = URL(string: endpoint) else { return }
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if error != nil {
-                print("error1")
-            }
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                print("invalid response")
-                return
-            }
-            guard let data = data else {
-                print("invalid data")
-                return
-            }
-            do {
-                let decoder = JSONDecoder()
-//                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let sources = try decoder.decode(SourcesModel.self, from: data)
-                completion(.success(sources))
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        task.resume()
+    
+        let params: [String:Any] = ["category" : category, "language": language]
+        
+        deneme(params: params, endpointType: EndPointType().sourcesResponses, completion: completion)
     }
-
+    
     func fetchNewsWithSources(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void) {
         guard let page = from.page, let pageSize = from.pageSize, let language = from.language, let sources = from.sources else { return }
+        
+       let params: [String:Any] = ["sources" : sources, "pageSize": pageSize, "page": page, "language": language]
+        
+        deneme(params: params,endpointType: EndPointType().everything ,completion: completion)
 
-        let endpoint = EndPointType().everything + "?apiKey=ff5f1bcd02d643f38454768fbc539040&language=\(language)&pageSize=\(pageSize)&page=\(page)&sources=\(sources)"
-
+    }
+    
+    func deneme<T: Decodable>(params: [String : Any], endpointType: String ,completion: @escaping (Result<T, Error>) -> Void) {
+        
+        var endpoint = endpointType + "?apiKey=ff5f1bcd02d643f38454768fbc539040"
+        
+        params.forEach { (key,value) in
+            endpoint.append("&\(key)=\(value)")
+        }
+        
         guard let url = URL(string: endpoint) else { return }
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if error != nil {
@@ -152,8 +79,7 @@ class FetchNews: FetchNewsProtocol {
             }
             do {
                 let decoder = JSONDecoder()
-//                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let news = try decoder.decode(ENews.self, from: data)
+                let news = try decoder.decode(T.self, from: data)
                 completion(.success(news))
             } catch {
                 print(error.localizedDescription)

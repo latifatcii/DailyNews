@@ -10,14 +10,18 @@ import Foundation
 import RxSwift
 
 final class NewsViewModel {
-
-    let service = FetchNews()
-    var newsForHeader: PublishSubject<[EverythingPresentation]> = PublishSubject()
-    var newsForCells: PublishSubject<[EverythingPresentation]> = PublishSubject()
-    let loading: PublishSubject<Bool> = PublishSubject()
-
+    var service: FetchNewsProtocol
+    var newsForHeader: BehaviorSubject<[EverythingPresentation]> = .init(value: [])
+    var newsForCells: BehaviorSubject<[EverythingPresentation]> = .init(value: [])
+    let loading: BehaviorSubject<Bool> = .init(value: true)
+    let dispatchQueue = DispatchQueue(label: "com.latifatci.DailyNews", qos: .background, attributes: .concurrent)
+    
+    init(_ service: FetchNewsProtocol = FetchNews()) {
+        self.service = service
+        fetchNews()
+    }
     func fetchNews() {
-        let dispatchQueue = DispatchQueue(label: "com.latifatci.DailyNews", qos: .background, attributes: .concurrent)
+        
         let dispatchGroup = DispatchGroup()
         self.loading.onNext(true)
         dispatchGroup.enter()
@@ -25,7 +29,6 @@ final class NewsViewModel {
             self.service.fetchNewsFromEverything(ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil, fromDate: nil, toDate: nil, language: "en", sortBy: .publishedAt, pageSize: 10, page: 2, sources: Constants.sourcesIds)) { (result) in
                 switch result {
                 case .success(let news):
-                    
                     let cellNews = news.articles.map({EverythingPresentation.init(everything: $0)})
                     self.newsForCells.onNext(cellNews)
                 case .failure(let err):
