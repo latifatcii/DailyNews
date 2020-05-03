@@ -54,7 +54,7 @@ class SourcesViewController: UIViewController {
 
     private func fetchNews(source: String, page: Int) {
         activityIndicatorView.startAnimating()
-        FetchNews.shared.fetchNewsWithSources(ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil,
+        NewsService.shared.fetchNewsWithSources(ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil,
                                                        fromDate: nil, toDate: nil, language: "en", sortBy: nil,
                                                        pageSize: 10, page: page, sources: source)) { [weak self] (result) in
                                                         guard let self = self else { return }

@@ -16,20 +16,13 @@ class NewsHeaderController: BaseListController, UICollectionViewDelegateFlowLayo
     let cellId = "cellId"
     var news: PublishSubject<[EverythingPresentation]> = PublishSubject()
     var headerNews: [EverythingPresentation] = []
-    let viewModel = NewsViewModel()
+    let viewModel = NewsHeaderViewModel()
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.backgroundColor = .white
-        collectionView.register(SectionsHeaderCell.self, forCellWithReuseIdentifier: cellId)
-        if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.scrollDirection = .horizontal
-        }
-        collectionView.isPagingEnabled = true
-        collectionView.showsHorizontalScrollIndicator = false
-        viewModel.fetchNews()
-
+        configureCollectionView()
+        
         viewModel.newsForHeader
             .observeOn(MainScheduler.instance)
             .bind(to: self.news)
@@ -40,9 +33,16 @@ class NewsHeaderController: BaseListController, UICollectionViewDelegateFlowLayo
             self.headerNews.append(contentsOf: $0)
             self.collectionView.reloadData()
         }).disposed(by: disposeBag)
-
-
-        
+    }
+    
+    func configureCollectionView() {
+        collectionView.backgroundColor = .white
+        collectionView.register(SectionsHeaderCell.self, forCellWithReuseIdentifier: cellId)
+        if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = .horizontal
+        }
+        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return .init(width: view.frame.width, height: view.frame.width / 1.2)

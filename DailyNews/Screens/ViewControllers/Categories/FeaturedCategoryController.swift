@@ -51,7 +51,7 @@ class FeaturedCategoryController: UIViewController {
 
         dispatchGroup.enter()
         dispatchQueue.async {
-            FetchNews.shared.fetchTopHeadlineNews(THRequest(country: "us", category: .general, qWord: nil, pageSize: 10, page: page)) { [weak self] (result) in
+            NewsService.shared.fetchTopHeadlineNews(THRequest(country: "us", category: .general, qWord: nil, pageSize: 10, page: page)) { [weak self] (result) in
                 guard let self = self else { return }
                 switch result {
                 case .success(let news):
@@ -68,7 +68,7 @@ class FeaturedCategoryController: UIViewController {
 
         dispatchGroup.enter()
         dispatchQueue.async {
-            FetchNews.shared.fetchTopHeadlineNews(THRequest(country: "us", category: .general, qWord: nil, pageSize: 10, page: 1)) { (result) in
+            NewsService.shared.fetchTopHeadlineNews(THRequest(country: "us", category: .general, qWord: nil, pageSize: 10, page: 1)) { (result) in
                 switch result {
                 case .success(let news):
                     headerGroup = news.articles

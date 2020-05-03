@@ -34,8 +34,6 @@ class NewsViewController: UIViewController {
         view.addSubview(activityIndicatorView)
         activityIndicatorView.edgesToSuperview()
         setupBinding()
-//        viewModel.fetchNews()
-        
     }
     
     func setupBinding() {

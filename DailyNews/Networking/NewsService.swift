@@ -1,7 +1,7 @@
 import Foundation
 import RxSwift
 
-protocol FetchNewsProtocol {
+protocol NewsServiceProtocol {
     func fetchTopHeadlineNews(_ from: THRequest, completion: @escaping (Result<THNews, Error>) -> Void)
     func fetchDataForSearchController(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void)
     func fetchNewsFromEverything( _ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void)
@@ -9,9 +9,8 @@ protocol FetchNewsProtocol {
     func fetchNewsWithSources(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void)
 }
 
-class FetchNews: FetchNewsProtocol {
-    static let shared = FetchNews()
-    
+class NewsService: NewsServiceProtocol {
+
     func fetchTopHeadlineNews(_ from: THRequest, completion: @escaping (Result<THNews, Error>) -> Void) {
         
         guard let page = from.page, let country = from.country, let pageSize = from.pageSize, let category = from.category else { return }

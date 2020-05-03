@@ -70,7 +70,7 @@ class SideMenuController: UIViewController {
 
         dispatchGroup.enter()
         dispatchQueue.async {
-            FetchNews.shared.fetchSources(SRequest(category: .general, language: "en", country: nil)) { (result) in
+            NewsService.shared.fetchSources(SRequest(category: .general, language: "en", country: nil)) { (result) in
                 switch result {
                 case .success(let sourcesResponse):
                     generalGroup.append(contentsOf: sourcesResponse.sources)
@@ -83,7 +83,7 @@ class SideMenuController: UIViewController {
 
         dispatchGroup.enter()
         dispatchQueue.async {
-            FetchNews.shared.fetchSources(SRequest(category: .business, language: "en", country: nil)) { (result) in
+            NewsService.shared.fetchSources(SRequest(category: .business, language: "en", country: nil)) { (result) in
                 switch result {
                 case .success(let sourcesResponse):
                     businessGroup.append(contentsOf: sourcesResponse.sources)
@@ -96,7 +96,7 @@ class SideMenuController: UIViewController {
 
         dispatchGroup.enter()
         dispatchQueue.async {
-            FetchNews.shared.fetchSources(SRequest(category: .entertainment, language: "en", country: nil)) { (result) in
+            NewsService.shared.fetchSources(SRequest(category: .entertainment, language: "en", country: nil)) { (result) in
                 switch result {
                 case .success(let sourcesResponse):
                     entertainmentGroup.append(contentsOf: sourcesResponse.sources)
@@ -109,7 +109,7 @@ class SideMenuController: UIViewController {
 
         dispatchGroup.enter()
         dispatchQueue.async {
-            FetchNews.shared.fetchSources(SRequest(category: .health, language: "en", country: nil)) { (result) in
+            NewsService.shared.fetchSources(SRequest(category: .health, language: "en", country: nil)) { (result) in
                 switch result {
                 case .success(let sourcesResponse):
                     healthGroup.append(contentsOf: sourcesResponse.sources)
@@ -122,7 +122,7 @@ class SideMenuController: UIViewController {
 
         dispatchGroup.enter()
         dispatchQueue.async {
-            FetchNews.shared.fetchSources(SRequest(category: .science, language: "en", country: nil)) { (result) in
+            NewsService.shared.fetchSources(SRequest(category: .science, language: "en", country: nil)) { (result) in
                 switch result {
                 case .success(let sourcesResponse):
                     scienceGroup.append(contentsOf: sourcesResponse.sources)
@@ -135,7 +135,7 @@ class SideMenuController: UIViewController {
 
         dispatchGroup.enter()
         dispatchQueue.async {
-            FetchNews.shared.fetchSources(SRequest(category: .sports, language: "en", country: nil)) { (result) in
+            NewsService.shared.fetchSources(SRequest(category: .sports, language: "en", country: nil)) { (result) in
                 switch result {
                 case .success(let sourcesResponse):
                     sportsGroup.append(contentsOf: sourcesResponse.sources)
