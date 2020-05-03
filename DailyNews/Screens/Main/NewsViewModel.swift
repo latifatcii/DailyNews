@@ -14,11 +14,43 @@ final class NewsViewModel {
     var newsForCells: BehaviorSubject<[EverythingPresentation]> = .init(value: [])
     let loading: BehaviorSubject<Bool> = .init(value: true)
     let dispatchQueue = DispatchQueue(label: "com.latifatci.DailyNews", qos: .background, attributes: .concurrent)
+    let loadPageTrigger: PublishSubject<Void> = PublishSubject()
+    let loadNextPageTrigger: PublishSubject<Void> = PublishSubject()
+    let request = ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil, fromDate: nil, toDate: nil, language: "en", sortBy: .publishedAt, pageSize: 10, page: 2, sources: Constants.sourcesIds)
+    var page = 2
+    let disposeBag = DisposeBag()
     
     init(_ service: NewsServiceProtocol = NewsService()) {
         self.service = service
-        fetchNews()
-    }
+//        fetchNews()
+
+        let loadRequest = self.loading.asObservable()
+            .sample(self.loadPageTrigger)
+            .flatMap { loading -> Observable<[EverythingPresentation]> in
+                if !loading {
+                    return Observable.empty()
+                } else {
+                    self.page = 2
+                    self.newsForCells.onNext([])
+                    let presentation = self.service.fetch(self.request).map({
+                        items in items.articles
+                    })
+                    let last = presentation.map({
+                        items in items.map({
+                            item in EverythingPresentation.init(everything: item)
+                        })
+                    })
+                    //TODO
+                    self.loading.onNext(false)
+                    return last
+                    }
+                }
+        
+        loadRequest.bind(to: self.newsForCells)
+        .disposed(by: disposeBag)
+            
+        }
+        
     
     func fetchNews() {
         dispatchQueue.async {

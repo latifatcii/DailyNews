@@ -41,7 +41,7 @@ class NewsViewController: UIViewController {
             .observeOn(MainScheduler.instance)
             .bind(to: activityIndicatorView.rx.isAnimating)
             .disposed(by: disposeBag)
-        
+        viewModel.loadPageTrigger.onNext(())
         let dataSource = RxCollectionViewSectionedReloadDataSource<PresentationSection>(configureCell: {
             (ds, cv, ip, item) in
             guard let cell = cv.dequeueReusableCell(withReuseIdentifier: self.newsCellId, for: ip) as? SectionsCell else { return UICollectionViewCell() }
@@ -60,6 +60,7 @@ class NewsViewController: UIViewController {
             })
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+
     }
     
     
