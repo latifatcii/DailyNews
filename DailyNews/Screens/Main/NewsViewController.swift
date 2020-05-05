@@ -16,9 +16,6 @@ import RxDataSources
 class NewsViewController: UIViewController {
     
     let layout = UICollectionViewFlowLayout()
-    var news: BehaviorRelay<[EverythingPresentation]> = .init(value: [])
-    var headerNews: PublishSubject<[EverythingPresentation]> = PublishSubject()
-    var sources: [Sources] = []
     var collectionView: UICollectionView!
     let newsCellId = "newsCellId"
     let headerNewsCellId = "headerCellId"
@@ -53,6 +50,8 @@ class NewsViewController: UIViewController {
             
             return header
         })
+        
+        
         viewModel.newsForCells
             .observeOn(MainScheduler.instance)
             .map({
@@ -60,6 +59,9 @@ class NewsViewController: UIViewController {
             })
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
+        collectionView.rx.setDelegate(self)
+        .disposed(by: disposeBag)
 
     }
     
@@ -67,7 +69,6 @@ class NewsViewController: UIViewController {
     func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemGray5
-        collectionView.delegate = self
         collectionView.register(SectionsCell.self, forCellWithReuseIdentifier: newsCellId)
         collectionView.register(NewsPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: headerNewsCellId)
