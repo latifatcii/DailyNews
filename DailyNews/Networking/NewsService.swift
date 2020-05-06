@@ -7,7 +7,7 @@ protocol NewsServiceProtocol {
     func fetchNewsFromEverything( _ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void)
     func fetchSources(_ from: SRequest, completion: @escaping (Result<SourcesModel, Error>) -> Void)
     func fetchNewsWithSources(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void)
-    func fetch( _ from: ERequest) -> Observable<ENews>
+    func fetch(_ page: Int) -> Observable<ENews>
 }
 
 class NewsService: NewsServiceProtocol {
@@ -88,10 +88,13 @@ class NewsService: NewsServiceProtocol {
         task.resume()
     }
     
-    func fetch( _ from: ERequest) -> Observable<ENews> {
-        guard let page = from.page, let pageSize = from.pageSize, let language = from.language, let sources = from.sources, let sortBy = from.sortBy
-            else { fatalError() }
+    func fetch(_ page: Int) -> Observable<ENews> {
         
+        let fetchRequestData = ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil, fromDate: nil, toDate: nil, language: "en", sortBy: .publishedAt, pageSize: 10, page: page, sources: Constants.sourcesIds)
+
+        guard let page = fetchRequestData.page, let pageSize = fetchRequestData.pageSize, let language = fetchRequestData.language, let sources = fetchRequestData.sources, let sortBy = fetchRequestData.sortBy
+            else { fatalError() }
+                
         let params: [String:Any] = ["page" : page, "pageSize": pageSize, "language": language, "sources": sources, "sortBy": sortBy]
         
         return deneme(params, endpointType: EndPointType().everything)

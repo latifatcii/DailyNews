@@ -38,7 +38,9 @@ class NewsViewController: UIViewController {
             .observeOn(MainScheduler.instance)
             .bind(to: activityIndicatorView.rx.isAnimating)
             .disposed(by: disposeBag)
+        
         viewModel.loadPageTrigger.onNext(())
+        
         let dataSource = RxCollectionViewSectionedReloadDataSource<PresentationSection>(configureCell: {
             (ds, cv, ip, item) in
             guard let cell = cv.dequeueReusableCell(withReuseIdentifier: self.newsCellId, for: ip) as? SectionsCell else { return UICollectionViewCell() }
@@ -62,7 +64,12 @@ class NewsViewController: UIViewController {
         
         collectionView.rx.setDelegate(self)
         .disposed(by: disposeBag)
-
+        
+//        viewModel.loadNextPageTrigger.onNext(())
+        self.collectionView.rx.reachedBottom
+            .bind(to: viewModel.loadNextPageTrigger)
+        .disposed(by: disposeBag)
+        
     }
     
     
@@ -84,16 +91,16 @@ extension NewsViewController: UICollectionViewDelegateFlowLayout {
         return .init(width: view.frame.width, height: view.frame.width / 1.2)
     }
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let offsetY = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
-        let height = scrollView.frame.size.height
-        if offsetY > contentHeight - height {
-            guard hasMoreNews else { return }
-            page += 1
-            //            fetchNews(page: page)
-        }
-    }
+//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//        let offsetY = scrollView.contentOffset.y
+//        let contentHeight = scrollView.contentSize.height
+//        let height = scrollView.frame.size.height
+//        if offsetY > contentHeight - height {
+//            guard hasMoreNews else { return }
+//            page += 1
+//            //            fetchNews(page: page)
+//        }
+//    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return .init(width: view.frame.width, height: view.frame.width / 1.2 )
