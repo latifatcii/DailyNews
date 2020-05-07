@@ -1,18 +1,8 @@
+
 # Xcode
 #
-# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
-
-## User settings
-xcuserdata/
-
-## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
-*.xcscmblueprint
-*.xccheckout
-
-## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
 build/
-DerivedData/
-*.moved-aside
+Build/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -21,17 +11,17 @@ DerivedData/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
-
-## Obj-C/Swift specific
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
 *.hmap
-
-## App packaging
 *.ipa
-*.dSYM.zip
-*.dSYM
+*.xcuserstate
+*.o
 
-## Playgrounds
 timeline.xctimeline
+<<<<<<< HEAD
 playground.xcworkspace
 
 # Swift Package Manager
@@ -86,5 +76,8 @@ fastlane/test_output
 #
 # After new code Injection tools there's a generated folder /iOSInjectionProject
 # https://github.com/johnno1962/injectionforxcode
+=======
+.vscode
+>>>>>>> NewBranchDemo
 
-iOSInjectionProject/
+Pods/

@@ -50,8 +50,7 @@ final class NewsViewModel {
                             item in EverythingPresentation.init(everything: item)
                         })
                     })
-                    //TODO
-//                    self.loading.onNext(false)
+                    print("aaa")
                     return last
                     .trackActivity(Loading)
                 }
