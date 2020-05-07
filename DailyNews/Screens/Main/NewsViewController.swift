@@ -45,7 +45,7 @@ class NewsViewController: UIViewController {
         
         viewModel.loadPageTrigger.onNext(())
 
-        
+        print("Binding")
         
         refreshControl.rx.controlEvent(.valueChanged)
             .bind(to: viewModel.loadPageTrigger)
