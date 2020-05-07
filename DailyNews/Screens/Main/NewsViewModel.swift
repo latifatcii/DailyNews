@@ -35,6 +35,7 @@ final class NewsViewModel {
         self.service = service
         
         let loadRequest = self.loading
+        .debug()
             .sample(self.loadPageTrigger)
             .flatMap { loading -> Observable<[EverythingPresentation]> in
                 if loading {
