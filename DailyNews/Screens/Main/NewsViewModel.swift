@@ -35,7 +35,6 @@ final class NewsViewModel {
         self.service = service
         
         let loadRequest = self.loading
-        .debug()
             .sample(self.loadPageTrigger)
             .flatMap { loading -> Observable<[EverythingPresentation]> in
                 if loading {
@@ -51,7 +50,6 @@ final class NewsViewModel {
                             item in EverythingPresentation.init(everything: item)
                         })
                     })
-                    print("aaa")
                     return last
                     .trackActivity(Loading)
                 }
