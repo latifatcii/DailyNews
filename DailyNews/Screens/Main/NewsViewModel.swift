@@ -16,8 +16,8 @@ final class NewsViewModel {
     
     
     var newsForCells: BehaviorSubject<[EverythingPresentation]> = .init(value: [])
-    var loading: BehaviorSubject<Bool>
-    var moreLoading: BehaviorSubject<Bool>
+    var loading: Observable<Bool>
+    var moreLoading: Observable<Bool>
     var loadPageTrigger: PublishSubject<Void>
     var loadNextPageTrigger: PublishSubject<Void>
     let disposeBag = DisposeBag()
@@ -25,8 +25,10 @@ final class NewsViewModel {
     
     init(_ service: NewsServiceProtocol = NewsService()) {
         
-        loading = .init(value: false)
-        moreLoading = .init(value: false)
+        let Loading = ActivityIndicator()
+        loading = Loading.asObservable()
+        let moreLoad = ActivityIndicator()
+        moreLoading = moreLoad.asObservable()
         loadPageTrigger = PublishSubject()
         loadNextPageTrigger = PublishSubject()
         
@@ -51,6 +53,7 @@ final class NewsViewModel {
                     //TODO
 //                    self.loading.onNext(false)
                     return last
+                    .trackActivity(Loading)
                 }
                 
         }
@@ -72,6 +75,7 @@ final class NewsViewModel {
                         })
                     })
                     return last
+                    .trackActivity(moreLoad)
                 }
         }
 
@@ -79,18 +83,19 @@ final class NewsViewModel {
             .merge()
             .share(replay: 1)
 
-        let response = request.flatMap { news -> Observable<[EverythingPresentation]> in
+        let response = request.flatMapLatest { news -> Observable<[EverythingPresentation]> in
             request
                 .do(onError: { _error in
                     self.error.onNext(_error)
                 }).catchError({ error -> Observable<[EverythingPresentation]> in
                     Observable.empty()
                 })
-        }.share(replay: 1)
-
+            }
+        .share(replay: 1)
+        
         Observable
             .combineLatest(request, response , newsForCells.asObservable()) { request, response, news in
-                return self.page == 1 ? response : news + response
+                return self.page == 2 ? response : news + response
         }
         .sample(response)
         .bind(to: newsForCells)

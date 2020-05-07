@@ -25,7 +25,7 @@ class NewsService: NewsServiceProtocol {
     func fetchDataForSearchController(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void) {
         
         guard let page = from.page, let pageSize = from.pageSize, let language = from.language, let qWord = from.qWord else { return }
-        let params: [String:Any] = ["page" : page, "pageSize": pageSize, "language": language, "qWord": qWord]
+        let params: [String:Any] = ["page" : page, "pageSize": pageSize, "language": language, "q": qWord]
         
         apiRequest(params: params, endpointType: EndPointType().everything , completion: completion)
     }
@@ -94,7 +94,6 @@ class NewsService: NewsServiceProtocol {
 
         guard let page = fetchRequestData.page, let pageSize = fetchRequestData.pageSize, let language = fetchRequestData.language, let sources = fetchRequestData.sources, let sortBy = fetchRequestData.sortBy
             else { fatalError() }
-                
         let params: [String:Any] = ["page" : page, "pageSize": pageSize, "language": language, "sources": sources, "sortBy": sortBy]
         
         return deneme(params, endpointType: EndPointType().everything)

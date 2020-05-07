@@ -22,6 +22,7 @@ class NewsViewController: UIViewController {
     var page = 2
     var hasMoreNews = true
     let activityIndicatorView = UIActivityIndicatorView(color: .black)
+    let refreshControl = UIRefreshControl()
     
     let viewModel = NewsViewModel()
     let disposeBag = DisposeBag()
@@ -29,17 +30,26 @@ class NewsViewController: UIViewController {
         super.viewDidLoad()
         configureCollectionView()
         view.addSubview(activityIndicatorView)
+        collectionView.refreshControl = refreshControl
+        refreshControl.backgroundColor = .clear
+        refreshControl.tintColor = .lightGray
         activityIndicatorView.edgesToSuperview()
         setupBinding()
     }
     
     func setupBinding() {
-        viewModel.loading.asObserver()
+        viewModel.loading.asObservable()
             .observeOn(MainScheduler.instance)
             .bind(to: activityIndicatorView.rx.isAnimating)
             .disposed(by: disposeBag)
         
         viewModel.loadPageTrigger.onNext(())
+
+        
+        
+        refreshControl.rx.controlEvent(.valueChanged)
+            .bind(to: viewModel.loadPageTrigger)
+            .disposed(by: disposeBag)
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<PresentationSection>(configureCell: {
             (ds, cv, ip, item) in
@@ -65,7 +75,6 @@ class NewsViewController: UIViewController {
         collectionView.rx.setDelegate(self)
         .disposed(by: disposeBag)
         
-//        viewModel.loadNextPageTrigger.onNext(())
         self.collectionView.rx.reachedBottom
             .bind(to: viewModel.loadNextPageTrigger)
         .disposed(by: disposeBag)

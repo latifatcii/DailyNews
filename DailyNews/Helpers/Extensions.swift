@@ -51,16 +51,10 @@ extension Reactive where Base: UIScrollView {
             let offsetY = scrollView.contentOffset.y
             let contentHeight = scrollView.contentSize.height
             let height = scrollView.frame.size.height
-            return (offsetY > contentHeight - height) ? Observable.just(()) : Observable.empty()
+            let threshold = max(0.0, contentHeight - height)
+
+            return (offsetY > threshold) ? Observable.just(()) : Observable.empty()
         }
     }
 }
 
-
-//return self.contentOffset.flatMap{ [weak scrollView] (contentOffset) -> Observable<Void> in
-//    guard let scrollView = scrollView else { return Observable.empty() }
-//    let visibleHeight = scrollView.frame.height - self.base.contentInset.top - scrollView.contentInset.bottom
-//    let y = contentOffset.y + scrollView.contentInset.top
-//    let threshold = max(0.0, scrollView.contentSize.height - visibleHeight)
-//    return (y > threshold - (threshold / 4)) ? Observable.just(()) : Observable.empty()
-//}
