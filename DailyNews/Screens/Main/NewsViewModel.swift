@@ -91,6 +91,7 @@ final class NewsViewModel {
             }
         .share(replay: 1)
         
+        
         Observable
             .combineLatest(request, response , newsForCells.asObservable()) { request, response, news in
                 return self.page == 2 ? response : news + response
@@ -102,23 +103,4 @@ final class NewsViewModel {
         
         
     }
-    
-    
-//    func fetchNews() {
-//
-//        dispatchQueue.async {
-//            self.service.fetchNewsFromEverything(ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil, fromDate: nil, toDate: nil, language: "en", sortBy: .publishedAt, pageSize: 10, page: 2, sources: Constants.sourcesIds)) { [weak self] (result) in
-//                guard let self = self else { return }
-//                switch result {
-//                case .success(let news):
-//                    let cellNews = news.articles.map({EverythingPresentation.init(everything: $0)})
-//                    self.newsForCells.onNext(cellNews)
-//                case .failure(let err):
-//                    print(err)
-//                }
-////                self.loading.onNext(false)
-//            }
-//        }
-//    }
-    
 }

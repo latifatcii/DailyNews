@@ -10,28 +10,44 @@ import Foundation
 import RxSwift
 
 final class NewsHeaderViewModel {
+    
     var service: NewsServiceProtocol
     var newsForHeader: BehaviorSubject<[EverythingPresentation]> = .init(value: [])
-    let loading: BehaviorSubject<Bool> = .init(value: true)
-    let refreshing: BehaviorSubject<Bool> = .init(value: false)
-    let dispatchQueue = DispatchQueue(label: "com.latifatci.DailyNews", qos: .background, attributes: .concurrent)
+    var page = 1
+    let loading: Observable<Bool>
+    let loadPageTrigger: PublishSubject<Void>
+    let disposeBag = DisposeBag()
+
 
     init(_ service: NewsServiceProtocol = NewsService()) {
         self.service = service
-        fetchHeaderNews()
-    }
-    
-    func fetchHeaderNews() {
-        dispatchQueue.async {
-            self.service.fetchNewsFromEverything(ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil, fromDate: nil, toDate: nil, language: "en", sortBy: .publishedAt, pageSize: 10, page: 1, sources: Constants.sourcesIds)) { (result) in
-                switch result {
-                case .success(let news):
-                    let headerNews = news.articles.map({EverythingPresentation.init(everything: $0)})
-                    self.newsForHeader.onNext(headerNews)
-                case .failure(let err):
-                    print(err)
+        let Loading = ActivityIndicator()
+        loading = Loading.asObservable()
+        loadPageTrigger = PublishSubject<Void>()
+        
+        let loadRequest = self.loading
+            .sample(self.loadPageTrigger)
+            .flatMap{
+                loading -> Observable<[EverythingPresentation]> in
+                if loading {
+                    return Observable.empty()
+                } else {
+                    self.newsForHeader.onNext([])
+                    let presentation = self.service.fetch(self.page).map({
+                        items in items.articles
+                    })
+                    let last = presentation.map({
+                        items in items.map({
+                            item in EverythingPresentation.init(everything: item)
+                        })
+                    })
+                    return last
+                    .trackActivity(Loading)
                 }
             }
-        }
+        
+        loadRequest
+            .bind(to: newsForHeader)
+            .disposed(by: disposeBag)
     }
 }

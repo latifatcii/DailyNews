@@ -24,8 +24,19 @@ class NewsViewController: UIViewController {
     let activityIndicatorView = UIActivityIndicatorView(color: .black)
     let refreshControl = UIRefreshControl()
     
-    let viewModel = NewsViewModel()
+    let viewModel: NewsViewModel
     let disposeBag = DisposeBag()
+    
+    init(_ viewModel: NewsViewModel = NewsViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
@@ -44,8 +55,6 @@ class NewsViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.loadPageTrigger.onNext(())
-
-        print("Binding")
         
         refreshControl.rx.controlEvent(.valueChanged)
             .bind(to: viewModel.loadPageTrigger)
@@ -75,8 +84,17 @@ class NewsViewController: UIViewController {
         collectionView.rx.setDelegate(self)
         .disposed(by: disposeBag)
         
-        self.collectionView.rx.reachedBottom
+        collectionView.rx.reachedBottom
             .bind(to: viewModel.loadNextPageTrigger)
+        .disposed(by: disposeBag)
+        
+        collectionView.rx.modelSelected(EverythingPresentation.self)
+            .subscribe(onNext: { [weak self]
+                news in
+                guard let self = self else { return }
+                let safariVC = SFSafariViewController(url: URL(string: news.url)!)
+                self.present(safariVC, animated: true)
+            })
         .disposed(by: disposeBag)
         
     }
@@ -99,17 +117,6 @@ extension NewsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return .init(width: view.frame.width, height: view.frame.width / 1.2)
     }
-    
-//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        let offsetY = scrollView.contentOffset.y
-//        let contentHeight = scrollView.contentSize.height
-//        let height = scrollView.frame.size.height
-//        if offsetY > contentHeight - height {
-//            guard hasMoreNews else { return }
-//            page += 1
-//            //            fetchNews(page: page)
-//        }
-//    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return .init(width: view.frame.width, height: view.frame.width / 1.2 )

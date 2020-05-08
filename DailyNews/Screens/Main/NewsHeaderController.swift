@@ -10,34 +10,60 @@ import UIKit
 import SafariServices
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 class NewsHeaderController: BaseListController, UICollectionViewDelegateFlowLayout {
 
     let cellId = "cellId"
-    var news: PublishSubject<[EverythingPresentation]> = PublishSubject()
-    var headerNews: [EverythingPresentation] = []
-    let viewModel = NewsHeaderViewModel()
+    let viewModel: NewsHeaderViewModel
     private let disposeBag = DisposeBag()
+    
+    init(_ viewModel: NewsHeaderViewModel = NewsHeaderViewModel()) {
+        self.viewModel = viewModel
+        super.init()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
         
+        viewModel.loadPageTrigger.onNext(())
+
+        let dataSource = RxCollectionViewSectionedReloadDataSource<PresentationSection>(configureCell: {
+            (ds, cv, ip, news) in
+            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: self.cellId, for: ip) as? SectionsHeaderCell else { return UICollectionViewCell() }
+            cell.newsEverything = news
+            cell.scrollIndicator.currentPage = ip.item
+            return cell
+        })
+        
+        
         viewModel.newsForHeader
             .observeOn(MainScheduler.instance)
-            .bind(to: self.news)
+            .map {
+                news in [PresentationSection(header: "", items: news)]
+        }
+        .bind(to: collectionView.rx.items(dataSource: dataSource))
+    .disposed(by: disposeBag)
+        
+        collectionView.rx.modelSelected(EverythingPresentation.self)
+            .subscribe(onNext: {
+                news in
+                let safariVC = SFSafariViewController(url: URL(string: news.url)!)
+                self.show(safariVC, sender: nil)
+            })
         .disposed(by: disposeBag)
-
-        news.asObserver()
-        .subscribe(onNext: {
-            self.headerNews.append(contentsOf: $0)
-            self.collectionView.reloadData()
-        }).disposed(by: disposeBag)
+        
     }
     
     func configureCollectionView() {
         collectionView.backgroundColor = .white
         collectionView.register(SectionsHeaderCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.dataSource = nil
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
         }
@@ -52,22 +78,4 @@ class NewsHeaderController: BaseListController, UICollectionViewDelegateFlowLayo
         return 0
     }
 
-//    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let safariVC = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
-//        show(safariVC, sender: nil)
-////        self.view.window?.rootViewController?.present(safariVC, animated: true, completion: nil)
-//    }
-
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return headerNews.count
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? SectionsHeaderCell
-            else { return UICollectionViewCell() }
-        let article = headerNews[indexPath.item]
-        cell.newsEverything = article
-        cell.scrollIndicator.currentPage = indexPath.item
-        return cell
-    }
 }
