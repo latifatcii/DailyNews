@@ -12,7 +12,7 @@ import RxSwift
 final class NewsHeaderViewModel {
     
     var service: NewsServiceProtocol
-    var newsForHeader: BehaviorSubject<[EverythingPresentation]> = .init(value: [])
+    var news: BehaviorSubject<[EverythingPresentation]> = .init(value: [])
     var page = 1
     let loading: Observable<Bool>
     let loadPageTrigger: PublishSubject<Void>
@@ -32,22 +32,22 @@ final class NewsHeaderViewModel {
                 if loading {
                     return Observable.empty()
                 } else {
-                    self.newsForHeader.onNext([])
-                    let presentation = self.service.fetch(self.page).map({
+                    self.news.onNext([])
+                    let news = self.service.fetch(self.page).map({
                         items in items.articles
                     })
-                    let last = presentation.map({
+                    let headerNews = news.map({
                         items in items.map({
                             item in EverythingPresentation.init(everything: item)
                         })
                     })
-                    return last
+                    return headerNews
                     .trackActivity(Loading)
                 }
             }
         
         loadRequest
-            .bind(to: newsForHeader)
+            .bind(to: news)
             .disposed(by: disposeBag)
     }
 }

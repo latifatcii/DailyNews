@@ -10,12 +10,11 @@ import Foundation
 import RxSwift
 
 final class NewsViewModel {
+    
     var service: NewsServiceProtocol
     var page = 2
-    let dispatchQueue = DispatchQueue(label: "com.latifatci.DailyNews", qos: .background, attributes: .concurrent)
-    
-    
     var newsForCells: BehaviorSubject<[EverythingPresentation]> = .init(value: [])
+    
     var loading: Observable<Bool>
     var moreLoading: Observable<Bool>
     var loadPageTrigger: PublishSubject<Void>
@@ -31,7 +30,6 @@ final class NewsViewModel {
         moreLoading = moreLoad.asObservable()
         loadPageTrigger = PublishSubject()
         loadNextPageTrigger = PublishSubject()
-        
         self.service = service
         
         let loadRequest = self.loading
@@ -42,21 +40,19 @@ final class NewsViewModel {
                 } else {
                     self.page = 2
                     self.newsForCells.onNext([])
-                    let presentation = self.service.fetch(self.page).map({
+                    let news = self.service.fetch(self.page).map({
                         items in items.articles
                     })
-                    let last = presentation.map({
+                    let mappedNews = news.map({
                         items in items.map({
                             item in EverythingPresentation.init(everything: item)
                         })
                     })
-                    return last
+                    return mappedNews
                     .trackActivity(Loading)
                 }
-                
         }
 
-        
         let nextRequest = self.moreLoading
             .sample(loadNextPageTrigger)
             .flatMap { isLoading -> Observable<[EverythingPresentation]> in
@@ -64,15 +60,15 @@ final class NewsViewModel {
                     return Observable.empty()
                 } else {
                     self.page = self.page + 1
-                    let presentation = self.service.fetch(self.page).map({
+                    let news = self.service.fetch(self.page).map({
                         items in items.articles
                     })
-                    let last = presentation.map({
+                    let mappedNews = news.map({
                         items in items.map({
                             item in EverythingPresentation.init(everything: item)
                         })
                     })
-                    return last
+                    return mappedNews
                     .trackActivity(moreLoad)
                 }
         }
@@ -91,7 +87,6 @@ final class NewsViewModel {
             }
         .share(replay: 1)
         
-        
         Observable
             .combineLatest(request, response , newsForCells.asObservable()) { request, response, news in
                 return self.page == 2 ? response : news + response
@@ -99,8 +94,8 @@ final class NewsViewModel {
         .sample(response)
         .bind(to: newsForCells)
         .disposed(by: disposeBag)
-        
-        
+    }
+    func openSafariVC(_ news: EverythingPresentation){
         
     }
 }

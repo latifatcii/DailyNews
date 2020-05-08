@@ -41,8 +41,7 @@ class NewsHeaderController: BaseListController, UICollectionViewDelegateFlowLayo
             return cell
         })
         
-        
-        viewModel.newsForHeader
+        viewModel.news
             .observeOn(MainScheduler.instance)
             .map {
                 news in [PresentationSection(header: "", items: news)]
