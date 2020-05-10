@@ -32,7 +32,7 @@ class SectionsCell: UICollectionViewCell {
         label.font = .systemFont(ofSize: 13)
         return label
     }()
-    var news: THArticle? {
+    var news: TopHeadlinePresentation? {
         didSet {
             if let news = news {
                 if let newsImageUrl = news.urlToImage {
@@ -45,7 +45,7 @@ class SectionsCell: UICollectionViewCell {
                 let time = news.publishedAt.getTimeAgo()
                 headerLabel.text = news.title
                 timeLabel.text = time
-                sourceLabel.text = news.source.name
+                sourceLabel.text = news.source
             }
         }
     }

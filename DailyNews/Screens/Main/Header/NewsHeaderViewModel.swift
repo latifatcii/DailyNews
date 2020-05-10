@@ -27,8 +27,9 @@ final class NewsHeaderViewModel {
         
         let loadRequest = self.loading
             .sample(self.loadPageTrigger)
-            .flatMap{
+            .flatMap { [weak self]
                 loading -> Observable<[EverythingPresentation]> in
+                guard let self = self else { fatalError() }
                 if loading {
                     return Observable.empty()
                 } else {

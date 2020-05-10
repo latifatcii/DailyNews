@@ -33,7 +33,7 @@ class NewsHeaderController: BaseListController, UICollectionViewDelegateFlowLayo
         
         viewModel.loadPageTrigger.onNext(())
 
-        let dataSource = RxCollectionViewSectionedReloadDataSource<PresentationSection>(configureCell: {
+        let dataSource = RxCollectionViewSectionedReloadDataSource<PresentationSection>(configureCell: { 
             (ds, cv, ip, news) in
             guard let cell = cv.dequeueReusableCell(withReuseIdentifier: self.cellId, for: ip) as? SectionsHeaderCell else { return UICollectionViewCell() }
             cell.newsEverything = news
@@ -50,8 +50,9 @@ class NewsHeaderController: BaseListController, UICollectionViewDelegateFlowLayo
     .disposed(by: disposeBag)
         
         collectionView.rx.modelSelected(EverythingPresentation.self)
-            .subscribe(onNext: {
+            .subscribe(onNext: { [weak self]
                 news in
+                guard let self = self else { return }
                 let safariVC = SFSafariViewController(url: URL(string: news.url)!)
                 self.show(safariVC, sender: nil)
             })

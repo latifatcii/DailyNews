@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 final class TopHeadlinePresentation {
     let source: String
@@ -26,5 +27,16 @@ final class TopHeadlinePresentation {
     }
     convenience init(topHeadline: THArticle) {
         self.init(source: topHeadline.source.name, author: topHeadline.author, title: topHeadline.title, url: topHeadline.url, urlToImage: topHeadline.urlToImage, publishedAt: topHeadline.publishedAt)
+    }
+}
+
+struct TopHeadlinePresentationSection {
+    var items: [TopHeadlinePresentation]
+}
+
+extension TopHeadlinePresentationSection: SectionModelType {
+    init(original: TopHeadlinePresentationSection, items: [TopHeadlinePresentation]) {
+        self = original
+        self.items = items
     }
 }

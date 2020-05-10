@@ -7,6 +7,7 @@ protocol NewsServiceProtocol {
     func fetchNewsFromEverything( _ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void)
     func fetchSources(_ from: SRequest, completion: @escaping (Result<SourcesModel, Error>) -> Void)
     func fetchNewsWithSources(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void)
+    func fetchTHNews(_ page: Int, _ category: THCategories) -> Observable<THNews>
     func fetch(_ page: Int) -> Observable<ENews>
 }
 
@@ -97,6 +98,17 @@ class NewsService: NewsServiceProtocol {
         let params: [String:Any] = ["page" : page, "pageSize": pageSize, "language": language, "sources": sources, "sortBy": sortBy]
         
         return deneme(params, endpointType: EndPointType().everything)
+    }
+    
+    func fetchTHNews(_ page: Int, _ category: THCategories) -> Observable<THNews> {
+        let request = THRequest(country: "us", category: category, qWord: nil, pageSize: 10, page: page)
+        
+        guard let page = request.page, let country = request.country, let pageSize = request.pageSize, let category = request.category else { fatalError() }
+        
+        let params: [String:Any] = ["country" : country, "pageSize": pageSize, "page": page, "category": category]
+        
+        return deneme(params, endpointType: EndPointType().topHeadline)
+        
     }
     func deneme<T: Decodable>(_ params: [String: Any], endpointType: String) -> Observable<T> {
         return Observable<T>.create { observer in

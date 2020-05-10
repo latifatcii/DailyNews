@@ -34,7 +34,8 @@ final class NewsViewModel {
         
         let loadRequest = self.loading
             .sample(self.loadPageTrigger)
-            .flatMap { loading -> Observable<[EverythingPresentation]> in
+            .flatMap { [weak self] loading -> Observable<[EverythingPresentation]> in
+                guard let self = self else { fatalError() }
                 if loading {
                     return Observable.empty()
                 } else {
@@ -55,7 +56,8 @@ final class NewsViewModel {
 
         let nextRequest = self.moreLoading
             .sample(loadNextPageTrigger)
-            .flatMap { isLoading -> Observable<[EverythingPresentation]> in
+            .flatMap { [weak self] isLoading -> Observable<[EverythingPresentation]> in
+                guard let self = self else { fatalError() }
                 if isLoading {
                     return Observable.empty()
                 } else {
@@ -94,8 +96,5 @@ final class NewsViewModel {
         .sample(response)
         .bind(to: newsForCells)
         .disposed(by: disposeBag)
-    }
-    func openSafariVC(_ news: EverythingPresentation){
-        
     }
 }

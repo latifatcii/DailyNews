@@ -1,8 +1,8 @@
 //
-//  NewsViewController.swift
+//  FeedViewController.swift
 //  DailyNews
 //
-//  Created by Latif Atci on 4/4/20.
+//  Created by Latif Atci on 3/3/20.
 //  Copyright © 2020 Latif Atci. All rights reserved.
 //
 
@@ -13,24 +13,19 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-class NewsViewController: UIViewController {
+class FeaturedCategoryController: UIViewController {
     
     let layout = UICollectionViewFlowLayout()
     var collectionView: UICollectionView!
-    let newsCellId = "newsCellId"
-    let headerNewsCellId = "headerCellId"
-    var page = 2
-    var hasMoreNews = true
+    let feedCellId = "feedCellId"
+    let headerCellId = "headerCellId"
     let activityIndicatorView = UIActivityIndicatorView(color: .black)
-    let refreshControl = UIRefreshControl()
-    
-    let viewModel: NewsViewModel
+    var viewModel: SectionsViewModelType
     let disposeBag = DisposeBag()
     
-    init(_ viewModel: NewsViewModel = NewsViewModel()) {
+    init(_ viewModel: SectionsViewModelType = FeaturedViewModel()) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-    
     }
     
     required init?(coder: NSCoder) {
@@ -41,9 +36,6 @@ class NewsViewController: UIViewController {
         super.viewDidLoad()
         configureCollectionView()
         view.addSubview(activityIndicatorView)
-        collectionView.refreshControl = refreshControl
-        refreshControl.backgroundColor = .clear
-        refreshControl.tintColor = .lightGray
         activityIndicatorView.edgesToSuperview()
         setupBinding()
     }
@@ -54,76 +46,68 @@ class NewsViewController: UIViewController {
             .bind(to: activityIndicatorView.rx.isAnimating)
             .disposed(by: disposeBag)
         
-        viewModel.loadPageTrigger.onNext(())
+        viewModel.loadTrigger.onNext(())
         
-        refreshControl.rx.controlEvent(.valueChanged)
-            .bind(to: viewModel.loadPageTrigger)
-            .disposed(by: disposeBag)
-        
-        let dataSource = RxCollectionViewSectionedReloadDataSource<PresentationSection>(configureCell: { [weak self]
-            (ds, cv, ip, item) in
+        let dataSource = RxCollectionViewSectionedReloadDataSource<TopHeadlinePresentationSection>(configureCell: { [weak self]
+            (ds, cv, ip, news) in
             guard let self = self else { fatalError() }
-            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: self.newsCellId, for: ip) as? SectionsCell else { return UICollectionViewCell() }
-            cell.newsEverything = item
+            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: self.feedCellId, for: ip) as? SectionsCell else { return UICollectionViewCell() }
+            cell.news = news
             return cell
         }, configureSupplementaryView: {
             (a, collectionView, kind, indexPath) in
-            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: self.headerNewsCellId, for: indexPath) as? NewsPageHeader else { return UICollectionReusableView() }
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: self.headerCellId, for: indexPath) as? SectionsPageHeader else { return UICollectionReusableView() }
             
             return header
         })
         
-        
-        viewModel.newsForCells
+        viewModel.news
             .observeOn(MainScheduler.instance)
-            .map({
-                items in [PresentationSection(header: "", items: items)]
-            })
-            .bind(to: collectionView.rx.items(dataSource: dataSource))
-            .disposed(by: disposeBag)
+            .map {
+                news in [TopHeadlinePresentationSection(items: news)]
+        }
+        .bind(to: collectionView.rx.items(dataSource: dataSource))
+        .disposed(by: disposeBag)
         
         collectionView.rx.setDelegate(self)
-        .disposed(by: disposeBag)
+            .disposed(by: disposeBag)
         
         collectionView.rx.reachedBottom
-            .bind(to: viewModel.loadNextPageTrigger)
-        .disposed(by: disposeBag)
+            .bind(to: viewModel.nextPageLoadTrigger)
+            .disposed(by: disposeBag)
         
-        collectionView.rx.modelSelected(EverythingPresentation.self)
+        collectionView.rx.modelSelected(TopHeadlinePresentation.self)
             .subscribe(onNext: { [weak self]
                 news in
                 guard let self = self else { return }
                 let safariVC = SFSafariViewController(url: URL(string: news.url)!)
                 self.present(safariVC, animated: true)
             })
-        .disposed(by: disposeBag)
-        
+            .disposed(by: disposeBag)
     }
     
     func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemGray5
-        collectionView.register(SectionsCell.self, forCellWithReuseIdentifier: newsCellId)
-        collectionView.register(NewsPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: headerNewsCellId)
+        collectionView.register(SectionsCell.self, forCellWithReuseIdentifier: feedCellId)
+        collectionView.register(SectionsPageHeader.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerCellId)
         view.addSubview(collectionView)
         collectionView.edgesToSuperview()
     }
-    
 }
 
-extension NewsViewController: UICollectionViewDelegateFlowLayout {
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return .init(width: view.frame.width, height: view.frame.width / 1.2)
-    }
+extension FeaturedCategoryController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return .init(width: view.frame.width, height: view.frame.width / 1.2 )
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
+        return 10
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return .init(width: view.frame.width, height: view.frame.width / 1.2)
+    }
 }
