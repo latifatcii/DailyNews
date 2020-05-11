@@ -58,7 +58,6 @@ class CategoriesViewController: UIViewController {
                                     collectionViewLayout: UIHelper.createTwoColumnFlowLayoutForCategories(in: view))
         collectionView.backgroundColor = .systemBackground
         collectionView.delegate = self
-//        collectionView.dataSource = self
         collectionView.register(CategoriesCell.self, forCellWithReuseIdentifier: cellId)
         view.addSubview(collectionView)
         collectionView.edgesToSuperview()
@@ -69,17 +68,4 @@ extension CategoriesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 7
     }
-
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? CategoriesCell
-//            else { return UICollectionViewCell() }
-//        cell.categoryImageView.image = UIImage(named: categoryImageNames[indexPath.item])
-//        cell.categoryLabel.text = categoryNames[indexPath.item]
-//        return cell
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        listOfCategories[indexPath.item].title = categoryNames[indexPath.item]
-//        self.navigationController?.pushViewController(listOfCategories[indexPath.item], animated: true)
-//    }
 }

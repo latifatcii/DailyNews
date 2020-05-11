@@ -11,13 +11,14 @@ import TinyConstraints
 
 class SectionsPageHeader: UICollectionReusableView {
 
-    let feedHeaderController = SectionsHeaderController()
+    var feedHeaderController = SectionsHeaderController()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(feedHeaderController.view)
         feedHeaderController.view.edgesToSuperview()
     }
+    
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

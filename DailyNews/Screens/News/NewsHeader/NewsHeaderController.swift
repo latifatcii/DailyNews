@@ -35,7 +35,7 @@ class NewsHeaderController: BaseListController, UICollectionViewDelegateFlowLayo
 
         let dataSource = RxCollectionViewSectionedReloadDataSource<PresentationSection>(configureCell: { 
             (ds, cv, ip, news) in
-            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: self.cellId, for: ip) as? SectionsHeaderCell else { return UICollectionViewCell() }
+            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: self.cellId, for: ip) as? NewsHeaderCell else { return UICollectionViewCell() }
             cell.newsEverything = news
             cell.scrollIndicator.currentPage = ip.item
             return cell
@@ -62,7 +62,7 @@ class NewsHeaderController: BaseListController, UICollectionViewDelegateFlowLayo
     
     func configureCollectionView() {
         collectionView.backgroundColor = .white
-        collectionView.register(SectionsHeaderCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(NewsHeaderCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.dataSource = nil
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal

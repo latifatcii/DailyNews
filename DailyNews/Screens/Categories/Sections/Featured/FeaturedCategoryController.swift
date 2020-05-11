@@ -57,6 +57,7 @@ class FeaturedCategoryController: UIViewController {
         }, configureSupplementaryView: {
             (a, collectionView, kind, indexPath) in
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: self.headerCellId, for: indexPath) as? SectionsPageHeader else { return UICollectionReusableView() }
+            header.feedHeaderController.category = .general
             
             return header
         })

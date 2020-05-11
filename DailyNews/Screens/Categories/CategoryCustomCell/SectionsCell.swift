@@ -49,24 +49,7 @@ class SectionsCell: UICollectionViewCell {
             }
         }
     }
-    var newsEverything: EverythingPresentation? {
-        didSet {
-            if let newsEverything = newsEverything {
-                if let newsImageUrl = newsEverything.urlToImage {
-                    if newsImageUrl != "null"{
-                        newsImageView.sd_setImage(with: URL(string: newsImageUrl))
-                    } else {
-                        newsImageView.image = UIImage(named: "placeholderNews")
-                    }
-                }
-                let time = newsEverything.publishedAt.getTimeAgo()
-                headerLabel.text = newsEverything.title
-                timeLabel.text = time
-                sourceLabel.text = newsEverything.source
-            }
-        }
-    }
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()

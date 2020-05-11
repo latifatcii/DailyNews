@@ -27,7 +27,7 @@ class SectionsHeaderCell: UICollectionViewCell {
         indicator.pageIndicatorTintColor = .lightGray
         return indicator
     }()
-    var news: THArticle? {
+    var news: TopHeadlinePresentation? {
         didSet {
             if let news = news {
                 if let newsImageUrl = news.urlToImage {
@@ -41,21 +41,7 @@ class SectionsHeaderCell: UICollectionViewCell {
             }
         }
     }
-    var newsEverything: EverythingPresentation? {
-        didSet {
-            if let newsEverything = newsEverything {
-                if let newsImageUrl = newsEverything.urlToImage {
-                    if newsImageUrl != "null" {
-                        newsImageView.sd_setImage(with: URL(string: newsImageUrl))
-                    } else {
-                        newsImageView.image = UIImage(named: "placeholderNews")
-                    }
-                }
-                headerLabel.text = newsEverything.title
-            }
-        }
-    }
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()

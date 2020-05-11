@@ -20,6 +20,7 @@ final class FeaturedViewModel: SectionsViewModelType {
     var loadTrigger: PublishSubject<Void>
     var nextPageLoadTrigger: PublishSubject<Void>
     let disposeBag = DisposeBag()
+    
     private let error = PublishSubject<Swift.Error>()
     
     init(_ service: NewsService = NewsService()) {

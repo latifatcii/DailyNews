@@ -63,7 +63,7 @@ class NewsViewController: UIViewController {
         let dataSource = RxCollectionViewSectionedReloadDataSource<PresentationSection>(configureCell: { [weak self]
             (ds, cv, ip, item) in
             guard let self = self else { fatalError() }
-            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: self.newsCellId, for: ip) as? SectionsCell else { return UICollectionViewCell() }
+            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: self.newsCellId, for: ip) as? NewsCell else { return UICollectionViewCell() }
             cell.newsEverything = item
             return cell
         }, configureSupplementaryView: {
@@ -103,7 +103,7 @@ class NewsViewController: UIViewController {
     func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemGray5
-        collectionView.register(SectionsCell.self, forCellWithReuseIdentifier: newsCellId)
+        collectionView.register(NewsCell.self, forCellWithReuseIdentifier: newsCellId)
         collectionView.register(NewsPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: headerNewsCellId)
         view.addSubview(collectionView)
