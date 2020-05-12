@@ -1,5 +1,5 @@
 //
-//  FeedHeaderCell.swift
+//  SectionsHeaderController.swift
 //  DailyNews
 //
 //  Created by Latif Atci on 3/7/20.
@@ -16,14 +16,12 @@ import RxDataSources
 class SectionsHeaderController: BaseListController, UICollectionViewDelegateFlowLayout {
     
     let cellId = "cellId"
-    var category: THCategories!
     let disposeBag = DisposeBag()
     
     var viewModel: SectionsHeaderViewModel
     
-    init(_ viewModel: SectionsHeaderViewModel = SectionsHeaderViewModel()) {
+    init(_ viewModel: SectionsHeaderViewModel) {
         self.viewModel = viewModel
-//        viewModel.category = category
         super.init()
     }
     
@@ -40,18 +38,29 @@ class SectionsHeaderController: BaseListController, UICollectionViewDelegateFlow
     func setupBinding() {
         viewModel.loadingTrigger.onNext(())
         
-        viewModel.sectionHeaderNews
-            .bind(to: collectionView.rx.items(cellIdentifier: cellId, cellType: SectionsHeaderCell.self)) { (index, news, cell) in
+            let dataSource = RxCollectionViewSectionedReloadDataSource<TopHeadlinePresentationSection>(configureCell: {
+                (ds, cv, ip, news) in
+                guard let cell = cv.dequeueReusableCell(withReuseIdentifier: self.cellId, for: ip) as? SectionsHeaderCell else { return UICollectionViewCell() }
                 cell.news = news
-                cell.scrollIndicator.currentPage = index
-        }
+                cell.scrollIndicator.currentPage = ip.item
+                return cell
+                })
+            
+        viewModel.sectionHeaderNews
+                .observeOn(MainScheduler.instance)
+                .map {
+                    news in [TopHeadlinePresentationSection(items: news)]
+            }
+            .bind(to: collectionView.rx.items(dataSource: dataSource))
         .disposed(by: disposeBag)
-        
-        collectionView.rx.modelSelected(TopHeadlinePresentation.self)
-            .subscribe(onNext: { [weak self] news in
-                let safariVC = SFSafariViewController(url: URL(string: news.url)!)
-                self?.show(safariVC, sender: nil)
-            })
+            
+            collectionView.rx.modelSelected(TopHeadlinePresentation.self)
+                .subscribe(onNext: { [weak self]
+                    news in
+                    guard let self = self else { return }
+                    let safariVC = SFSafariViewController(url: URL(string: news.url)!)
+                    self.show(safariVC, sender: nil)
+                })
             .disposed(by: disposeBag)
     }
     

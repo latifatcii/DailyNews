@@ -13,8 +13,8 @@ class SportsCategoryController: FeaturedCategoryController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    override init(_ viewModel: SectionsViewModelType = SportsViewModel()) {
-        super.init(viewModel)
+    override init(_ viewModel: SectionsViewModel = SectionsViewModel(NewsService(), THCategories.sports), _ category: THCategories = .sports) {
+        super.init(viewModel,category)
     }
     
     required init?(coder: NSCoder) {

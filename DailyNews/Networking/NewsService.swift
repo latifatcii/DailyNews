@@ -2,9 +2,7 @@ import Foundation
 import RxSwift
 
 protocol NewsServiceProtocol {
-    func fetchTopHeadlineNews(_ from: THRequest, completion: @escaping (Result<THNews, Error>) -> Void)
     func fetchDataForSearchController(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void)
-    func fetchNewsFromEverything( _ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void)
     func fetchSources(_ from: SRequest, completion: @escaping (Result<SourcesModel, Error>) -> Void)
     func fetchNewsWithSources(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void)
     func fetchTHNews(_ page: Int, _ category: THCategories) -> Observable<THNews>
@@ -13,14 +11,7 @@ protocol NewsServiceProtocol {
 
 class NewsService: NewsServiceProtocol {
     static let shared = NewsService()
-    func fetchTopHeadlineNews(_ from: THRequest, completion: @escaping (Result<THNews, Error>) -> Void) {
-        
-        guard let page = from.page, let country = from.country, let pageSize = from.pageSize, let category = from.category else { return }
-        
-        let params: [String:Any] = ["country" : country, "pageSize": pageSize, "page": page, "category": category]
-        
-        apiRequest(params: params, endpointType: EndPointType().topHeadline , completion: completion)
-    }
+
 
     
     func fetchDataForSearchController(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void) {
@@ -30,15 +21,7 @@ class NewsService: NewsServiceProtocol {
         
         apiRequest(params: params, endpointType: EndPointType().everything , completion: completion)
     }
-    
-    func fetchNewsFromEverything( _ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void) {
-        guard let page = from.page, let pageSize = from.pageSize, let language = from.language, let sources = from.sources, let sortBy = from.sortBy
-            else { return }
-        
-        let params: [String:Any] = ["page" : page, "pageSize": pageSize, "language": language, "sources": sources, "sortBy": sortBy]
-        
-        apiRequest(params: params, endpointType: EndPointType().everything , completion: completion)
-    }
+
     
     func fetchSources(_ from: SRequest, completion: @escaping (Result<SourcesModel, Error>) -> Void) {
         guard let category = from.category, let language = from.language else { return }

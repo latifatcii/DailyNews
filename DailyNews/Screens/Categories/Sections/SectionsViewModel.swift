@@ -9,9 +9,10 @@
 import Foundation
 import RxSwift
 
-final class FeaturedViewModel: SectionsViewModelType {
+final class SectionsViewModel {
     
-    var service: NewsService
+    
+    var service: NewsServiceProtocol
     let news: BehaviorSubject<[TopHeadlinePresentation]>
     var page = 2
     var category = THCategories.general
@@ -23,9 +24,10 @@ final class FeaturedViewModel: SectionsViewModelType {
     
     private let error = PublishSubject<Swift.Error>()
     
-    init(_ service: NewsService = NewsService()) {
-        self.service = service
+    init(_ service: NewsServiceProtocol, _ category: THCategories) {
         
+        self.service = service
+        self.category = category
         news = .init(value: [])
         let loadingIndicator = ActivityIndicator()
         loading = loadingIndicator.asObservable()
@@ -90,7 +92,7 @@ final class FeaturedViewModel: SectionsViewModelType {
                     
                 })
             
-        }
+            }
         .share(replay: 1)
         
         Observable

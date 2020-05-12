@@ -1,5 +1,5 @@
 //
-//  FeedPageHeader.swift
+//  SectionsPageHeader.swift
 //  DailyNews
 //
 //  Created by Latif Atci on 3/7/20.
@@ -10,18 +10,23 @@ import UIKit
 import TinyConstraints
 
 class SectionsPageHeader: UICollectionReusableView {
-
-    var feedHeaderController = SectionsHeaderController()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        addSubview(feedHeaderController.view)
-        feedHeaderController.view.edgesToSuperview()
+    
+    var category: THCategories? {
+        didSet {
+            if let category = category {
+                let feedHeaderController = SectionsHeaderController(SectionsHeaderViewModel(NewsService(), category))
+                self.addSubview(feedHeaderController.view)
+                feedHeaderController.view.edgesToSuperview()
+            }
+        }
     }
     
-
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+        
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
 }

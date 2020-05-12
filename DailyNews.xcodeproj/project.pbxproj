@@ -64,15 +64,7 @@
 		7F6044F324390CB300883085 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6044F224390CB300883085 /* CategoriesViewController.swift */; };
 		7F6044F524390E8300883085 /* CategoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6044F424390E8300883085 /* CategoriesCell.swift */; };
 		7F64AA58243B78C00005A967 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F64AA57243B78C00005A967 /* Constants.swift */; };
-		7F6713902466C72D00C565BB /* FeaturedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F67138F2466C72D00C565BB /* FeaturedViewModel.swift */; };
-		7F6713982466E8DE00C565BB /* BusinessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6713972466E8DE00C565BB /* BusinessViewModel.swift */; };
-		7F67139A2466ED4500C565BB /* SectionsViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6713992466ED4500C565BB /* SectionsViewModelType.swift */; };
-		7F67139C2466ED9600C565BB /* SportsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F67139B2466ED9600C565BB /* SportsViewModel.swift */; };
-		7F67139E2466EDDD00C565BB /* TechnologyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F67139D2466EDDD00C565BB /* TechnologyViewModel.swift */; };
-		7F6713A02466EE1500C565BB /* ScienceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F67139F2466EE1500C565BB /* ScienceViewModel.swift */; };
-		7F6713A22466EE4C00C565BB /* EntertainmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6713A12466EE4C00C565BB /* EntertainmentViewModel.swift */; };
-		7F6713A42466EE7C00C565BB /* HealthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6713A32466EE7C00C565BB /* HealthViewModel.swift */; };
-		7F6713A62466FF0000C565BB /* CategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6713A52466FF0000C565BB /* CategoriesViewModel.swift */; };
+		7F728A04246B4CDF00299E23 /* SectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F728A03246B4CDF00299E23 /* SectionsViewModel.swift */; };
 		840B1988B5C7E9CF2B8B06DC /* Pods_DailyNews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 823007898313925D3D27C3A9 /* Pods_DailyNews.framework */; };
 /* End PBXBuildFile section */
 
@@ -136,15 +128,7 @@
 		7F6044F224390CB300883085 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		7F6044F424390E8300883085 /* CategoriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCell.swift; sourceTree = "<group>"; };
 		7F64AA57243B78C00005A967 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		7F67138F2466C72D00C565BB /* FeaturedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedViewModel.swift; sourceTree = "<group>"; };
-		7F6713972466E8DE00C565BB /* BusinessViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessViewModel.swift; sourceTree = "<group>"; };
-		7F6713992466ED4500C565BB /* SectionsViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionsViewModelType.swift; sourceTree = "<group>"; };
-		7F67139B2466ED9600C565BB /* SportsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsViewModel.swift; sourceTree = "<group>"; };
-		7F67139D2466EDDD00C565BB /* TechnologyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechnologyViewModel.swift; sourceTree = "<group>"; };
-		7F67139F2466EE1500C565BB /* ScienceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScienceViewModel.swift; sourceTree = "<group>"; };
-		7F6713A12466EE4C00C565BB /* EntertainmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntertainmentViewModel.swift; sourceTree = "<group>"; };
-		7F6713A32466EE7C00C565BB /* HealthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewModel.swift; sourceTree = "<group>"; };
-		7F6713A52466FF0000C565BB /* CategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewModel.swift; sourceTree = "<group>"; };
+		7F728A03246B4CDF00299E23 /* SectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionsViewModel.swift; sourceTree = "<group>"; };
 		823007898313925D3D27C3A9 /* Pods_DailyNews.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DailyNews.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		97A26C3253ECDDA84CCB453E /* Pods-DailyNews.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DailyNews.release.xcconfig"; path = "Target Support Files/Pods-DailyNews/Pods-DailyNews.release.xcconfig"; sourceTree = "<group>"; };
 		B75BB083E29398A8E4953F33 /* Pods-DailyNews.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DailyNews.debug.xcconfig"; path = "Target Support Files/Pods-DailyNews/Pods-DailyNews.debug.xcconfig"; sourceTree = "<group>"; };
@@ -346,7 +330,6 @@
 			isa = PBXGroup;
 			children = (
 				7F6044F224390CB300883085 /* CategoriesViewController.swift */,
-				7F6713A52466FF0000C565BB /* CategoriesViewModel.swift */,
 				7F5F373E2469ED7C007E8B3B /* CategoryCustomCell */,
 				7F5F373D2469ED01007E8B3B /* SectionsHeader */,
 				7F5F373C2469ECE7007E8B3B /* Sections */,
@@ -371,7 +354,6 @@
 		7F5382EF24567C73009A54CF /* Commons */ = {
 			isa = PBXGroup;
 			children = (
-				7F6713992466ED4500C565BB /* SectionsViewModelType.swift */,
 				7F5382F024567C7A009A54CF /* Presentations */,
 			);
 			path = Commons;
@@ -430,6 +412,7 @@
 		7F5F373C2469ECE7007E8B3B /* Sections */ = {
 			isa = PBXGroup;
 			children = (
+				7F728A03246B4CDF00299E23 /* SectionsViewModel.swift */,
 				7F67138E2466C71A00C565BB /* Featured */,
 				7F6713912466E85D00C565BB /* Business */,
 				7F6713922466E8B600C565BB /* Sports */,
@@ -476,7 +459,6 @@
 			isa = PBXGroup;
 			children = (
 				7F1F6CF1240EF90900B23C4B /* FeaturedCategoryController.swift */,
-				7F67138F2466C72D00C565BB /* FeaturedViewModel.swift */,
 			);
 			path = Featured;
 			sourceTree = "<group>";
@@ -485,7 +467,6 @@
 			isa = PBXGroup;
 			children = (
 				7F2E9DCF241D65080039F6C0 /* BusinessCategoryController.swift */,
-				7F6713972466E8DE00C565BB /* BusinessViewModel.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -494,7 +475,6 @@
 			isa = PBXGroup;
 			children = (
 				7F2E9DCD241D64E80039F6C0 /* SportsCategoryController.swift */,
-				7F67139B2466ED9600C565BB /* SportsViewModel.swift */,
 			);
 			path = Sports;
 			sourceTree = "<group>";
@@ -503,7 +483,6 @@
 			isa = PBXGroup;
 			children = (
 				7F2E9DD1241D65260039F6C0 /* TechnologyCategoryController.swift */,
-				7F67139D2466EDDD00C565BB /* TechnologyViewModel.swift */,
 			);
 			path = Technology;
 			sourceTree = "<group>";
@@ -512,7 +491,6 @@
 			isa = PBXGroup;
 			children = (
 				7F2E9DD3241D654A0039F6C0 /* ScienceCategoryController.swift */,
-				7F67139F2466EE1500C565BB /* ScienceViewModel.swift */,
 			);
 			path = Science;
 			sourceTree = "<group>";
@@ -521,7 +499,6 @@
 			isa = PBXGroup;
 			children = (
 				7F2E9DD5241D657B0039F6C0 /* EntertainmentCategoryController.swift */,
-				7F6713A12466EE4C00C565BB /* EntertainmentViewModel.swift */,
 			);
 			path = Entertainment;
 			sourceTree = "<group>";
@@ -530,7 +507,6 @@
 			isa = PBXGroup;
 			children = (
 				7F2E9DCB241D64980039F6C0 /* HealthCategoryController.swift */,
-				7F6713A32466EE7C00C565BB /* HealthViewModel.swift */,
 			);
 			path = Health;
 			sourceTree = "<group>";
@@ -662,8 +638,7 @@
 				7F55F49724143E4F0027ADAC /* SectionsPageHeader.swift in Sources */,
 				7F2E9DD6241D657B0039F6C0 /* EntertainmentCategoryController.swift in Sources */,
 				7F48A6F12463660F001F55C7 /* ActivityIndicator.swift in Sources */,
-				7F67139A2466ED4500C565BB /* SectionsViewModelType.swift in Sources */,
-				7F6713A62466FF0000C565BB /* CategoriesViewModel.swift in Sources */,
+				7F728A04246B4CDF00299E23 /* SectionsViewModel.swift in Sources */,
 				7F1F6CF4240EF93A00B23C4B /* SearchNewsController.swift in Sources */,
 				7F55F49324143B7C0027ADAC /* SectionsHeaderCell.swift in Sources */,
 				7F42DD132412E5E40002D2DE /* EndPointType.swift in Sources */,
@@ -685,24 +660,18 @@
 				7F5177FB242E2515009AA333 /* EArticleModel.swift in Sources */,
 				7F42DD082412E5990002D2DE /* THArticleModel.swift in Sources */,
 				7F5778DE243500D700012A9E /* Sources.swift in Sources */,
-				7F6713A02466EE1500C565BB /* ScienceViewModel.swift in Sources */,
 				7F0F9D51245E720A0023D24A /* NewsHeaderViewModel.swift in Sources */,
 				7F42DD072412E5990002D2DE /* THSourceModel.swift in Sources */,
 				7F5778DF243500D700012A9E /* SourcesModel.swift in Sources */,
 				7F2E9DD4241D654A0039F6C0 /* ScienceCategoryController.swift in Sources */,
-				7F6713982466E8DE00C565BB /* BusinessViewModel.swift in Sources */,
 				7F64AA58243B78C00005A967 /* Constants.swift in Sources */,
-				7F67139E2466EDDD00C565BB /* TechnologyViewModel.swift in Sources */,
 				7F5177F4242DFA1C009AA333 /* SearchCell.swift in Sources */,
 				7F42DD092412E5990002D2DE /* THNewsModel.swift in Sources */,
 				7F2E9DCC241D64980039F6C0 /* HealthCategoryController.swift in Sources */,
 				7F55F4A424144E050027ADAC /* Date+Ext.swift in Sources */,
-				7F6713902466C72D00C565BB /* FeaturedViewModel.swift in Sources */,
-				7F6713A22466EE4C00C565BB /* EntertainmentViewModel.swift in Sources */,
 				7F5778E324352A3D00012A9E /* ExpandedSources.swift in Sources */,
 				7F6044EF2438CEA800883085 /* NewsPageHeader.swift in Sources */,
 				7F55F4A324144E050027ADAC /* String + Ext.swift in Sources */,
-				7F67139C2466ED9600C565BB /* SportsViewModel.swift in Sources */,
 				7F5177FA242E2515009AA333 /* ESourceModel.swift in Sources */,
 				7F5177FE242E2525009AA333 /* ERequest.swift in Sources */,
 				7F6044F524390E8300883085 /* CategoriesCell.swift in Sources */,
@@ -718,7 +687,6 @@
 				7F5778DA2434F64600012A9E /* SideMenuCell.swift in Sources */,
 				7F55F49924143F2E0027ADAC /* BaseListController.swift in Sources */,
 				7F6044F324390CB300883085 /* CategoriesViewController.swift in Sources */,
-				7F6713A42466EE7C00C565BB /* HealthViewModel.swift in Sources */,
 				7F55F49124143AEB0027ADAC /* SectionsHeaderController.swift in Sources */,
 				7F5F373B2469EB09007E8B3B /* NewsHeaderCell.swift in Sources */,
 			);

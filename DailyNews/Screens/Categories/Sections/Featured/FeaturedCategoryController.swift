@@ -20,10 +20,12 @@ class FeaturedCategoryController: UIViewController {
     let feedCellId = "feedCellId"
     let headerCellId = "headerCellId"
     let activityIndicatorView = UIActivityIndicatorView(color: .black)
-    var viewModel: SectionsViewModelType
+    var viewModel: SectionsViewModel
+    var category: THCategories
     let disposeBag = DisposeBag()
     
-    init(_ viewModel: SectionsViewModelType = FeaturedViewModel()) {
+    init(_ viewModel: SectionsViewModel = SectionsViewModel(NewsService(), THCategories.general), _ category: THCategories = .general) {
+        self.category = category
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -57,9 +59,10 @@ class FeaturedCategoryController: UIViewController {
         }, configureSupplementaryView: {
             (a, collectionView, kind, indexPath) in
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: self.headerCellId, for: indexPath) as? SectionsPageHeader else { return UICollectionReusableView() }
-            header.feedHeaderController.category = .general
+            header.category = self.category
             
             return header
+            
         })
         
         viewModel.news
