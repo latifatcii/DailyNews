@@ -2,7 +2,7 @@ import Foundation
 import RxSwift
 
 protocol NewsServiceProtocol {
-    func fetchDataForSearchController(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void)
+    func fetchDataForSearchController(_ searchedQuery: String, _ page: Int) -> Observable<ENews>
     func fetchSources(_ from: SRequest, completion: @escaping (Result<SourcesModel, Error>) -> Void)
     func fetchNewsWithSources(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void)
     func fetchTHNews(_ page: Int, _ category: THCategories) -> Observable<THNews>
@@ -12,17 +12,6 @@ protocol NewsServiceProtocol {
 class NewsService: NewsServiceProtocol {
     static let shared = NewsService()
 
-
-    
-    func fetchDataForSearchController(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void) {
-        
-        guard let page = from.page, let pageSize = from.pageSize, let language = from.language, let qWord = from.qWord else { return }
-        let params: [String:Any] = ["page" : page, "pageSize": pageSize, "language": language, "q": qWord]
-        
-        apiRequest(params: params, endpointType: EndPointType().everything , completion: completion)
-    }
-
-    
     func fetchSources(_ from: SRequest, completion: @escaping (Result<SourcesModel, Error>) -> Void) {
         guard let category = from.category, let language = from.language else { return }
     
@@ -93,6 +82,18 @@ class NewsService: NewsServiceProtocol {
         return deneme(params, endpointType: EndPointType().topHeadline)
         
     }
+    
+    func fetchDataForSearchController(_ searchedQuery: String, _ page: Int) -> Observable<ENews> {
+        
+        let request =  ERequest(qWord: searchedQuery, qInTitle: nil, domains: nil, excludeDomains: nil, fromDate: nil, toDate: nil, language: "en", sortBy: nil, pageSize: 10, page: page, sources: nil)
+        
+        guard let page = request.page, let pageSize = request.pageSize, let language = request.language, let qWord = request.qWord else { fatalError() }
+        
+        let params: [String:Any] = ["page" : page, "pageSize": pageSize, "language": language, "q": qWord]
+        
+        return deneme(params, endpointType: EndPointType().everything)
+    }
+    
     func deneme<T: Decodable>(_ params: [String: Any], endpointType: String) -> Observable<T> {
         return Observable<T>.create { observer in
             
@@ -102,7 +103,7 @@ class NewsService: NewsServiceProtocol {
                 endpoint.append("&\(key)=\(value)")
             }
             
-            guard let url = URL(string: endpoint) else { fatalError() }
+            guard let url = URL(string: endpoint) else { fatalError("fatalerror") }
             let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 if error != nil {
                     print("error1")

@@ -16,7 +16,6 @@ final class NewsViewModel {
     var newsForCells: BehaviorSubject<[EverythingPresentation]> = .init(value: [])
     
     var loading: Observable<Bool>
-    var moreLoading: Observable<Bool>
     var loadPageTrigger: PublishSubject<Void>
     var loadNextPageTrigger: PublishSubject<Void>
     let disposeBag = DisposeBag()
@@ -26,8 +25,6 @@ final class NewsViewModel {
         
         let Loading = ActivityIndicator()
         loading = Loading.asObservable()
-        let moreLoad = ActivityIndicator()
-        moreLoading = moreLoad.asObservable()
         loadPageTrigger = PublishSubject()
         loadNextPageTrigger = PublishSubject()
         self.service = service
@@ -54,7 +51,7 @@ final class NewsViewModel {
                 }
         }
 
-        let nextRequest = self.moreLoading
+        let nextRequest = self.loading
             .sample(loadNextPageTrigger)
             .flatMap { [weak self] isLoading -> Observable<[EverythingPresentation]> in
                 guard let self = self else { fatalError() }
@@ -71,7 +68,7 @@ final class NewsViewModel {
                         })
                     })
                     return mappedNews
-                    .trackActivity(moreLoad)
+                    .trackActivity(Loading)
                 }
         }
 
@@ -79,7 +76,8 @@ final class NewsViewModel {
             .merge()
             .share(replay: 1)
 
-        let response = request.flatMapLatest { news -> Observable<[EverythingPresentation]> in
+        let response = request
+            .flatMapLatest { news -> Observable<[EverythingPresentation]> in
             request
                 .do(onError: { _error in
                     self.error.onNext(_error)

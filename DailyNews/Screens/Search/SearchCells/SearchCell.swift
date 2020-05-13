@@ -40,7 +40,7 @@ class SearchCell: UICollectionViewCell {
         label.font = .systemFont(ofSize: 12)
         return label
     }()
-    var news: EArticle? {
+    var news: EverythingPresentation? {
         didSet {
             if let news = news {
                 if let newsImageUrl = news.urlToImage {
@@ -53,7 +53,7 @@ class SearchCell: UICollectionViewCell {
                 let time = news.publishedAt.getTimeAgo()
                 headerLabel.text = news.title
                 timeLabel.text = time
-                sourceLabel.text = news.source.name
+                sourceLabel.text = news.source
             }
         }
     }

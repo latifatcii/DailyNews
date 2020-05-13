@@ -89,7 +89,7 @@ extension SourcesViewController: UICollectionViewDelegateFlowLayout, UICollectio
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? SearchCell
             else { return UICollectionViewCell() }
-        cell.news = self.news[indexPath.item]
+//        cell.news = self.news[indexPath.item]
         return cell
     }
 
