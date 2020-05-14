@@ -17,7 +17,7 @@ class NewsService: NewsServiceProtocol {
     
         let params: [String:Any] = ["category" : category, "language": language]
         
-        apiRequest(params: params, endpointType: EndPointType().sourcesResponses, completion: completion)
+        deneme(params: params, endpointType: EndPointType().sourcesResponses, completion: completion)
     }
     
     func fetchNewsWithSources(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void) {
@@ -25,11 +25,11 @@ class NewsService: NewsServiceProtocol {
         
        let params: [String:Any] = ["sources" : sources, "pageSize": pageSize, "page": page, "language": language]
         
-        apiRequest(params: params,endpointType: EndPointType().everything ,completion: completion)
+        deneme(params: params,endpointType: EndPointType().everything ,completion: completion)
 
     }
     
-    func apiRequest<T: Decodable>(params: [String : Any], endpointType: String ,completion: @escaping (Result<T, Error>) -> Void) {
+    func deneme<T: Decodable>(params: [String : Any], endpointType: String ,completion: @escaping (Result<T, Error>) -> Void) {
         
         var endpoint = endpointType + "?apiKey=8937c23c392f4972873b51f17d46d42d"
         
@@ -69,7 +69,7 @@ class NewsService: NewsServiceProtocol {
             else { fatalError() }
         let params: [String:Any] = ["page" : page, "pageSize": pageSize, "language": language, "sources": sources, "sortBy": sortBy]
         
-        return deneme(params, endpointType: EndPointType().everything)
+        return apiRequest(params, endpointType: EndPointType().everything)
     }
     
     func fetchTHNews(_ page: Int, _ category: THCategories) -> Observable<THNews> {
@@ -79,7 +79,7 @@ class NewsService: NewsServiceProtocol {
         
         let params: [String:Any] = ["country" : country, "pageSize": pageSize, "page": page, "category": category]
         
-        return deneme(params, endpointType: EndPointType().topHeadline)
+        return apiRequest(params, endpointType: EndPointType().topHeadline)
         
     }
     
@@ -91,10 +91,10 @@ class NewsService: NewsServiceProtocol {
         
         let params: [String:Any] = ["page" : page, "pageSize": pageSize, "language": language, "q": qWord]
         
-        return deneme(params, endpointType: EndPointType().everything)
+        return apiRequest(params, endpointType: EndPointType().everything)
     }
     
-    func deneme<T: Decodable>(_ params: [String: Any], endpointType: String) -> Observable<T> {
+    func apiRequest<T: Decodable>(_ params: [String: Any], endpointType: String) -> Observable<T> {
         return Observable<T>.create { observer in
             
             var endpoint = endpointType + "?apiKey=8937c23c392f4972873b51f17d46d42d"

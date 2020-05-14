@@ -12,7 +12,7 @@ import RxSwift
 final class NewsHeaderViewModel {
     
     var service: NewsServiceProtocol
-    var news: BehaviorSubject<[EverythingPresentation]> = .init(value: [])
+    let news: BehaviorSubject<[EverythingPresentation]> = .init(value: [])
     var page = 1
     let loading: Observable<Bool>
     let loadPageTrigger: PublishSubject<Void>

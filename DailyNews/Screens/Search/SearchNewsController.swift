@@ -14,9 +14,9 @@ import RxCocoa
 import RxDataSources
 
 class SearchNewsController: UIViewController {
+    
     let cellId = "cellId"
     var collectionView: UICollectionView!
-    var searchedText: String = ""
     let activityIndicatorView = UIActivityIndicatorView(color: .black)
     let searchController = UISearchController()
     var viewModel: SearchNewsViewModel
@@ -41,20 +41,19 @@ class SearchNewsController: UIViewController {
         activityIndicatorView.edgesToSuperview()
         setupBinding()
     }
-
+    
     func setupBinding() {
         viewModel.loading
             .bind(to: activityIndicatorView.rx.isAnimating)
             .disposed(by: disposeBag)
         
-        
-       searchController.searchBar.rx.text
+        searchController.searchBar.rx.text
             .orEmpty
-        .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
             .distinctUntilChanged()
-        .filter { $0 != "" }
+            .filter { $0 != "" }
             .bind(to: viewModel.searchText)
-        .disposed(by: disposeBag)
+            .disposed(by: disposeBag)
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<PresentationSection>(configureCell: { [weak self]
             (ds, cv, ip, item) in
@@ -69,8 +68,8 @@ class SearchNewsController: UIViewController {
             .map {
                 items in [PresentationSection(header: "", items: items)]
         }
-            .bind(to: collectionView.rx.items(dataSource: dataSource))
-    .disposed(by: disposeBag)
+        .bind(to: collectionView.rx.items(dataSource: dataSource))
+        .disposed(by: disposeBag)
         
         searchController.searchBar.rx.cancelButtonClicked
             .bind(to: viewModel.cancelButtonClicked)
@@ -78,7 +77,7 @@ class SearchNewsController: UIViewController {
         
         collectionView.rx.reachedBottom
             .bind(to: viewModel.loadNextPageTrigger)
-        .disposed(by: disposeBag)
+            .disposed(by: disposeBag)
         
         collectionView.rx.modelSelected(EverythingPresentation.self)
             .subscribe(onNext: { [weak self]
@@ -87,7 +86,7 @@ class SearchNewsController: UIViewController {
                 let safariVC = SFSafariViewController(url: URL(string: news.url)!)
                 self.present(safariVC, animated: true)
             })
-        .disposed(by: disposeBag)
+            .disposed(by: disposeBag)
         
     }
     

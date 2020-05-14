@@ -16,8 +16,7 @@ final class SectionsViewModel {
     let news: BehaviorSubject<[TopHeadlinePresentation]>
     var page = 2
     var category = THCategories.general
-    var loading: Observable<Bool>
-    var nextPageLoading: Observable<Bool>
+    let loading: Observable<Bool>
     var loadTrigger: PublishSubject<Void>
     var nextPageLoadTrigger: PublishSubject<Void>
     let disposeBag = DisposeBag()
@@ -31,8 +30,6 @@ final class SectionsViewModel {
         news = .init(value: [])
         let loadingIndicator = ActivityIndicator()
         loading = loadingIndicator.asObservable()
-        let moreLoading = ActivityIndicator()
-        nextPageLoading = moreLoading.asObservable()
         loadTrigger = PublishSubject<Void>()
         nextPageLoadTrigger = PublishSubject<Void>()
         
@@ -58,7 +55,7 @@ final class SectionsViewModel {
                 }
         }
         
-        let nextPageRequest = nextPageLoading
+        let nextPageRequest = loading
             .sample(nextPageLoadTrigger)
             .flatMap { nextLoading -> Observable<[TopHeadlinePresentation]> in
                 if nextLoading {
@@ -74,7 +71,7 @@ final class SectionsViewModel {
                         }
                     }
                     return mappedNews
-                        .trackActivity(moreLoading)
+                        .trackActivity(loadingIndicator)
                 }
         }
         

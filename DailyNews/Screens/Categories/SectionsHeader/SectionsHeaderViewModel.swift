@@ -13,11 +13,11 @@ import RxSwift
 final class SectionsHeaderViewModel {
 
     var service: NewsServiceProtocol
-    var sectionHeaderNews: BehaviorSubject<[TopHeadlinePresentation]>
+    let sectionHeaderNews: BehaviorSubject<[TopHeadlinePresentation]>
     let disposeBag = DisposeBag()
     let page = 1
     
-    var loading: Observable<Bool>
+    let loading: Observable<Bool>
     var loadingTrigger: PublishSubject<Void>
     
     init(_ service: NewsServiceProtocol = NewsService(), _ category: THCategories) {
