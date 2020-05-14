@@ -34,18 +34,20 @@ class SearchNewsController: UIViewController {
     
     func setupBinding() {
         
+        
         viewModel.loading
             .bind(to: activityIndicatorView.rx.isAnimating)
             .disposed(by: disposeBag)
         
-//        viewModel.loadNextPageTrigger.onNext(())
        searchController.searchBar.rx.text
             .orEmpty
-            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+        .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
         .debug()
             .distinctUntilChanged()
             .bind(to: viewModel.searchText)
         .disposed(by: disposeBag)
+        
+        
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<PresentationSection>(configureCell: { [weak self]
             (ds, cv, ip, item) in
@@ -60,9 +62,12 @@ class SearchNewsController: UIViewController {
             .map {
                 items in [PresentationSection(header: "", items: items)]
         }
-//        .debug()
             .bind(to: collectionView.rx.items(dataSource: dataSource))
     .disposed(by: disposeBag)
+
+        collectionView.rx.reachedBottom
+            .bind(to: viewModel.loadNextPageTrigger)
+        .disposed(by: disposeBag)
         
     }
     
@@ -80,8 +85,6 @@ class SearchNewsController: UIViewController {
                                           collectionViewLayout: UIHelper.createTwoColumnFlowLayout(in: view))
         collectionView.register(SearchCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.backgroundColor = .systemBackground
-//        collectionView.delegate = self
-//        collectionView.dataSource = self
         view.addSubview(collectionView)
         collectionView.edgesToSuperview()
     }
