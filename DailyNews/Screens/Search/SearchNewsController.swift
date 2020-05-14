@@ -74,7 +74,6 @@ class SearchNewsController: UIViewController {
     
     func configureSearchController() {
         searchController.obscuresBackgroundDuringPresentation = false
-//        searchController.searchBar.delegate = self
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "Search for a news"
         navigationItem.searchController = searchController
@@ -89,55 +88,4 @@ class SearchNewsController: UIViewController {
         collectionView.edgesToSuperview()
     }
     
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let safariVC = SFSafariViewController(url: URL(string: news[indexPath.item].url)!)
-//        present(safariVC, animated: true)
-//    }
-//
-//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        let offsetY = scrollView.contentOffset.y
-//        let contentHeight = scrollView.contentSize.height
-//        let height = scrollView.frame.size.height
-//        if offsetY > contentHeight - height {
-//            guard hasMoreNews else { return }
-//            page += 1
-////            searchNews(qWord: searchedText, page: page)
-//        }
-//    }
 }
-
-//extension SearchNewsController: UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return news.count
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? SearchCell
-//            else { return UICollectionViewCell() }
-////        cell.news = self.news[indexPath.item]
-//        return cell
-//    }
-//}
-
-//extension SearchNewsController: UISearchBarDelegate {
-//
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        page = 1
-//        timer?.invalidate()
-//        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
-//            self.news.removeAll()
-//            let searchedText = searchText.replacingOccurrences(of: " ", with: "-")
-//            if !searchedText.isEmpty {
-////                self.searchNews(qWord: searchedText, page: self.page)
-//                self.searchedText = searchedText
-//            }
-//        })
-//    }
-    
-//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-//        news.removeAll()
-//        page = 1
-//        collectionView.reloadData()
-//    }
-
-
