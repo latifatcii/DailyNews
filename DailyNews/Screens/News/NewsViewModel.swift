@@ -13,9 +13,9 @@ final class NewsViewModel {
     
     var service: NewsServiceProtocol
     var page = 2
-    var newsForCells: BehaviorSubject<[EverythingPresentation]> = .init(value: [])
+    let newsForCells: BehaviorSubject<[EverythingPresentation]> = .init(value: [])
     
-    var loading: Observable<Bool>
+    let loading: Observable<Bool>
     var loadPageTrigger: PublishSubject<Void>
     var loadNextPageTrigger: PublishSubject<Void>
     let disposeBag = DisposeBag()

@@ -8,71 +8,44 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 final class SearchNewsViewModel {
     
     var service: NewsServiceProtocol
-    var searchText: PublishSubject<String>
-    var loading: Observable<Bool>
+    let searchText: BehaviorRelay<String>
+    
+    let loading: Observable<Bool>
     let searchedNews: BehaviorSubject<[EverythingPresentation]>
     var loadNextPageTrigger: PublishSubject<Void>
     var page = 1
     private let error = PublishSubject<Swift.Error>()
-
-    
-    
+    let cancelButtonClicked: PublishSubject<Void>
+    let loadingIndicator = ActivityIndicator()
     let disposeBag = DisposeBag()
     
     
     init(_ service: NewsServiceProtocol = NewsService()) {
         self.service = service
         
-        let loadingIndicator = ActivityIndicator()
-
         loading = loadingIndicator.asObservable()
+        cancelButtonClicked = PublishSubject<Void>()
         loadNextPageTrigger = PublishSubject<Void>()
         searchedNews = .init(value: [])
-        searchText = PublishSubject<String>()
-
+        searchText = .init(value: "")
+        
         
         let request = searchText
-            .flatMapLatest { [weak self]
-            search -> Observable<[EverythingPresentation]> in
-            guard let self = self else { fatalError() }
-            
-            if search.isEmpty {
-                return .just([])
-            } else {
-                self.page = 1
-                self.searchedNews.onNext([])
-                let lowerCasedSearchText = search.lowercased()
-                let text = lowerCasedSearchText.replacingOccurrences(of: " ", with: "-")
-                let news = self.service.fetchDataForSearchController(text, self.page).map {
-                    $0.articles
-                }
-                let mappedNews = news.map {
-                    $0.map {
-                        news in EverythingPresentation.init(everything: news)
-                    }
-                }
-                return mappedNews
-            }
-        }.share(replay: 1)
-        
-        let nextRequest = searchText
-        .sample(loading)
-//            .sample(loadNextPageTrigger)
-            .flatMapLatest { [weak self]
-                search -> Observable<[EverythingPresentation]> in
+            .flatMap { [weak self]
+                text -> Observable<[EverythingPresentation]> in
                 guard let self = self else { fatalError() }
-                
-                if search.isEmpty {
+                if text.isEmpty {
                     return .just([])
                 } else {
-                    self.page = self.page + 1
-                    let lowerCasedSearchText = search.lowercased()
-                    let text = lowerCasedSearchText.replacingOccurrences(of: " ", with: "-")
-                    let news = self.service.fetchDataForSearchController(text, self.page).map {
+                    self.page = 1
+                    self.searchedNews.onNext([])
+                    
+                    let news = self.service.fetchDataForSearchController(self.queryString(), self.page).map {
                         $0.articles
                     }
                     let mappedNews = news.map {
@@ -81,9 +54,32 @@ final class SearchNewsViewModel {
                         }
                     }
                     return mappedNews
-                        .trackActivity(loadingIndicator)
+                        .trackActivity(self.loadingIndicator)
+                }
+        }.share(replay: 1)
+        
+        let nextRequest = loading
+            .sample(loadNextPageTrigger)
+            .flatMap { [weak self]
+                isLoading -> Observable<[EverythingPresentation]> in
+                guard let self = self else { fatalError() }
+                if isLoading {
+                    return .just([])
+                } else {
+                    self.page = self.page + 1
+                    let news = self.service.fetchDataForSearchController(self.queryString(), self.page).map {
+                        $0.articles
+                    }
+                    let mappedNews = news.map {
+                        $0.map {
+                            news in EverythingPresentation.init(everything: news)
+                        }
+                    }
+                    return mappedNews
+                        .trackActivity(self.loadingIndicator)
                 }
         }
+        
         
         let finalRequest = Observable.of(request, nextRequest)
             .merge()
@@ -91,13 +87,13 @@ final class SearchNewsViewModel {
         
         let response = finalRequest
             .flatMapLatest { news -> Observable<[EverythingPresentation]> in
-            request
-                .do(onError: { _error in
-                    self.error.onNext(_error)
-                }).catchError({ error -> Observable<[EverythingPresentation]> in
-                    Observable.empty()
-                })
-            }
+                finalRequest
+                    .do(onError: { _error in
+                        self.error.onNext(_error)
+                    }).catchError({ error -> Observable<[EverythingPresentation]> in
+                        Observable.empty()
+                    })
+        }
         .share(replay: 1)
         
         Observable
@@ -108,12 +104,15 @@ final class SearchNewsViewModel {
         .bind(to: searchedNews)
         .disposed(by: disposeBag)
         
-        loading = Observable<Bool>
-        .merge(
-            searchText.map { _ in true},
-            request.map { _ in false }
-        )
+        cancelButtonClicked.subscribe(onNext: {
+            self.searchedNews.onNext([])
+            })
+        .disposed(by: disposeBag)
         
-        
+    }
+    func queryString() -> String {
+        let lowerCasedQuery = searchText.value.lowercased()
+        let query = lowerCasedQuery.replacingOccurrences(of: " ", with: "-")
+        return query
     }
 }
