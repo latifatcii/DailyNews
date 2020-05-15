@@ -4,30 +4,23 @@ import RxSwift
 protocol NewsServiceProtocol {
     func fetchDataForSearchController(_ searchedQuery: String, _ page: Int) -> Observable<ENews>
     func fetchSources(_ from: SRequest, completion: @escaping (Result<SourcesModel, Error>) -> Void)
-    func fetchNewsWithSources(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void)
+    func fetchNewsWithSources(_ page: Int, _ source: String) -> Observable<ENews>
     func fetchTHNews(_ page: Int, _ category: THCategories) -> Observable<THNews>
     func fetch(_ page: Int) -> Observable<ENews>
 }
 
 class NewsService: NewsServiceProtocol {
     static let shared = NewsService()
-
+    
     func fetchSources(_ from: SRequest, completion: @escaping (Result<SourcesModel, Error>) -> Void) {
         guard let category = from.category, let language = from.language else { return }
-    
+        
         let params: [String:Any] = ["category" : category, "language": language]
         
         deneme(params: params, endpointType: EndPointType().sourcesResponses, completion: completion)
     }
     
-    func fetchNewsWithSources(_ from: ERequest, completion: @escaping (Result<ENews, Error>) -> Void) {
-        guard let page = from.page, let pageSize = from.pageSize, let language = from.language, let sources = from.sources else { return }
-        
-       let params: [String:Any] = ["sources" : sources, "pageSize": pageSize, "page": page, "language": language]
-        
-        deneme(params: params,endpointType: EndPointType().everything ,completion: completion)
-
-    }
+    
     
     func deneme<T: Decodable>(params: [String : Any], endpointType: String ,completion: @escaping (Result<T, Error>) -> Void) {
         
@@ -64,7 +57,7 @@ class NewsService: NewsServiceProtocol {
     func fetch(_ page: Int) -> Observable<ENews> {
         
         let fetchRequestData = ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil, fromDate: nil, toDate: nil, language: "en", sortBy: .publishedAt, pageSize: 10, page: page, sources: Constants.sourcesIds)
-
+        
         guard let page = fetchRequestData.page, let pageSize = fetchRequestData.pageSize, let language = fetchRequestData.language, let sources = fetchRequestData.sources, let sortBy = fetchRequestData.sortBy
             else { fatalError() }
         let params: [String:Any] = ["page" : page, "pageSize": pageSize, "language": language, "sources": sources, "sortBy": sortBy]
@@ -92,6 +85,19 @@ class NewsService: NewsServiceProtocol {
         let params: [String:Any] = ["page" : page, "pageSize": pageSize, "language": language, "q": qWord]
         
         return apiRequest(params, endpointType: EndPointType().everything)
+    }
+    
+    func fetchNewsWithSources(_ page: Int, _ source: String) -> Observable<ENews> {
+        
+        let request = ERequest(qWord: nil, qInTitle: nil, domains: nil, excludeDomains: nil, fromDate: nil, toDate: nil, language: "en", sortBy: .publishedAt, pageSize: 10, page: page, sources: source)
+        
+        
+        guard let page = request.page, let pageSize = request.pageSize, let language = request.language, let sources = request.sources else { fatalError() }
+        
+        let params: [String:Any] = ["sources" : sources, "pageSize": pageSize, "page": page, "language": language]
+        
+        return apiRequest(params, endpointType: EndPointType().everything)
+        
     }
     
     func apiRequest<T: Decodable>(_ params: [String: Any], endpointType: String) -> Observable<T> {

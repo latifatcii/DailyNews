@@ -165,7 +165,7 @@ extension SideMenuController: SlideMenuTableViewDelegate {
         let indexPath = tableView.indexPath(for: cell)
         let sourceId = sources[indexPath!.section].sources[indexPath!.row].sourceId
         let sourceName = sources[indexPath!.section].sources[indexPath!.row].name
-        let sourceVC = SourcesViewController()
+        let sourceVC = SideMenuNewsViewController()
         sourceVC.sourceId = sourceId
         sourceVC.sourceName = sourceName
         sourceDelegate?.pushToSourcesVC(source: sourceVC)

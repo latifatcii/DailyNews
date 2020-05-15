@@ -36,7 +36,6 @@ class ContainerController: UIViewController {
             addChild(menuController)
             view.insertSubview(menuController.view, at: 0)
             menuController.didMove(toParent: self)
-            menuController.didMove(toParent: self)
             menuController.view.edgesToSuperview(excluding: .trailing)
             menuController.view.width(self.tabBar.view.frame.width-165)
         }
