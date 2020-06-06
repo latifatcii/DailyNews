@@ -85,8 +85,10 @@ final class NewsViewModel {
             request
                 .do(onError: { _error in
                     self.error.onNext(_error)
-                }).catchError({ error -> Observable<[EverythingPresentation]> in
+                }).catchError({ error ->
+                    Observable<[EverythingPresentation]> in
                     Observable.empty()
+                    
                 })
             }
         .share(replay: 1)

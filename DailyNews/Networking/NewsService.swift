@@ -41,29 +41,28 @@ class NewsService: NewsServiceProtocol {
     func apiRequest<T: Decodable>(_ urlRequest: URLRequest) -> Observable<T> {
         return Observable<T>.create { observer in
             
-            
-            
             URLSession.shared.dataTask(with: urlRequest)
             let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
 
-                if let error = error {
-                    observer.onError(error)
-                }
-                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                    print("invalid response")
-                    return
+                if let _ = error {
+                    observer.onError(NetworkResponse.badRequest)
                 }
                 guard let data = data else {
-                    print("invalid data")
+                    observer.onError(NetworkResponse.noData)
                     return
                 }
+                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                    observer.onError(NetworkResponse.badRequest)
+                    return
+                }
+
                 do {
                     let decoder = JSONDecoder()
                     let news = try decoder.decode(T.self, from: data)
                     observer.onNext(news)
                     observer.onCompleted()
                 } catch {
-                    observer.onError(error)
+                    observer.onError(NetworkResponse.unableToDecode)
                 }
             }
             task.resume()
