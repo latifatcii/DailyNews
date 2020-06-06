@@ -30,36 +30,7 @@ class SideMenuNewsViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    let dismissButton: UIButton = {
-        let button = UIButton(title: "Close")
-        return button
-    }()
 
-    let activityIndicatorView: UIActivityIndicatorView = {
-        let aiv = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-        aiv.color = .black
-        aiv.hidesWhenStopped = true
-        return aiv
-    }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-        configureCollectionView()
-        view.addSubview(activityIndicatorView)
-        activityIndicatorView.edgesToSuperview()
-        setupBinding()
-    }
-
-    private func configureCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createTwoColumnFlowLayout(in: view))
-        collectionView.register(SearchCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView.backgroundColor = .systemBackground
-        view.addSubview(collectionView)
-        collectionView.edgesToSuperview()
-
-    }
 
     private func setupBinding() {
         
@@ -100,5 +71,29 @@ class SideMenuNewsViewController: UIViewController {
         
     }
    
+   let activityIndicatorView: UIActivityIndicatorView = {
+       let aiv = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+       aiv.color = .black
+       aiv.hidesWhenStopped = true
+       return aiv
+   }()
+
+   override func viewDidLoad() {
+       super.viewDidLoad()
+       view.backgroundColor = .white
+       configureCollectionView()
+       view.addSubview(activityIndicatorView)
+       activityIndicatorView.edgesToSuperview()
+       setupBinding()
+   }
+
+   private func configureCollectionView() {
+       collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createTwoColumnFlowLayout(in: view))
+       collectionView.register(SearchCell.self, forCellWithReuseIdentifier: cellId)
+       collectionView.backgroundColor = .systemBackground
+       view.addSubview(collectionView)
+       collectionView.edgesToSuperview()
+
+   }
 }
 

@@ -19,6 +19,7 @@ final class NewsViewModel {
     var loadPageTrigger: PublishSubject<Void>
     var loadNextPageTrigger: PublishSubject<Void>
     let disposeBag = DisposeBag()
+        
     private let error = PublishSubject<Swift.Error>()
     
     init(_ service: NewsServiceProtocol = NewsService()) {
@@ -28,6 +29,10 @@ final class NewsViewModel {
         loadPageTrigger = PublishSubject()
         loadNextPageTrigger = PublishSubject()
         self.service = service
+        
+        dataObserver.subscribe(onNext: {
+            print("refresh data NewsViewModel")
+            }).disposed(by: disposeBag)
         
         let loadRequest = self.loading
             .sample(self.loadPageTrigger)
@@ -71,7 +76,6 @@ final class NewsViewModel {
                     .trackActivity(Loading)
                 }
         }
-
         let request = Observable.of(loadRequest, nextRequest)
             .merge()
             .share(replay: 1)
@@ -94,5 +98,8 @@ final class NewsViewModel {
         .sample(response)
         .bind(to: newsForCells)
         .disposed(by: disposeBag)
+        
     }
+    
+    
 }

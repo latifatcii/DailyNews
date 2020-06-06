@@ -20,7 +20,6 @@ class ContainerController: UIViewController {
         view.backgroundColor = .white
         setupTabBarView()
         tabBar.menuDelegate = self
-        tabBar.menuSlideDelegate = self
     }
 
     func setupTabBarView() {
@@ -77,8 +76,3 @@ extension ContainerController: SlideMenuDelegate, SourcesViewControllerDelegate 
     }
 }
 
-extension ContainerController: SlideMenuGestureDelegate {
-    func configureTapGestureForSlideMenu() {
-        showMenuController(shouldExpand: true)
-    }
-}

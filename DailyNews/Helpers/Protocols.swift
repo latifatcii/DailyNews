@@ -7,16 +7,13 @@
 //
 
 import UIKit
+import RxCocoa
 
 protocol SlideMenuDelegate: class {
     func configureSlideMenu()
 }
-protocol SlideMenuGestureDelegate: class {
-    func configureTapGestureForSlideMenu()
-}
-protocol SlideMenuTableViewDelegate: class {
-    func didSelectSlideMenuCell(cell: UITableViewCell)
-}
 protocol SourcesViewControllerDelegate: class {
     func pushToSourcesVC(source: UIViewController)
 }
+
+    

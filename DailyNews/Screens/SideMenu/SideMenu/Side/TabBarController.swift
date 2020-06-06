@@ -14,16 +14,14 @@ class TabBarController: UITabBarController {
     let searchVC = SearchNewsController()
     let categoriesVC = CategoriesViewController()
     weak var menuDelegate: SlideMenuDelegate?
-    var gesture: UITapGestureRecognizer?
-    weak var menuSlideDelegate: SlideMenuGestureDelegate?
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureTabBar()
         setupMenuButton()
-        configureGestureRecognizer()
-        swipeGesture()
+
     }
 
     func configureTabBar() {
@@ -53,25 +51,5 @@ class TabBarController: UITabBarController {
         menuDelegate?.configureSlideMenu()
     }
 
-    func configureGestureRecognizer() {
-        gesture = UITapGestureRecognizer(target: self, action: #selector(closeSlideMenu))
-        view.addGestureRecognizer(gesture!)
-    }
 
-    @objc func closeSlideMenu() {
-        menuSlideDelegate?.configureTapGestureForSlideMenu()
-        gesture!.cancelsTouchesInView = false
-    }
-
-    func swipeGesture() {
-        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
-        edgePan.edges = .left
-        view.addGestureRecognizer(edgePan)
-    }
-
-    @objc func screenEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
-        if recognizer.state == .recognized {
-            menuDelegate?.configureSlideMenu()
-        }
-    }
 }

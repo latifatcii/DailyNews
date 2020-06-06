@@ -25,6 +25,10 @@ final class NewsHeaderViewModel {
         loading = Loading.asObservable()
         loadPageTrigger = PublishSubject<Void>()
         
+        dataObserver.subscribe(onNext: {
+            print("refresh data NewsHeaderViewModel")
+            }).disposed(by: disposeBag)
+        
         let loadRequest = self.loading
             .sample(self.loadPageTrigger)
             .flatMap { [weak self]

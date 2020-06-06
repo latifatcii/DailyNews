@@ -2,7 +2,6 @@ import UIKit
 
 struct UIHelper {
 
-    //Sean Allen Github-Followers
     static func createThreeColumnFlowLayout(in view: UIView) -> UICollectionViewFlowLayout {
         let width = view.bounds.width
         let padding: CGFloat = 12
@@ -16,7 +15,6 @@ struct UIHelper {
 
         return flowLayout
     }
-    //Sean Allen Github-Followers
     static func createTwoColumnFlowLayout(in view: UIView) -> UICollectionViewFlowLayout {
         let width = view.bounds.width
         let padding: CGFloat = 15
@@ -30,7 +28,6 @@ struct UIHelper {
 
         return flowLayout
     }
-    //Sean Allen Github-Followers
     static func createTwoColumnFlowLayoutForCategories(in view: UIView) -> UICollectionViewFlowLayout {
         let width = view.bounds.width
         let padding: CGFloat = 15

@@ -87,7 +87,6 @@ class SideMenuNewsViewModel {
                     })
                 
         }
-    .debug()
     .share(replay: 1)
         
         Observable

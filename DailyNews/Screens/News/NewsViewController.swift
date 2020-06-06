@@ -19,8 +19,6 @@ class NewsViewController: UIViewController {
     var collectionView: UICollectionView!
     let newsCellId = "newsCellId"
     let headerNewsCellId = "headerCellId"
-    var page = 2
-    var hasMoreNews = true
     let activityIndicatorView = UIActivityIndicatorView(color: .black)
     let refreshControl = UIRefreshControl()
     
@@ -30,7 +28,6 @@ class NewsViewController: UIViewController {
     init(_ viewModel: NewsViewModel = NewsViewModel()) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-    
     }
     
     required init?(coder: NSCoder) {
@@ -57,7 +54,9 @@ class NewsViewController: UIViewController {
         viewModel.loadPageTrigger.onNext(())
         
         refreshControl.rx.controlEvent(.valueChanged)
-            .bind(to: viewModel.loadPageTrigger)
+            .subscribe(onNext: {
+                dataObserver.onNext(())
+            })
             .disposed(by: disposeBag)
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<PresentationSection>(configureCell: { [weak self]
