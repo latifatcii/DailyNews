@@ -13,6 +13,11 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
+
+// TODO add refreshing feature to every screens
+// TODO Subscribe to error and show alarm
+// TODO Finish side menu
+
 class NewsViewController: UIViewController {
     
     let layout = UICollectionViewFlowLayout()
