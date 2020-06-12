@@ -33,7 +33,7 @@ class SectionsHeaderViewModelTests: XCTestCase {
         }
         
         //When
-        viewModel.loadingTrigger.onNext(())
+        viewModel.loadPageTrigger.onNext(())
         
         //Then
         XCTAssertEqual(try viewModel.sectionHeaderNews.toBlocking().first(), presentationNews)

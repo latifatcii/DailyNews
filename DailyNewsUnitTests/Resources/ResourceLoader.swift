@@ -20,11 +20,11 @@ class ResourceLoader {
         case fetchSources2
     }
     
-    static func loadEverything(resource: NewsResource) throws -> ENews {
+    static func loadEverything(resource: NewsResource) throws -> ENewsModel {
         return try loadNews(resource: resource)
     }
     
-    static func loadTH(resource: NewsResource) throws -> THNews {
+    static func loadTH(resource: NewsResource) throws -> THNewsModel {
         return try loadNews(resource: resource)
     }
     

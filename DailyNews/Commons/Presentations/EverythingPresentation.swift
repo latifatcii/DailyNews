@@ -25,7 +25,7 @@ final class EverythingPresentation {
         self.urlToImage = urlToImage
         self.publishedAt = publishedAt
     }
-    convenience init(everything: EArticle) {
+    convenience init(everything: EArticleModel) {
         self.init(source: everything.source.name, author: everything.author, title: everything.title, url: everything.url, urlToImage: everything.urlToImage, publishedAt: everything.publishedAt)
     }
 }

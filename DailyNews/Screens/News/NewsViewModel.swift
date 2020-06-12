@@ -13,19 +13,19 @@ final class NewsViewModel {
     
     var service: NewsServiceProtocol
     var page = 2
-    let newsForCells: BehaviorSubject<[EverythingPresentation]> = .init(value: [])
+    let news: BehaviorSubject<[EverythingPresentation]> = .init(value: [])
     
     let loading: Observable<Bool>
     var loadPageTrigger: PublishSubject<Void>
     var loadNextPageTrigger: PublishSubject<Void>
     let disposeBag = DisposeBag()
-    var Loading: ActivityIndicator!
+    var loadingIndicator: ActivityIndicator!
         
     private let error = PublishSubject<Swift.Error>()
     
     init(_ service: NewsServiceProtocol = NewsService()) {
-        Loading = ActivityIndicator()
-        loading = Loading.asObservable()
+        loadingIndicator = ActivityIndicator()
+        loading = loadingIndicator.asObservable()
         loadPageTrigger = PublishSubject()
         loadNextPageTrigger = PublishSubject()
         self.service = service
@@ -46,7 +46,7 @@ final class NewsViewModel {
                     return Observable.empty()
                 } else {
                     self.page = 2
-                    self.newsForCells.onNext([])
+                    self.news.onNext([])
                     let news = self.service.fetch(self.page).map({
                         items in items.articles
                     })
@@ -56,7 +56,7 @@ final class NewsViewModel {
                         })
                     })
                     return mappedNews
-                        .trackActivity(self.Loading)
+                        .trackActivity(self.loadingIndicator)
                 }
         }
 
@@ -77,7 +77,7 @@ final class NewsViewModel {
                         })
                     })
                     return mappedNews
-                        .trackActivity(self.Loading)
+                        .trackActivity(self.loadingIndicator)
                 }
         }
         let request = Observable.of(loadRequest, nextRequest)
@@ -98,11 +98,11 @@ final class NewsViewModel {
         .share(replay: 1)
         
         Observable
-            .combineLatest(request, response , newsForCells.asObservable()) { request, response, news in
+            .combineLatest(request, response , news.asObservable()) { request, response, news in
                 return self.page == 2 ? response : news + response
         }
         .sample(response)
-        .bind(to: newsForCells)
+        .bind(to: news)
         .disposed(by: disposeBag)
     }
     

@@ -36,7 +36,7 @@ class SectionsHeaderController: BaseListController, UICollectionViewDelegateFlow
     }
     
     func setupBinding() {
-        viewModel.loadingTrigger.onNext(())
+        viewModel.loadPageTrigger.onNext(())
         
             let dataSource = RxCollectionViewSectionedReloadDataSource<TopHeadlinePresentationSection>(configureCell: {
                 (ds, cv, ip, news) in

@@ -39,12 +39,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>RxSwift-iOS13.2.xcscheme</key>
+		<key>RxSwift-iOS11.0.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>RxSwift-iOS13.5.xcscheme</key>
+		<key>RxSwift-iOS13.2.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

@@ -13,8 +13,8 @@ final class SideMenuSourcesCell: UITableViewCell {
     var sourcesNames: Sources? {
         didSet {
             if let sourcesName = sourcesNames {
-                textLabel?.text = sourcesNames?.name
-                print(sourcesNames?.name)
+                textLabel?.text = sourcesName.name
+                print(sourcesName.name)
             }
         }
     }

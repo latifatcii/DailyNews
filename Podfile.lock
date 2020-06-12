@@ -14,9 +14,9 @@ PODS:
   - RxSwift (5.1.1)
   - RxTest (5.1.1):
     - RxSwift (~> 5)
-  - SDWebImage (5.6.1):
-    - SDWebImage/Core (= 5.6.1)
-  - SDWebImage/Core (5.6.1)
+  - SDWebImage (5.8.1):
+    - SDWebImage/Core (= 5.8.1)
+  - SDWebImage/Core (5.8.1)
   - TinyConstraints (4.0.1)
 
 DEPENDENCIES:
@@ -48,7 +48,7 @@ SPEC CHECKSUMS:
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   RxTest: 711632d5644dffbeb62c936a521b5b008a1e1faa
-  SDWebImage: 7edb9c3ea661e77a66661f7f044de8c1b55d1120
+  SDWebImage: e3eae2eda88578db0685a0c88597fdadd9433f05
   TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
 
 PODFILE CHECKSUM: 80052d1fde68d1c70be4e99cbc404e351618aeef

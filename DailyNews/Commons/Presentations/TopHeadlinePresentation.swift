@@ -25,7 +25,7 @@ final class TopHeadlinePresentation {
         self.urlToImage = urlToImage
         self.publishedAt = publishedAt
     }
-    convenience init(topHeadline: THArticle) {
+    convenience init(topHeadline: THArticleModel) {
         self.init(source: topHeadline.source.name, author: topHeadline.author, title: topHeadline.title, url: topHeadline.url, urlToImage: topHeadline.urlToImage, publishedAt: topHeadline.publishedAt)
     }
 }

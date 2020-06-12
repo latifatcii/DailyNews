@@ -13,12 +13,12 @@ import RxSwift
 
 class MockNewsService: NewsServiceProtocol {
     
-    var eNews: ENews?
-    var thNews: THNews?
+    var eNews: ENewsModel?
+    var thNews: THNewsModel?
     var sources: SourcesModel?
     let urlReq: URLRequest = URLRequest(url: URL(string: "fakeURL")!)
     
-    func fetchDataForSearchController(_ searchedQuery: String, _ page: Int) -> Observable<ENews> {
+    func fetchDataForSearchController(_ searchedQuery: String, _ page: Int) -> Observable<ENewsModel> {
         return apiRequestEverything(urlReq)
     }
     
@@ -26,20 +26,20 @@ class MockNewsService: NewsServiceProtocol {
         return apiRequestSources(urlReq)
     }
     
-    func fetchNewsWithSources(_ page: Int, _ source: String) -> Observable<ENews> {
+    func fetchNewsWithSources(_ page: Int, _ source: String) -> Observable<ENewsModel> {
         return apiRequestEverything(urlReq)
     }
     
-    func fetchTHNews(_ page: Int, _ category: THCategories) -> Observable<THNews> {
+    func fetchTHNews(_ page: Int, _ category: THCategories) -> Observable<THNewsModel> {
         return apiRequestTH(urlReq)
     }
     
-    func fetch(_ page: Int) -> Observable<ENews> {
+    func fetch(_ page: Int) -> Observable<ENewsModel> {
         return apiRequestEverything(urlReq)
     }
     
-    func apiRequestEverything(_ urlRequest: URLRequest) -> Observable<ENews> {
-        return Observable<ENews>.create {
+    func apiRequestEverything(_ urlRequest: URLRequest) -> Observable<ENewsModel> {
+        return Observable<ENewsModel>.create {
             observer in
             observer.onNext(self.eNews!)
             observer.onCompleted()
@@ -48,8 +48,8 @@ class MockNewsService: NewsServiceProtocol {
         }
     }
     
-    func apiRequestTH(_ urlRequest: URLRequest) -> Observable<THNews> {
-        return Observable<THNews>.create {
+    func apiRequestTH(_ urlRequest: URLRequest) -> Observable<THNewsModel> {
+        return Observable<THNewsModel>.create {
             observer in
             observer.onNext(self.thNews!)
             observer.onCompleted()

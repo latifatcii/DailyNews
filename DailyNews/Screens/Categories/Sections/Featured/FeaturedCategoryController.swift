@@ -48,7 +48,7 @@ class FeaturedCategoryController: UIViewController {
             .bind(to: activityIndicatorView.rx.isAnimating)
             .disposed(by: disposeBag)
         
-        viewModel.loadTrigger.onNext(())
+        viewModel.loadPageTrigger.onNext(())
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<TopHeadlinePresentationSection>(configureCell: { [weak self]
             (ds, cv, ip, news) in
@@ -77,7 +77,7 @@ class FeaturedCategoryController: UIViewController {
             .disposed(by: disposeBag)
         
         collectionView.rx.reachedBottom
-            .bind(to: viewModel.nextPageLoadTrigger)
+            .bind(to: viewModel.loadNextPageTrigger)
             .disposed(by: disposeBag)
         
         collectionView.rx.modelSelected(TopHeadlinePresentation.self)

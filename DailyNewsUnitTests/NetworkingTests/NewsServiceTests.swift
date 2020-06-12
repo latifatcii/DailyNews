@@ -17,7 +17,7 @@ class NewsServiceTests: XCTestCase {
         let url = bundle.url(forResource: "fetchNews", withExtension: "json")
         let data = try Data(contentsOf: url!)
         let decoder = JSONDecoder()
-        let fetchNews = try decoder.decode(ENews.self, from: data)
+        let fetchNews = try decoder.decode(ENewsModel.self, from: data)
         
         XCTAssertEqual(fetchNews.status, "ok")
         XCTAssertEqual(fetchNews.totalResults, 3322)

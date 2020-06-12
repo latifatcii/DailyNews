@@ -40,7 +40,7 @@ class NewsViewModelTests: XCTestCase {
         
         
         //Then
-        XCTAssertEqual(try viewModel.newsForCells.toBlocking().first(), presentationNews)
+        XCTAssertEqual(try viewModel.news.toBlocking().first(), presentationNews)
     }
     
     func testViewModelLoadNextPageWhenPageScrolledDown() throws {
@@ -61,6 +61,6 @@ class NewsViewModelTests: XCTestCase {
         
         //Then
         XCTAssertEqual(viewModel.page, page)
-        XCTAssertEqual(try viewModel.newsForCells.toBlocking().first(), presentationNews)
+        XCTAssertEqual(try viewModel.news.toBlocking().first(), presentationNews)
     }
 }

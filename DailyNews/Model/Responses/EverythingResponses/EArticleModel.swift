@@ -1,7 +1,7 @@
 import Foundation
 
-struct EArticle: Codable {
-    let source: ESource
+struct EArticleModel: Codable {
+    let source: ESourceModel
     let author: String?
     let title: String?
     let articleDescription: String?

@@ -9,7 +9,7 @@
 import XCTest
 @testable import DailyNews
 
-class SectionsVIewModelTests: XCTestCase {
+class SectionsViewModelTests: XCTestCase {
 
     var service: MockNewsService!
     var viewModel: SectionsViewModel!
@@ -33,7 +33,7 @@ class SectionsVIewModelTests: XCTestCase {
             new in TopHeadlinePresentation(topHeadline: new)
         }
         //When
-        viewModel.loadTrigger.onNext(())
+        viewModel.loadPageTrigger.onNext(())
         
         
         //Then
@@ -53,8 +53,8 @@ class SectionsVIewModelTests: XCTestCase {
 
         
         //When
-        viewModel.loadTrigger.onNext(())
-        viewModel.nextPageLoadTrigger.onNext(())
+        viewModel.loadPageTrigger.onNext(())
+        viewModel.loadNextPageTrigger.onNext(())
         
         //Then
         XCTAssertEqual(viewModel.page, page)
