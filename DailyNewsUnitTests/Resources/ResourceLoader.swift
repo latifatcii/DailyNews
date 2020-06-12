@@ -7,13 +7,29 @@
 //
 
 import Foundation
+@testable import DailyNews
 
 class ResourceLoader {
     
     enum NewsResource: String {
         case fetchNews
+        case fetchNews2
         case fetchTH
-        case
+        case fetchTH2
+        case fetchSources
+        case fetchSources2
+    }
+    
+    static func loadEverything(resource: NewsResource) throws -> ENews {
+        return try loadNews(resource: resource)
+    }
+    
+    static func loadTH(resource: NewsResource) throws -> THNews {
+        return try loadNews(resource: resource)
+    }
+    
+    static func loadSources(resource: NewsResource) throws -> Sources {
+        return try loadNews(resource: resource)
     }
     
     static func loadNews<T: Decodable>(resource: NewsResource) throws -> T {

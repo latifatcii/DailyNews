@@ -21,7 +21,7 @@ class NewsServiceTests: XCTestCase {
         
         XCTAssertEqual(fetchNews.status, "ok")
         XCTAssertEqual(fetchNews.totalResults, 3322)
-        XCTAssertEqual(fetchNews.articles.count, 1)
+        XCTAssertEqual(fetchNews.articles.count, 2)
         XCTAssertEqual(fetchNews.articles[0].author, "Aayush Jindal")
         
     }

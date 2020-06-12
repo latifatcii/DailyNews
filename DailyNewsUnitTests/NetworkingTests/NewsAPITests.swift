@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import RxBlocking
 @testable import DailyNews
 
 class NewsAPITests: XCTestCase {

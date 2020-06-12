@@ -1,6 +1,7 @@
 import Foundation
 import RxSwift
 
+
 protocol NewsServiceProtocol {
     
     func fetchDataForSearchController(_ searchedQuery: String, _ page: Int) -> Observable<ENews>
@@ -8,6 +9,7 @@ protocol NewsServiceProtocol {
     func fetchNewsWithSources(_ page: Int, _ source: String) -> Observable<ENews>
     func fetchTHNews(_ page: Int, _ category: THCategories) -> Observable<THNews>
     func fetch(_ page: Int) -> Observable<ENews>
+
 }
 
 class NewsService: NewsServiceProtocol {

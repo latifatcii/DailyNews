@@ -19,17 +19,21 @@ final class NewsViewModel {
     var loadPageTrigger: PublishSubject<Void>
     var loadNextPageTrigger: PublishSubject<Void>
     let disposeBag = DisposeBag()
+    var Loading: ActivityIndicator!
         
     private let error = PublishSubject<Swift.Error>()
     
     init(_ service: NewsServiceProtocol = NewsService()) {
-        
-        let Loading = ActivityIndicator()
+        Loading = ActivityIndicator()
         loading = Loading.asObservable()
         loadPageTrigger = PublishSubject()
         loadNextPageTrigger = PublishSubject()
         self.service = service
-        
+        load()
+    }
+
+    func load() {
+
         dataObserver.subscribe(onNext: {
             print("refresh data NewsViewModel")
             }).disposed(by: disposeBag)
@@ -52,7 +56,7 @@ final class NewsViewModel {
                         })
                     })
                     return mappedNews
-                    .trackActivity(Loading)
+                        .trackActivity(self.Loading)
                 }
         }
 
@@ -73,7 +77,7 @@ final class NewsViewModel {
                         })
                     })
                     return mappedNews
-                    .trackActivity(Loading)
+                        .trackActivity(self.Loading)
                 }
         }
         let request = Observable.of(loadRequest, nextRequest)
@@ -100,7 +104,6 @@ final class NewsViewModel {
         .sample(response)
         .bind(to: newsForCells)
         .disposed(by: disposeBag)
-        
     }
     
     

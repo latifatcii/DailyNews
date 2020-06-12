@@ -30,6 +30,14 @@ final class EverythingPresentation {
     }
 }
 
+extension EverythingPresentation: Equatable {
+    static func == (lhs: EverythingPresentation, rhs: EverythingPresentation) -> Bool {
+        return lhs.author == rhs.author && lhs.source == rhs.source && lhs.publishedAt == rhs.publishedAt && lhs.title == rhs.title && lhs.url == rhs.url && lhs.urlToImage == rhs.urlToImage
+
+    }
+    
+    
+}
 struct PresentationSection{
     var header: String
     var items: [EverythingPresentation]
