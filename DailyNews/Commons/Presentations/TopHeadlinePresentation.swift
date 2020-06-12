@@ -30,6 +30,15 @@ final class TopHeadlinePresentation {
     }
 }
 
+extension TopHeadlinePresentation: Equatable {
+    static func == (lhs: TopHeadlinePresentation, rhs: TopHeadlinePresentation) -> Bool {
+        return lhs.author == rhs.author && lhs.source == rhs.source && lhs.publishedAt == rhs.publishedAt && lhs.title == rhs.title && lhs.url == rhs.url && lhs.urlToImage == rhs.urlToImage
+
+    }
+    
+    
+}
+
 struct TopHeadlinePresentationSection {
     var items: [TopHeadlinePresentation]
 }
