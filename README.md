@@ -6,23 +6,23 @@ Hey ! Daily News is a news app with good looking user interface ! Apps architect
 I preferred MVVM for this project because its more testable and maintainable than MVC. And VIPER would be an overkill for this project. I have solved binding problem with Functional Programming using RxSwift.  
 
 # Features
--Functional Programming with RxSwift
+-Functional Programming with RxSwift <br />
 -Nested collection views. <br />
 -Custom views and layouts <br />
 -Pagination <br />
--Programmatically UI 
+-Programmatically UI <br />
 -Unit Tests for networking and view models.
 
 # Todos
 -Implement side Menu with screen edge pan and tap gestures. <br />
--Add Unit tests for Search Screen
--Add refreshing to every screens.
--Subscribe to errors and show alert.
+-Add Unit tests for Search Screen <br />
+-Add refreshing to every screens. <br />
+-Subscribe to errors and show alert. <br />
 
 ## 3rd Party Libraries
--[SDWebImage](https://github.com/SDWebImage/SDWebImage)
--[RxSwift](https://github.com/ReactiveX/RxSwift) 
--[TinyConstraints](https://github.com/roberthein/TinyConstraints)
+-[SDWebImage](https://github.com/SDWebImage/SDWebImage) <br />
+-[RxSwift](https://github.com/ReactiveX/RxSwift)  <br />
+-[TinyConstraints](https://github.com/roberthein/TinyConstraints) <br />
 
 ## Usage
 It is powered by NewsAPI! You should get your free developer API key from [NewsAPI](https://newsapi.org) and add it to DailyNews/Networking/APISettings.swift. 
