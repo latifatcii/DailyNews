@@ -1,19 +1,31 @@
 # Daily News
 
-Hey ! Daily News is a news app written with %100 programmatically ui. <br />
+Hey ! Daily News is a news app with good looking user interface ! Apps architecture is MVVM and used RxSwift for binding. <br />
 
-# Usage
-It is powered by NewsAPI! You should get your free developer API key from [NewsAPI](https://newsapi.org) and add it to DailyNews/Networking/FetchNews.swift. 
+# Architecture
+I preferred MVVM for this project because its more testable and maintainable than MVC. And VIPER would be an overkill for this project. I have solved binding problem with Functional Programming using RxSwift.  
 
 # Features
-
--Side Menu with screen edge pan and tap gestures. <br />
--Dispatch Group <br />
+-Functional Programming with RxSwift
 -Nested collection views. <br />
 -Custom views and layouts <br />
 -Pagination <br />
--Custom Delegation <br />
 -Programmatically UI 
+-Unit Tests for networking and view models.
+
+# Todos
+-Implement side Menu with screen edge pan and tap gestures. <br />
+-Add Unit tests for Search Screen
+-Add refreshing to every screens.
+-Subscribe to errors and show alert.
+
+## 3rd Party Libraries
+-[SDWebImage](https://github.com/SDWebImage/SDWebImage)
+-[RxSwift](https://github.com/ReactiveX/RxSwift) 
+-[TinyConstraints](https://github.com/roberthein/TinyConstraints)
+
+## Usage
+It is powered by NewsAPI! You should get your free developer API key from [NewsAPI](https://newsapi.org) and add it to DailyNews/Networking/APISettings.swift. 
 
 # ScreenShots
 
@@ -27,12 +39,6 @@ It is powered by NewsAPI! You should get your free developer API key from [NewsA
 ![](DailyNewsScreenShots/sources.png)
 
 
-
-## 3rd Party Libraries
-
--[SDWebImage](https://github.com/SDWebImage/SDWebImage) for asynchronous image downloading and caching.
-
-
-## Licanse
+## License
 
 MIT
