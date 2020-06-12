@@ -1,7 +1,7 @@
 import Foundation
 
-struct THArticle: Codable {
-    let source: THSource
+struct THArticleModel: Codable {
+    let source: THSourceModel
     let author: String?
     let title: String
     let articleDescription: String?

@@ -1,6 +1,6 @@
 import Foundation
 
-struct THSource: Codable {
+struct THSourceModel: Codable {
     let id: String?
     let name: String
 }

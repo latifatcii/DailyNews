@@ -21,8 +21,8 @@ final class NewsHeaderViewModel {
 
     init(_ service: NewsServiceProtocol = NewsService()) {
         self.service = service
-        let Loading = ActivityIndicator()
-        loading = Loading.asObservable()
+        let loadingIndicator = ActivityIndicator()
+        loading = loadingIndicator.asObservable()
         loadPageTrigger = PublishSubject<Void>()
         
         dataObserver.subscribe(onNext: {
@@ -47,7 +47,7 @@ final class NewsHeaderViewModel {
                         })
                     })
                     return headerNews
-                    .trackActivity(Loading)
+                    .trackActivity(loadingIndicator)
                 }
             }
         

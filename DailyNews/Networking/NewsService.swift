@@ -1,13 +1,15 @@
 import Foundation
 import RxSwift
 
+
 protocol NewsServiceProtocol {
     
-    func fetchDataForSearchController(_ searchedQuery: String, _ page: Int) -> Observable<ENews>
+    func fetchDataForSearchController(_ searchedQuery: String, _ page: Int) -> Observable<ENewsModel>
     func fetchSources(_ from: SRequest) -> Observable<SourcesModel>
-    func fetchNewsWithSources(_ page: Int, _ source: String) -> Observable<ENews>
-    func fetchTHNews(_ page: Int, _ category: THCategories) -> Observable<THNews>
-    func fetch(_ page: Int) -> Observable<ENews>
+    func fetchNewsWithSources(_ page: Int, _ source: String) -> Observable<ENewsModel>
+    func fetchTHNews(_ page: Int, _ category: THCategories) -> Observable<THNewsModel>
+    func fetch(_ page: Int) -> Observable<ENewsModel>
+
 }
 
 class NewsService: NewsServiceProtocol {
@@ -17,23 +19,23 @@ class NewsService: NewsServiceProtocol {
         return apiRequest(NewsAPI.fetchSources(from).createUrlRequest()!)
     }
     
-    func fetch(_ page: Int) -> Observable<ENews> {
+    func fetch(_ page: Int) -> Observable<ENewsModel> {
     
         return apiRequest(NewsAPI.fetch(page).createUrlRequest()!)
     }
     
-    func fetchTHNews(_ page: Int, _ category: THCategories) -> Observable<THNews> {
+    func fetchTHNews(_ page: Int, _ category: THCategories) -> Observable<THNewsModel> {
         
         return apiRequest(NewsAPI.fetchTHNews(page, category).createUrlRequest()!)
         
     }
     
-    func fetchDataForSearchController(_ searchedQuery: String, _ page: Int) -> Observable<ENews> {
+    func fetchDataForSearchController(_ searchedQuery: String, _ page: Int) -> Observable<ENewsModel> {
         
         return apiRequest(NewsAPI.fetchDataForSearchController(searchedQuery, page).createUrlRequest()!)
     }
     
-    func fetchNewsWithSources(_ page: Int, _ source: String) -> Observable<ENews> {
+    func fetchNewsWithSources(_ page: Int, _ source: String) -> Observable<ENewsModel> {
         
         return apiRequest(NewsAPI.fetchNewsWithSources(page, source).createUrlRequest()!)
     }

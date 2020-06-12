@@ -17,8 +17,8 @@ final class SectionsViewModel {
     var page = 2
     var category = THCategories.general
     let loading: Observable<Bool>
-    var loadTrigger: PublishSubject<Void>
-    var nextPageLoadTrigger: PublishSubject<Void>
+    var loadPageTrigger: PublishSubject<Void>
+    var loadNextPageTrigger: PublishSubject<Void>
     let disposeBag = DisposeBag()
     
     private let error = PublishSubject<Swift.Error>()
@@ -30,11 +30,11 @@ final class SectionsViewModel {
         news = .init(value: [])
         let loadingIndicator = ActivityIndicator()
         loading = loadingIndicator.asObservable()
-        loadTrigger = PublishSubject<Void>()
-        nextPageLoadTrigger = PublishSubject<Void>()
+        loadPageTrigger = PublishSubject<Void>()
+        loadNextPageTrigger = PublishSubject<Void>()
         
         let loadRequest = loading
-            .sample(loadTrigger)
+            .sample(loadPageTrigger)
             .flatMap { loading -> Observable<[TopHeadlinePresentation]>
                 in
                 if loading {
@@ -56,7 +56,7 @@ final class SectionsViewModel {
         }
         
         let nextPageRequest = loading
-            .sample(nextPageLoadTrigger)
+            .sample(loadNextPageTrigger)
             .flatMap { nextLoading -> Observable<[TopHeadlinePresentation]> in
                 if nextLoading {
                     return Observable.empty()

@@ -1,6 +1,6 @@
 import Foundation
 
-struct ESource: Codable {
+struct ESourceModel: Codable {
     let id: String?
     let name: String
 }

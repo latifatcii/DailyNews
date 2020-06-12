@@ -78,7 +78,7 @@ class NewsViewController: UIViewController {
         })
         
         
-        viewModel.newsForCells
+        viewModel.news
             .observeOn(MainScheduler.instance)
             .map({
                 items in [PresentationSection(header: "", items: items)]

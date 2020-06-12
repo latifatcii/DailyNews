@@ -25,6 +25,13 @@ final class SourcesPresentation {
     }
 }
 
+extension SourcesPresentation: Equatable {
+    static func == (lhs: SourcesPresentation, rhs: SourcesPresentation) -> Bool {
+        return lhs.category == rhs.category && lhs.name == rhs.name && lhs.sourceId == rhs.sourceId && lhs.url == rhs.url
+    }
+    
+    
+}
 struct SourcesPresentationSection {
     var header: String
     var items: [SourcesPresentation]

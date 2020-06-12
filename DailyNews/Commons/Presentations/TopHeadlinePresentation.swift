@@ -25,9 +25,18 @@ final class TopHeadlinePresentation {
         self.urlToImage = urlToImage
         self.publishedAt = publishedAt
     }
-    convenience init(topHeadline: THArticle) {
+    convenience init(topHeadline: THArticleModel) {
         self.init(source: topHeadline.source.name, author: topHeadline.author, title: topHeadline.title, url: topHeadline.url, urlToImage: topHeadline.urlToImage, publishedAt: topHeadline.publishedAt)
     }
+}
+
+extension TopHeadlinePresentation: Equatable {
+    static func == (lhs: TopHeadlinePresentation, rhs: TopHeadlinePresentation) -> Bool {
+        return lhs.author == rhs.author && lhs.source == rhs.source && lhs.publishedAt == rhs.publishedAt && lhs.title == rhs.title && lhs.url == rhs.url && lhs.urlToImage == rhs.urlToImage
+
+    }
+    
+    
 }
 
 struct TopHeadlinePresentationSection {

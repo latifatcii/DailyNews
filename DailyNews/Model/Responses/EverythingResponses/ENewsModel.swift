@@ -1,7 +1,7 @@
 import Foundation
 
-struct ENews: Codable {
+struct ENewsModel: Codable {
     let status: String
     let totalResults: Int
-    let articles: [EArticle]
+    let articles: [EArticleModel]
 }

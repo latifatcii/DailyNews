@@ -18,17 +18,17 @@ final class SectionsHeaderViewModel {
     let page = 1
     
     let loading: Observable<Bool>
-    var loadingTrigger: PublishSubject<Void>
+    var loadPageTrigger: PublishSubject<Void>
     
     init(_ service: NewsServiceProtocol = NewsService(), _ category: THCategories) {
         self.service = service
         sectionHeaderNews = .init(value: [])
         let loadingIndicator = ActivityIndicator()
         loading = loadingIndicator.asObservable()
-        loadingTrigger = PublishSubject<Void>()
+        loadPageTrigger = PublishSubject<Void>()
         
         let loadRequest = loading
-            .sample(loadingTrigger)
+            .sample(loadPageTrigger)
             .flatMap { [weak self]
                 isLoading -> Observable<[TopHeadlinePresentation]> in
                 guard let self = self else { fatalError() }
