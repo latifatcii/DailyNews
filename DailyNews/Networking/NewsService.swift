@@ -43,7 +43,6 @@ class NewsService: NewsServiceProtocol {
     func apiRequest<T: Decodable>(_ urlRequest: URLRequest) -> Observable<T> {
         return Observable<T>.create { observer in
             
-            URLSession.shared.dataTask(with: urlRequest)
             let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
 
                 if let _ = error {
