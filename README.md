@@ -20,7 +20,7 @@ I preferred MVVM for this project because its more testable and maintainable tha
 -Subscribe to errors and show alert. <br />
 
 ## Upcoming
--I will use Apple's Combine framework and Delegation Pattern for binding in different branches to see cons and pros of three different binding style for MVVM.
+-I will use Apple's Combine framework and Delegation Pattern for binding in different branches to see cons and pros of three different binding solution for MVVM.
 
 ## 3rd Party Libraries
 -[SDWebImage](https://github.com/SDWebImage/SDWebImage) <br />
