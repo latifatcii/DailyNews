@@ -13,8 +13,8 @@ class HealthCategoryController: FeaturedCategoryController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    override init(_ viewModel: SectionsViewModel = SectionsViewModel(NewsService(), THCategories.health), _ category: THCategories = .health) {
-        super.init(viewModel,category)
+    override init(_ viewModel: SectionsViewModel = SectionsViewModel(), _ category: THCategories = .health) {
+        super.init()
     }
     
     required init?(coder: NSCoder) {

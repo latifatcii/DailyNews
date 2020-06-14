@@ -8,8 +8,6 @@
 
 import UIKit
 import TinyConstraints
-import RxSwift
-import RxCocoa
 
 class SideMenuCell: UITableViewCell {
 

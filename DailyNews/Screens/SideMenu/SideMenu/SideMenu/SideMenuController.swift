@@ -9,9 +9,6 @@
 import UIKit
 import SafariServices
 import TinyConstraints
-import RxSwift
-import RxCocoa
-import RxDataSources
 
 class SideMenuController: UIViewController {
     
@@ -20,7 +17,6 @@ class SideMenuController: UIViewController {
     var sourceCategories = ["General", "Business", "Entertainment", "Health", "Sports", "Science"]
     weak var sourceDelegate: SourcesViewControllerDelegate?
     let activityIndicatorView = UIActivityIndicatorView(color: .black)
-    let disposeBag = DisposeBag()
     let viewModel: SideMenuViewModel
     
     init(_ viewModel: SideMenuViewModel = SideMenuViewModel()) {
@@ -37,43 +33,9 @@ class SideMenuController: UIViewController {
         configureTopView()
         view.addSubview(activityIndicatorView)
         activityIndicatorView.edgesToSuperview()
-        setupBinding()
+        
     }
     
-    private func setupBinding() {
-        viewModel.loading
-            .bind(to: activityIndicatorView.rx.isAnimating)
-            .disposed(by: disposeBag)
-        
-        viewModel.loadingTrigger.onNext(())
-
-        let dataSource = ExpandableCellDataSource<ExpandedSources, SideMenuCell>(
-        loadCell: { element, cell in
-            cell.textLabel?.text = element.category.rawValue
-            cell.sources = element.sources
-
-        }, expand: { element, cell in
-            cell.sources = element.sources
-        }, contract: { element, cell in
-            cell.sources?.removeAll()
-        }, tableView: tableView
-        )
-        
-//        let dataSource = RxTableViewSectionedReloadDataSource<ExpandedSourcesSectionModel>(configureCell: { ds, tv, ip, item in
-//
-//
-//        }, titleForHeaderInSection: { a, b in
-//
-//        })
-        
-        
-        viewModel.sources
-            .observeOn(MainScheduler.instance)
-        .bind(to: tableView.rx.items(dataSource: dataSource))
-        .disposed(by: disposeBag)
-        
-        
-    }
     
     
     private func configureTableView() {

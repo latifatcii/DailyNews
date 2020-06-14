@@ -14,7 +14,7 @@ class SectionsPageHeader: UICollectionReusableView {
     var category: THCategories? {
         didSet {
             if let category = category {
-                let feedHeaderController = SectionsHeaderController(SectionsHeaderViewModel(NewsService(), category))
+                let feedHeaderController = SectionsHeaderController(SectionsHeaderViewModel())
                 self.addSubview(feedHeaderController.view)
                 feedHeaderController.view.edgesToSuperview()
             }

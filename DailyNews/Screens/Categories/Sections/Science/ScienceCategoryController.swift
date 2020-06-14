@@ -13,8 +13,8 @@ class ScienceCategoryController: FeaturedCategoryController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    override init(_ viewModel: SectionsViewModel = SectionsViewModel(NewsService(), THCategories.science), _ category: THCategories = .science) {
-        super.init(viewModel,category)
+    override init(_ viewModel: SectionsViewModel = SectionsViewModel(), _ category: THCategories = .science) {
+        super.init()
     }
     
     required init?(coder: NSCoder) {

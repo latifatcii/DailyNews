@@ -9,9 +9,7 @@
 import UIKit
 import SafariServices
 import TinyConstraints
-import RxSwift
-import RxCocoa
-import RxDataSources
+
 
 
 // TODO add refreshing feature to every screens
@@ -28,7 +26,6 @@ class NewsViewController: UIViewController {
     let refreshControl = UIRefreshControl()
     
     let viewModel: NewsViewModel
-    let disposeBag = DisposeBag()
     
     init(_ viewModel: NewsViewModel = NewsViewModel()) {
         self.viewModel = viewModel
@@ -47,62 +44,8 @@ class NewsViewController: UIViewController {
         refreshControl.backgroundColor = .clear
         refreshControl.tintColor = .lightGray
         activityIndicatorView.edgesToSuperview()
-        setupBinding()
     }
     
-    func setupBinding() {
-        viewModel.loading.asObservable()
-            .observeOn(MainScheduler.instance)
-            .bind(to: activityIndicatorView.rx.isAnimating)
-            .disposed(by: disposeBag)
-        
-        viewModel.loadPageTrigger.onNext(())
-        
-        refreshControl.rx.controlEvent(.valueChanged)
-            .subscribe(onNext: {
-                dataObserver.onNext(())
-            })
-            .disposed(by: disposeBag)
-        
-        let dataSource = RxCollectionViewSectionedReloadDataSource<PresentationSection>(configureCell: { [weak self]
-            (ds, cv, ip, item) in
-            guard let self = self else { fatalError() }
-            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: self.newsCellId, for: ip) as? NewsCell else { return UICollectionViewCell() }
-            cell.newsEverything = item
-            return cell
-        }, configureSupplementaryView: {
-            (a, collectionView, kind, indexPath) in
-            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: self.headerNewsCellId, for: indexPath) as? NewsPageHeader else { return UICollectionReusableView() }
-            
-            return header
-        })
-        
-        
-        viewModel.news
-            .observeOn(MainScheduler.instance)
-            .map({
-                items in [PresentationSection(header: "", items: items)]
-            })
-            .bind(to: collectionView.rx.items(dataSource: dataSource))
-            .disposed(by: disposeBag)
-        
-        collectionView.rx.setDelegate(self)
-        .disposed(by: disposeBag)
-        
-        collectionView.rx.reachedBottom
-            .bind(to: viewModel.loadNextPageTrigger)
-        .disposed(by: disposeBag)
-        
-        collectionView.rx.modelSelected(EverythingPresentation.self)
-            .subscribe(onNext: { [weak self]
-                news in
-                guard let self = self else { return }
-                let safariVC = SFSafariViewController(url: URL(string: news.url)!)
-                self.present(safariVC, animated: true)
-            })
-        .disposed(by: disposeBag)
-        
-    }
     
     func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)

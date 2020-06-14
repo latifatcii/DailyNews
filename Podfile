@@ -9,9 +9,6 @@ target 'DailyNews' do
   
     pod 'SDWebImage'
     pod "TinyConstraints"
-    pod 'RxSwift', '~> 5'
-    pod 'RxCocoa', '~> 5'
-    pod 'RxDataSources', '~> 4.0'
 
   # Pods for DailyNews
 

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import RxDataSources
 
 final class ExpandedSources {
     var category: SourceCategories
@@ -18,15 +17,5 @@ final class ExpandedSources {
         self.sources = sources
     }
 }
-struct ExpandedSourcesSectionModel {
-    var items: [ExpandedSources]
-}
 
-extension ExpandedSourcesSectionModel: SectionModelType {
-    
-    init(original: ExpandedSourcesSectionModel, items: [ExpandedSources]) {
-        self = original
-        self.items = items
-    }
-}
 

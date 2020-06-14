@@ -14,8 +14,8 @@ class BusinessCategoryController: FeaturedCategoryController {
         super.viewDidLoad()
     }
     
-    override init(_ viewModel: SectionsViewModel = SectionsViewModel(NewsService(), THCategories.business), _ category: THCategories = .business) {
-        super.init(viewModel,category)
+    override init(_ viewModel: SectionsViewModel = SectionsViewModel(), _ category: THCategories = .business) {
+        super.init()
     }
     
     required init?(coder: NSCoder) {

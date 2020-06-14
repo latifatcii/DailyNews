@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import RxDataSources
 
 final class EverythingPresentation {
     let source: String
@@ -38,16 +37,4 @@ extension EverythingPresentation: Equatable {
     
     
 }
-struct PresentationSection{
-    var header: String
-    var items: [EverythingPresentation]
-    
-}
 
-extension PresentationSection: SectionModelType {
-    init(original: PresentationSection, items: [EverythingPresentation]) {
-        self = original
-        self.items = items
-    }
-
-}

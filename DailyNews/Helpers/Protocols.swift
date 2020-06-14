@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RxCocoa
 
 protocol SlideMenuDelegate: class {
     func configureSlideMenu()

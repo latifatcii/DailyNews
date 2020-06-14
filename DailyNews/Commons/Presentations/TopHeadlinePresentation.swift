@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import RxDataSources
 
 final class TopHeadlinePresentation {
     let source: String
@@ -39,13 +38,3 @@ extension TopHeadlinePresentation: Equatable {
     
 }
 
-struct TopHeadlinePresentationSection {
-    var items: [TopHeadlinePresentation]
-}
-
-extension TopHeadlinePresentationSection: SectionModelType {
-    init(original: TopHeadlinePresentationSection, items: [TopHeadlinePresentation]) {
-        self = original
-        self.items = items
-    }
-}
