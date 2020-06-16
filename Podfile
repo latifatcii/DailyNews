@@ -15,8 +15,6 @@ target 'DailyNews' do
 end
 
 target 'DailyNewsUnitTests' do
-    pod 'RxSwift', '~> 5'
-    pod 'RxBlocking', '~> 5'
-    pod 'RxTest', '~> 5'
+
 
 end

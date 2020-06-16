@@ -1,36 +1,22 @@
 PODS:
-  - RxBlocking (5.1.1):
-    - RxSwift (~> 5)
-  - RxSwift (5.1.1)
-  - RxTest (5.1.1):
-    - RxSwift (~> 5)
   - SDWebImage (5.8.1):
     - SDWebImage/Core (= 5.8.1)
   - SDWebImage/Core (5.8.1)
   - TinyConstraints (4.0.1)
 
 DEPENDENCIES:
-  - RxBlocking (~> 5)
-  - RxSwift (~> 5)
-  - RxTest (~> 5)
   - SDWebImage
   - TinyConstraints
 
 SPEC REPOS:
   trunk:
-    - RxBlocking
-    - RxSwift
-    - RxTest
     - SDWebImage
     - TinyConstraints
 
 SPEC CHECKSUMS:
-  RxBlocking: 5f700a78cad61ce253ebd37c9a39b5ccc76477b4
-  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
-  RxTest: 711632d5644dffbeb62c936a521b5b008a1e1faa
   SDWebImage: e3eae2eda88578db0685a0c88597fdadd9433f05
   TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
 
-PODFILE CHECKSUM: 7aed6db6fb3b5fbd8065a5889e258547e2de6008
+PODFILE CHECKSUM: ec88c00ea63fe30931d95f64bcde318079b884d3
 
 COCOAPODS: 1.8.4
